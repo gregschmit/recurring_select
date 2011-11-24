@@ -1,0 +1,36 @@
+@mixin shadows($x_offset: 0px, $y_offset: 1px, $size: 8px, $color: rgba(0, 0, 0, 0.5)) { 
+  -webkit-box-shadow:$x_offset $y_offset $size $color;
+  -moz-box-shadow:$x_offset $y_offset $size $color;
+  box-shadow:$x_offset $y_offset $size $color;
+}
+@mixin rounded_corners($radius: 5px) { -moz-border-radius: $radius; -webkit-border-radius: $radius; border-radius: $radius;}
+
+/*------- defaults ------------ */
+.rs_dialog_holder { font-family:helvetica, arial, 'san-serif'; color:#222; font-size:12px;}
+
+
+/*------- specifics ------------ */
+
+select {
+  option.bold {font-weight:bold; color:red;}
+}
+
+.rs_dialog_holder { position:absolute; left:0px; right:0px; top:0px; bottom:0px; padding-left:50%; background-color:rgba(255,255,255,0.1);
+  .rs_dialog { background-color:#f6f6f6; border:1px solid #acacac; @include shadows(3px, 3px, 10px, rgba(0,0,0,0.3)); @include rounded_corners(7px);
+							display:inline-block; min-width:250px; margin-left:-125px; overflow:hidden;
+		.rs_dialog_content {height:50px; padding:10px; 
+			h1 { font-size:16px; padding:0px; margin:0 0 10px 0;
+	      a {float:right; display:inline-block; height:16px; width:16px; background-image:url(<%=asset_path "recurring_select/cancel.png"%>); background-position:center; background-repeat:no-repeat;}
+	    }
+
+			.custom_logic {
+				p { padding:0px; margin:5px 0;
+					label {margin-right:10px;}
+				}
+			}
+
+			.rs_summary {font-weight:bold; padding:0px; margin-top:15px;}
+		}
+		
+  }
+}

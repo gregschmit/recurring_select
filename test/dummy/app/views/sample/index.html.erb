@@ -1,0 +1,44 @@
+<%= form_for FakeModel.new, :url => root_url, :html => {:style => "margin:100px; padding:50px; border:1px solid #ccc;"} do |f| %>
+	
+	<p>
+		<%= f.label :recurring_rules, "no defaults and not set" %><br/>
+		<%= f.select_recurring :recurring_rules %>
+	</p>
+	
+	<p>
+		<%= f.label :current_custom_rule, "no defaults but custom rule" %><br/>
+		<%= f.select_recurring :current_custom_rule %>
+	</p>
+	
+	<p>
+		<%= f.label :recurring_rules, "defaults but not set" %><br/>
+		<%= f.select_recurring :recurring_rules, [
+			IceCube::Rule.weekly.day(:monday, :wednesday, :friday),
+			IceCube::Rule.monthly.day_of_month(-1),
+			IceCube::Rule.yearly.day_of_year(1)
+		] %>
+	</p>
+	
+	<p>
+		<%= f.label :current_existing_rule, "default and set" %><br/>
+		<%= f.select_recurring :current_existing_rule, [
+			IceCube::Rule.weekly.day(:monday, :wednesday, :friday),
+			IceCube::Rule.monthly.day_of_month(-1)
+		], :allow_blank => true %>
+	</p>
+	
+	<p>
+		<%= f.label :current_custom_rule, "defaults and custom" %><br/>
+		<%= f.select_recurring :current_custom_rule, [
+			IceCube::Rule.weekly.day(:monday, :wednesday, :friday),
+			IceCube::Rule.monthly.day_of_month(-1)
+		] %>
+	</p>
+	
+	
+	
+	
+	<p>
+		<%= f.submit %>
+	</p>
+<% end %>
