@@ -44,9 +44,8 @@ window.RecurringSelectDialog =
       margin_top = (window_height - dialog_height)/2 - 20
       dialog_height += 20
       
-      hidden_sections = null
-      if dialog_height > @inner_holder.height()
-        hidden_sections = @content.find(".freq_option_section:visible").hide()
+      @content.css {"width": @content.width()+"px"}
+      @inner_holder.addClass "animated"
       
       new_style_hash =
         "margin-top": margin_top+"px"
@@ -54,9 +53,11 @@ window.RecurringSelectDialog =
         
       if initial_positioning?
         @inner_holder.css new_style_hash
+        @inner_holder.removeClass "animated"
       else
-        @inner_holder.animate new_style_hash, 200, ->
-          hidden_sections.show() if hidden_sections?
+        @inner_holder.animate new_style_hash, 200, =>
+          @inner_holder.removeClass "animated"
+          @content.css {"width": "auto"}
         
     cancel: =>
       @outer_holder.remove()
@@ -67,7 +68,7 @@ window.RecurringSelectDialog =
       @outer_holder.remove()
       @recurring_selector.recurring_select('save', @current_rule)
 
-# ========================= render methods ===============================
+# ========================= Init Methods ===============================
 
     freqInit: ->
       @freq_select = @outer_holder.find ".rs_frequency"
@@ -83,16 +84,19 @@ window.RecurringSelectDialog =
 
     initWeeklyOptions: ->
       section = @content.find('.weekly_options')
+      section.show()
       interval_input = section.find('.rs_weekly_interval')
       interval_input.val(@current_rule.hash.interval)
-      interval_input.on "change", @intervalChanged
+      interval_input.on "change keyup", @intervalChanged
       section.show()
 
     summaryInit: ->
       @summary = @outer_holder.find(".rs_summary")
       @summaryUpdate()
 
-    summaryUpdate: =>
+# ========================= render methods ===============================
+
+    summaryUpdate: (new_string) =>
       if @current_rule.hash? && @current_rule.str?
         @summary.removeClass "fetching"
         @save_button.prop("disabled", false)
@@ -104,6 +108,16 @@ window.RecurringSelectDialog =
         @summaryFetch()
     
     summaryFetch: ->
+      @content.css {"width": @content.width()+"px"}
+      $.ajax
+        url: "/recurring_select/translate",
+        data: @current_rule.hash
+        success: @summaryFetchSuccess
+
+    summaryFetchSuccess: (data) =>
+      @current_rule.str = data
+      @summaryUpdate()
+      @content.css {"width": "auto"}
 
 # ========================= Change callbacks ===============================      
 
@@ -134,6 +148,7 @@ window.RecurringSelectDialog =
     intervalChanged: =>
       @current_rule.str = null
       @current_rule.hash ||= {}
-      @current_rule.hash.interval = $(event.currentTarget).val()
+      @current_rule.hash.interval = parseInt($(event.currentTarget).val())
+      @current_rule.hash.interval = 1 if @current_rule.hash.interval < 1 || isNaN(@current_rule.hash.interval)
       @summaryUpdate()
     
