@@ -17,19 +17,26 @@ select {
 
 .rs_dialog_holder { position:absolute; left:0px; right:0px; top:0px; bottom:0px; padding-left:50%; background-color:rgba(255,255,255,0.1);
   .rs_dialog { background-color:#f6f6f6; border:1px solid #acacac; @include shadows(3px, 3px, 10px, rgba(0,0,0,0.3)); @include rounded_corners(7px);
-							display:inline-block; min-width:250px; margin-left:-125px; overflow:hidden;
-		.rs_dialog_content {height:50px; padding:10px; 
+							display:inline-block; min-width:250px; margin-left:-125px; overflow:hidden; height:25px;
+		.rs_dialog_content { padding:10px; 
 			h1 { font-size:16px; padding:0px; margin:0 0 10px 0;
 	      a {float:right; display:inline-block; height:16px; width:16px; background-image:url(<%=asset_path "recurring_select/cancel.png"%>); background-position:center; background-repeat:no-repeat;}
 	    }
 
-			.custom_logic {
-				p { padding:0px; margin:5px 0;
-					label {margin-right:10px;}
-				}
+			p { padding:0px; margin:5px 0;
+				label {margin-right:10px;}
 			}
 
-			.rs_summary {font-weight:bold; padding:0px; margin-top:15px;}
+			.rs_summary { font-weight:bold; padding:0px; margin-top:15px;
+				label {font-weight:normal;}
+			}
+			
+			.controls { text-align:center; padding:5px;
+				input[type=button] {font-size:17px; margin:0px 5px; width:70px;
+					&.save {color:#000;}
+					&.cancel {color:#444;}
+				}
+			}
 		}
 		
   }

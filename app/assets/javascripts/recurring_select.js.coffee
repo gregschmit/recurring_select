@@ -24,8 +24,11 @@ methods =
     @data "recurring-select-active", true
     new RecurringSelectDialog(@)
 
-  set_change: ->
-    alert "setting changes"
+  save: (new_rule) =>
+    @find("option[data-custom=true]").remove()
+    # append to end
+    # set value
+    @set_initial_values();
 
   current_rule: ->
     str:  @data("initial-value-str")
@@ -35,7 +38,6 @@ methods =
     @val @data("initial-value-hash")
     @data "recurring-select-active", false
 
- 
 $.fn.recurring_select = (method) ->
   if method of methods
     return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ) );

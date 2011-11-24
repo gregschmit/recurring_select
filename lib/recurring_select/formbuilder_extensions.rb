@@ -51,10 +51,12 @@ module RecurringSelect
       
       def ice_cube_rule_to_option(hash_or_rule, custom = false)
         rule = hash_or_rule.is_a?(Hash) ? IceCube::Rule.from_hash(hash_or_rule) : hash_or_rule
-        rules_str = rule.to_s
-        rules_str << "*" if custom
+        ar = [rule.to_s, rule.to_hash.to_json]
         
-        ar = [rules_str, rule.to_hash.to_json]
+        if custom
+          ar[0] << "*" 
+          ar << {"data-custom" => true}
+        end
 
         ar
       end
