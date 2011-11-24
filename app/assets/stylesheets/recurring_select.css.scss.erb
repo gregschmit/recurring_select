@@ -23,18 +23,28 @@ select {
 	      a {float:right; display:inline-block; height:16px; width:16px; background-image:url(<%=asset_path "recurring_select/cancel.png"%>); background-position:center; background-repeat:no-repeat;}
 	    }
 
-			p { padding:0px; margin:5px 0;
+			p { padding:5px 0; margin:0;
 				label {margin-right:10px;}
 			}
+			
+			.freq_option_section {
+				.rs_interval {width:30px; text-align:center;}
+			}
+			
 
-			.rs_summary { font-weight:bold; padding:0px; margin-top:15px;
+			.rs_summary { padding:0px; margin-top:15px;
+				span {font-weight:bold;}
+				&.fetching {color:#999;
+					span {background-image:url(<%=asset_path "recurring_select/throbber_13x13.gif" %>); background-position:center; background-repeat:no-repeat; display:inline-block; height:13px; width:13px;}
+				}
 				label {font-weight:normal;}
 			}
 			
-			.controls { text-align:center; padding:5px;
+			.controls { padding:10px 30px 5px 60px;
 				input[type=button] {font-size:17px; margin:0px 5px; width:70px;
 					&.save {color:#000;}
 					&.cancel {color:#444;}
+					&:disabled {color:#aaa;}
 				}
 			}
 		}

@@ -26,21 +26,13 @@ methods =
 
   save: (new_rule) ->
     @find("option[data-custom]").remove()
-    seperator = @find("option:disabled")
-    if seperator.length == 0
-      seperator = @find("option").first()
-    seperator = seperator.last()
+    new_json_val = JSON.stringify(new_rule.hash)
+
+    if $.inArray(new_json_val, @find("option").map -> $(@).val())
+      methods.insert_option.apply @, [new_rule.str, new_json_val]
     
-    new_option = $(document.createElement("option"))
-    new_option.attr "data-custom", true
-    new_option.text new_rule.str+"*"
-    new_option.val JSON.stringify(new_rule.hash)
-    new_option.insertBefore seperator
-    
-    @val new_option.val()
-    
-    # set value
-    methods.set_initial_values.apply(@)
+    @val new_json_val
+    methods.set_initial_values.apply @
 
   current_rule: ->
     str:  @data("initial-value-str")
@@ -49,6 +41,18 @@ methods =
   cancel: ->
     @val @data("initial-value-hash")
     @data "recurring-select-active", false
+
+  insert_option: (new_rule_str, new_rule_json) ->
+    seperator = @find("option:disabled")
+    if seperator.length == 0
+      seperator = @find("option")
+    seperator = seperator.last()
+
+    new_option = $(document.createElement("option"))
+    new_option.attr "data-custom", true
+    new_option.text new_rule_str+"*"
+    new_option.val new_rule_json
+    new_option.insertBefore seperator
 
   methods: ->
     methods

@@ -13,7 +13,7 @@
 	<p>
 		<%= f.label :recurring_rules, "defaults but not set" %><br/>
 		<%= f.select_recurring :recurring_rules, [
-			IceCube::Rule.weekly.day(:monday, :wednesday, :friday),
+			IceCube::Rule.weekly(2).day(:monday, :wednesday, :friday),
 			IceCube::Rule.monthly.day_of_month(-1),
 			IceCube::Rule.yearly.day_of_year(1)
 		] %>

@@ -10,6 +10,9 @@ window.RecurringSelectDialog =
     constructor: (@recurring_selector) ->
       @current_rule = @recurring_selector.recurring_select('current_rule')
       @initDialogBox()
+      if !@current_rule.hash?
+        @freqChanged()
+
 
     initDialogBox: ->
       $(".rs_dialog_holder").remove()
@@ -22,7 +25,7 @@ window.RecurringSelectDialog =
       @outer_holder.on 'click', @cancel
       @inner_holder.on 'click', (event) -> event.stopPropagation()
       @content.find('h1 a').on 'click', @cancel
-      @content.find('input.save').on 'click', @save
+      @save_button = @content.find('input.save').on 'click', @save
       @content.find('input.cancel').on 'click', @cancel
       
       @positionDialog(true)
@@ -41,6 +44,10 @@ window.RecurringSelectDialog =
       margin_top = (window_height - dialog_height)/2 - 20
       dialog_height += 20
       
+      hidden_sections = null
+      if dialog_height > @inner_holder.height()
+        hidden_sections = @content.find(".freq_option_section:visible").hide()
+      
       new_style_hash =
         "margin-top": margin_top+"px"
         "height":dialog_height+"px"
@@ -48,13 +55,15 @@ window.RecurringSelectDialog =
       if initial_positioning?
         @inner_holder.css new_style_hash
       else
-        @inner_holder.animate new_style_hash, 200
+        @inner_holder.animate new_style_hash, 200, ->
+          hidden_sections.show() if hidden_sections?
         
     cancel: =>
       @outer_holder.remove()
       @recurring_selector.recurring_select('cancel')
 
     save: =>
+      return if !@current_rule.str?
       @outer_holder.remove()
       @recurring_selector.recurring_select('save', @current_rule)
 
@@ -62,21 +71,49 @@ window.RecurringSelectDialog =
 
     freqInit: ->
       @freq_select = @outer_holder.find ".rs_frequency"
-      @freq_select.on "change", @freqChanged
-      rule_type = @current_rule.hash.rule_type
-      if rule_type?
+      if @current_rule.hash? && (rule_type = @current_rule.hash.rule_type)?
         if rule_type.search(/Weekly/) != -1
           @freq_select.prop('selectedIndex', 1)
+          @initWeeklyOptions()
         else if rule_type.search(/Monthly/) != -1
           @freq_select.prop('selectedIndex', 2)
         else if rule_type.search(/Yearly/) != -1
           @freq_select.prop('selectedIndex', 3)
-      
+      @freq_select.on "change", @freqChanged
+
+    initWeeklyOptions: ->
+      section = @content.find('.weekly_options')
+      interval_input = section.find('.rs_weekly_interval')
+      interval_input.val(@current_rule.hash.interval)
+      interval_input.on "change", @intervalChanged
+      section.show()
+
+    summaryInit: ->
+      @summary = @outer_holder.find(".rs_summary")
+      @summaryUpdate()
+
+    summaryUpdate: =>
+      if @current_rule.hash? && @current_rule.str?
+        @summary.removeClass "fetching"
+        @save_button.prop("disabled", false)
+        @summary.find("span").html @current_rule.str.replace("*", "")
+      else
+        @summary.addClass "fetching"
+        @save_button.prop("disabled", true)
+        @summary.find("span").html ""
+        @summaryFetch()
+    
+    summaryFetch: ->
+
+# ========================= Change callbacks ===============================      
+
     freqChanged: =>
+      @current_rule.hash ||= {}
       @current_rule.hash.interval = 1
       @current_rule.hash.until = null
       @current_rule.hash.count = null
       @current_rule.hash.validations = null
+      @content.find(".freq_option_section").hide();
       switch @freq_select.val()
         when "Daily"
           @current_rule.hash.rule_type = "IceCube::DailyRule"
@@ -84,14 +121,19 @@ window.RecurringSelectDialog =
         when "Weekly"
           @current_rule.hash.rule_type = "IceCube::WeeklyRule"
           @current_rule.str = "Weekly"
+          @initWeeklyOptions()
         when "Monthly"
           @current_rule.hash.rule_type = "IceCube::MonthlyRule"
           @current_rule.str = "Monthly"
         when "Yearly"
           @current_rule.hash.rule_type = "IceCube::YearlyRule"
           @current_rule.str = "Yearly"
-          
-    summaryInit: ->
-      @summary = @outer_holder.find(".rs_summary")
-      if @current_rule.str?
-        @summary.html "<label>Summary:</label>"+@current_rule.str.replace("*", "")
+      @summaryUpdate()
+      @positionDialog()
+    
+    intervalChanged: =>
+      @current_rule.str = null
+      @current_rule.hash ||= {}
+      @current_rule.hash.interval = $(event.currentTarget).val()
+      @summaryUpdate()
+    
