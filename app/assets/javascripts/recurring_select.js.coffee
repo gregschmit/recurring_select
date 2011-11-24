@@ -24,11 +24,23 @@ methods =
     @data "recurring-select-active", true
     new RecurringSelectDialog(@)
 
-  save: (new_rule) =>
-    @find("option[data-custom=true]").remove()
-    # append to end
+  save: (new_rule) ->
+    @find("option[data-custom]").remove()
+    seperator = @find("option:disabled")
+    if seperator.length == 0
+      seperator = @find("option").first()
+    seperator = seperator.last()
+    
+    new_option = $(document.createElement("option"))
+    new_option.attr "data-custom", true
+    new_option.text new_rule.str+"*"
+    new_option.val JSON.stringify(new_rule.hash)
+    new_option.insertBefore seperator
+    
+    @val new_option.val()
+    
     # set value
-    @set_initial_values();
+    methods.set_initial_values.apply(@)
 
   current_rule: ->
     str:  @data("initial-value-str")
@@ -37,6 +49,9 @@ methods =
   cancel: ->
     @val @data("initial-value-hash")
     @data "recurring-select-active", false
+
+  methods: ->
+    methods
 
 $.fn.recurring_select = (method) ->
   if method of methods

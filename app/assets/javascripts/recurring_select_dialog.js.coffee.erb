@@ -1,0 +1,97 @@
+<%
+	template_path = File.expand_path("../templates/recurring_select/dialog_template.html", File.dirname(__FILE__))
+	File.open(template_path) do |file|
+		@template = file.read
+	end
+%>
+
+window.RecurringSelectDialog =
+  class RecurringSelectDialog
+    constructor: (@recurring_selector) ->
+      @current_rule = @recurring_selector.recurring_select('current_rule')
+      @initDialogBox()
+
+    initDialogBox: ->
+      $(".rs_dialog_holder").remove()
+      $("body").append "<%= ActionController::Base.helpers.escape_javascript @template%>"
+      
+      @outer_holder = $(".rs_dialog_holder")
+      @inner_holder = @outer_holder.find ".rs_dialog"
+      @content = @outer_holder.find ".rs_dialog_content"
+
+      @outer_holder.on 'click', @cancel
+      @inner_holder.on 'click', (event) -> event.stopPropagation()
+      @content.find('h1 a').on 'click', @cancel
+      @content.find('input.save').on 'click', @save
+      @content.find('input.cancel').on 'click', @cancel
+      
+      @positionDialog(true)
+      @freqInit()
+      @summaryInit()
+      setTimeout @positionDialog, 10 # allow initial render
+      
+      
+    positionDialog: (initial_positioning) =>
+      window_height = $(window).height()
+      dialog_height = @content.height()
+      
+      if dialog_height < 100
+        dialog_height = 20
+        
+      margin_top = (window_height - dialog_height)/2 - 20
+      dialog_height += 20
+      
+      new_style_hash =
+        "margin-top": margin_top+"px"
+        "height":dialog_height+"px"
+        
+      if initial_positioning?
+        @inner_holder.css new_style_hash
+      else
+        @inner_holder.animate new_style_hash, 200
+        
+    cancel: =>
+      @outer_holder.remove()
+      @recurring_selector.recurring_select('cancel')
+
+    save: =>
+      @outer_holder.remove()
+      @recurring_selector.recurring_select('save', @current_rule)
+
+# ========================= render methods ===============================
+
+    freqInit: ->
+      @freq_select = @outer_holder.find ".rs_frequency"
+      @freq_select.on "change", @freqChanged
+      rule_type = @current_rule.hash.rule_type
+      if rule_type?
+        if rule_type.search(/Weekly/) != -1
+          @freq_select.prop('selectedIndex', 1)
+        else if rule_type.search(/Monthly/) != -1
+          @freq_select.prop('selectedIndex', 2)
+        else if rule_type.search(/Yearly/) != -1
+          @freq_select.prop('selectedIndex', 3)
+      
+    freqChanged: =>
+      @current_rule.hash.interval = 1
+      @current_rule.hash.until = null
+      @current_rule.hash.count = null
+      @current_rule.hash.validations = null
+      switch @freq_select.val()
+        when "Daily"
+          @current_rule.hash.rule_type = "IceCube::DailyRule"
+          @current_rule.str = "Daily"
+        when "Weekly"
+          @current_rule.hash.rule_type = "IceCube::WeeklyRule"
+          @current_rule.str = "Weekly"
+        when "Monthly"
+          @current_rule.hash.rule_type = "IceCube::MonthlyRule"
+          @current_rule.str = "Monthly"
+        when "Yearly"
+          @current_rule.hash.rule_type = "IceCube::YearlyRule"
+          @current_rule.str = "Yearly"
+          
+    summaryInit: ->
+      @summary = @outer_holder.find(".rs_summary")
+      if @current_rule.str?
+        @summary.html "<label>Summary:</label>"+@current_rule.str.replace("*", "")
