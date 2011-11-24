@@ -50,7 +50,11 @@ methods =
 
     new_option = $(document.createElement("option"))
     new_option.attr "data-custom", true
-    new_option.text new_rule_str+"*"
+    
+    if new_rule_str.substr(new_rule_str.length - 1) != "*"
+      new_rule_str+="*"
+    
+    new_option.text new_rule_str
     new_option.val new_rule_json
     new_option.insertBefore seperator
 

@@ -15,7 +15,7 @@ select {
   option.bold {font-weight:bold; color:red;}
 }
 
-.rs_dialog_holder { position:absolute; left:0px; right:0px; top:0px; bottom:0px; padding-left:50%; background-color:rgba(255,255,255,0.1);
+.rs_dialog_holder { position:absolute; left:0px; right:0px; top:0px; bottom:0px; padding-left:50%; background-color:rgba(255,255,255,0.2);
   .rs_dialog { background-color:#f6f6f6; border:1px solid #acacac; @include shadows(3px, 3px, 10px, rgba(0,0,0,0.3)); @include rounded_corners(7px);
 							display:inline-block; min-width:250px; margin-left:-125px; overflow:hidden; height:25px; position:relative;
 		.rs_dialog_content { padding:10px; 
@@ -29,13 +29,17 @@ select {
 			
 			.freq_option_section { display:none;
 				.rs_interval {width:30px; text-align:center;}
+				
+				.day_holder { width:375px;
+					.day_selector {margin-right:7px;}
+				}
 			}
 			
 
 			.rs_summary { padding:0px; margin-top:15px;
 				span {font-weight:bold;}
 				&.fetching {color:#999;
-					span {background-image:url(<%=asset_path "recurring_select/throbber_13x13.gif" %>); background-position:center; background-repeat:no-repeat; display:inline-block; height:13px; width:13px; margin-top:-4px;}
+					span {background-image:url(<%=asset_path "recurring_select/throbber_13x13.gif" %>); background-position:center; background-repeat:no-repeat; display:inline-block; height:13px; width:13px; margin-top:-4px; padding-right:5px;}
 				}
 				label {font-weight:normal;}
 			}

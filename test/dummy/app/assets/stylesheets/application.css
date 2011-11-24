@@ -6,3 +6,7 @@
  *= require recurring_select
  *= require_tree . 
 */
+
+
+body {background-color:#ccc;}
+form { margin:100px; padding:50px; border:1px solid #ccc; background-color:#fff;}

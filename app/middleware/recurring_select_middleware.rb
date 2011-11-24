@@ -16,11 +16,13 @@ class RecurringSelectMiddleware
         rules_hash = filtered_params(params)
         
         rule = IceCube::Rule.from_hash(rules_hash)
-        return [200, {"Content-Type" => "text/html"}, [rule.to_s]]
+        [200, {"Content-Type" => "text/html"}, [rule.to_s]]
+      else
+        [200, {"Content-Type" => "text/html"}, [""]]
       end
+    else
+      @app.call(env)
     end
-    
-    @app.call(env)
   end
   
 private
@@ -29,13 +31,19 @@ private
     params.reject!{|key, value| value.blank? || value=="null" }
     
     params[:interval] = params[:interval].to_i if params[:interval]
+
     params[:validations] ||= {}
     params[:validations].symbolize_keys!
-
     if params[:validations][:day] 
       params[:validations][:day] = params[:validations][:day].collect{|d| d.to_i }
+    end    
+    if params[:validations][:day_of_month] 
+      params[:validations][:day_of_month] = params[:validations][:day_of_month].collect{|d| d.to_i }
     end
-    
+    if params[:validations][:day_of_year] 
+      params[:validations][:day_of_year] = params[:validations][:day_of_year].collect{|d| d.to_i }
+    end
+
     params
   end
 

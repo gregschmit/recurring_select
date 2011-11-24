@@ -13,6 +13,14 @@
         </select>
       </p>
 
+			<div class="daily_options freq_option_section">
+				<p>
+					Every
+					<input type='text' name='rs_daily_interval' class='rs_daily_interval rs_interval' value='1' size='2' />
+					day(s)
+				</p>
+			</div>
+
 			<div class="weekly_options freq_option_section">
 				<p>
 					Every
@@ -20,7 +28,59 @@
 					week(s) on :
 				</p>
 				<p>
-					Days here
+
+				<div class="day_holder">
+					<span class='day_selector'>
+						<input type='checkbox' value='0' name='sun'/>
+						<label for='sun'>Sun</label>
+					</span>
+					
+					<span class='day_selector'>
+						<input type='checkbox' value='1' name='mon'/>
+						<label for='mon'>Mon</label>
+					</span>
+					
+					<span class='day_selector'>
+						<input type='checkbox' value='2' name='tue'/>
+						<label for='tue'>Tue</label>
+					</span>
+					
+					<span class='day_selector'>
+						<input type='checkbox' value='3' name='wed'/>
+						<label for='wed'>Wed</label>
+					</span>
+					
+					<span class='day_selector'>
+						<input type='checkbox' value='4' name='thu'/>
+						<label for='thu'>Thu</label>
+					</span>
+					
+					<span class='day_selector'>
+						<input type='checkbox' value='5' name='fri'/>
+						<label for='fri'>Fri</label>
+					</span>
+					
+					<span class='day_selector'>
+						<input type='checkbox' value='6' name='sat'/>
+						<label for='sat'>Sat</label>
+					</span>
+				</div>
+				</p>
+			</div>
+			
+			<div class="monthly_options freq_option_section">
+				<p>
+					Every
+					<input type='text' name='rs_monthly_interval' class='rs_monthly_interval rs_interval' value='1' size='2' />
+					month(s)
+				</p>
+			</div>
+			
+			<div class="yearly_options freq_option_section">
+				<p>
+					Every
+					<input type='text' name='rs_yearly_interval' class='rs_yearly_interval rs_interval' value='1' size='2' />
+					year(s)
 				</p>
 			</div>
       

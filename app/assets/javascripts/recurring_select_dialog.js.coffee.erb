@@ -1,8 +1,8 @@
 <%
-	template_path = File.expand_path("../templates/recurring_select/dialog_template.html", File.dirname(__FILE__))
-	File.open(template_path) do |file|
-		@template = file.read
-	end
+  template_path = File.expand_path("../templates/recurring_select/dialog_template.html", File.dirname(__FILE__))
+  File.open(template_path) do |file|
+    @template = file.read
+  end
 %>
 
 window.RecurringSelectDialog =
@@ -10,51 +10,40 @@ window.RecurringSelectDialog =
     constructor: (@recurring_selector) ->
       @current_rule = @recurring_selector.recurring_select('current_rule')
       @initDialogBox()
-      if !@current_rule.hash?
+      if !(@current_rule.hash? && (rule_type = @current_rule.hash.rule_type)?)
         @freqChanged()
+      else
+        setTimeout @positionDialog, 10 # allow initial render
 
 
     initDialogBox: ->
       $(".rs_dialog_holder").remove()
-      $("body").append "<%= ActionController::Base.helpers.escape_javascript @template%>"
-      
+      $("body").append "<%= ActionController::Base.helpers.escape_javascript @template %>"
       @outer_holder = $(".rs_dialog_holder")
       @inner_holder = @outer_holder.find ".rs_dialog"
       @content = @outer_holder.find ".rs_dialog_content"
 
-      @outer_holder.on 'click', @cancel
-      @inner_holder.on 'click', (event) -> event.stopPropagation()
-      @content.find('h1 a').on 'click', @cancel
-      @save_button = @content.find('input.save').on 'click', @save
-      @content.find('input.cancel').on 'click', @cancel
-      
       @positionDialog(true)
+      @mainEventInit()
       @freqInit()
       @summaryInit()
-      setTimeout @positionDialog, 10 # allow initial render
       
       
     positionDialog: (initial_positioning) =>
       window_height = $(window).height()
-      dialog_height = @content.height()
-      
-      if dialog_height < 100
-        dialog_height = 20
-        
-      margin_top = (window_height - dialog_height)/2 - 20
-      dialog_height += 20
-      
-      @content.css {"width": @content.width()+"px"}
-      @inner_holder.addClass "animated"
-      
+      dialog_height = @content.outerHeight()
+      if dialog_height < 80
+        dialog_height = 80
+      margin_top = (window_height - dialog_height)/2 - 30
       new_style_hash =
         "margin-top": margin_top+"px"
         "height":dialog_height+"px"
-        
+
       if initial_positioning?
         @inner_holder.css new_style_hash
-        @inner_holder.removeClass "animated"
       else
+        @content.css {"width": @content.width()+"px"}
+        @inner_holder.addClass "animated"
         @inner_holder.animate new_style_hash, 200, =>
           @inner_holder.removeClass "animated"
           @content.css {"width": "auto"}
@@ -70,6 +59,13 @@ window.RecurringSelectDialog =
 
 # ========================= Init Methods ===============================
 
+    mainEventInit: ->
+      @outer_holder.on 'click', @cancel
+      @inner_holder.on 'click', (event) -> event.stopPropagation()
+      @content.on 'click', 'h1 a', @cancel
+      @save_button = @content.find('input.save').on 'click', @save
+      @content.find('input.cancel').on 'click', @cancel
+
     freqInit: ->
       @freq_select = @outer_holder.find ".rs_frequency"
       if @current_rule.hash? && (rule_type = @current_rule.hash.rule_type)?
@@ -78,17 +74,51 @@ window.RecurringSelectDialog =
           @initWeeklyOptions()
         else if rule_type.search(/Monthly/) != -1
           @freq_select.prop('selectedIndex', 2)
+          @initMonthlyOptions()
         else if rule_type.search(/Yearly/) != -1
           @freq_select.prop('selectedIndex', 3)
+          @initYearlyOptions()
+        else
+          @initDailyOptions()
       @freq_select.on "change", @freqChanged
 
-    initWeeklyOptions: ->
-      section = @content.find('.weekly_options')
-      section.show()
-      interval_input = section.find('.rs_weekly_interval')
+    initDailyOptions: ->
+      section = @content.find('.daily_options')
+      interval_input = section.find('.rs_daily_interval')
       interval_input.val(@current_rule.hash.interval)
       interval_input.on "change keyup", @intervalChanged
       section.show()
+      
+    initWeeklyOptions: ->
+      section = @content.find('.weekly_options')
+
+      # connect the interval field
+      interval_input = section.find('.rs_weekly_interval')
+      interval_input.val(@current_rule.hash.interval)
+      interval_input.on "change keyup", @intervalChanged
+      
+      # connect the day fields
+      if @current_rule.hash.validations? && @current_rule.hash.validations.day?
+        $(@current_rule.hash.validations.day).each (index, val) ->
+          section.find(".day_selector input[value='"+val+"']").prop("checked", true)
+      section.on "change", ".day_selector input", @daysChanged
+      
+      section.show()
+      
+    initMonthlyOptions: ->
+      section = @content.find('.monthly_options')
+      interval_input = section.find('.rs_monthly_interval')
+      interval_input.val(@current_rule.hash.interval)
+      interval_input.on "change keyup", @intervalChanged
+      section.show()
+      
+    initYearlyOptions: ->
+      section = @content.find('.yearly_options')
+      interval_input = section.find('.rs_yearly_interval')
+      interval_input.val(@current_rule.hash.interval)
+      interval_input.on "change keyup", @intervalChanged
+      section.show()
+      
 
     summaryInit: ->
       @summary = @outer_holder.find(".rs_summary")
@@ -108,6 +138,7 @@ window.RecurringSelectDialog =
         @summaryFetch()
     
     summaryFetch: ->
+      return if !(@current_rule.hash? && (rule_type = @current_rule.hash.rule_type)?)
       @content.css {"width": @content.width()+"px"}
       $.ajax
         url: "/recurring_select/translate",
@@ -128,10 +159,8 @@ window.RecurringSelectDialog =
       @current_rule.hash.count = null
       @current_rule.hash.validations = null
       @content.find(".freq_option_section").hide();
+      @content.find("input[type=radio], input[type=checkbox]").prop("checked", false)
       switch @freq_select.val()
-        when "Daily"
-          @current_rule.hash.rule_type = "IceCube::DailyRule"
-          @current_rule.str = "Daily"
         when "Weekly"
           @current_rule.hash.rule_type = "IceCube::WeeklyRule"
           @current_rule.str = "Weekly"
@@ -139,9 +168,15 @@ window.RecurringSelectDialog =
         when "Monthly"
           @current_rule.hash.rule_type = "IceCube::MonthlyRule"
           @current_rule.str = "Monthly"
+          @initMonthlyOptions()
         when "Yearly"
           @current_rule.hash.rule_type = "IceCube::YearlyRule"
           @current_rule.str = "Yearly"
+          @initYearlyOptions()
+        else
+          @current_rule.hash.rule_type = "IceCube::DailyRule"
+          @current_rule.str = "Daily"
+          @initDailyOptions()
       @summaryUpdate()
       @positionDialog()
     
@@ -149,6 +184,16 @@ window.RecurringSelectDialog =
       @current_rule.str = null
       @current_rule.hash ||= {}
       @current_rule.hash.interval = parseInt($(event.currentTarget).val())
-      @current_rule.hash.interval = 1 if @current_rule.hash.interval < 1 || isNaN(@current_rule.hash.interval)
+      if @current_rule.hash.interval < 1 || isNaN(@current_rule.hash.interval)
+        @current_rule.hash.interval = 1 
+        $(event.currentTarget).val(@current_rule.hash.interval)      
+      @summaryUpdate()
+      
+    daysChanged: =>
+      @current_rule.str = null
+      @current_rule.hash ||= {}
+      @current_rule.hash.validations ||= {}
+      raw_days = @content.find(".day_selector input:checked").map -> parseInt($(this).val())
+      @current_rule.hash.validations.day = raw_days.get()
       @summaryUpdate()
     
