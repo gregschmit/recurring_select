@@ -4,6 +4,15 @@
   box-shadow:$x_offset $y_offset $size $color;
 }
 @mixin rounded_corners($radius: 5px) { -moz-border-radius: $radius; -webkit-border-radius: $radius; border-radius: $radius;}
+@mixin gradiant ($color_a:#aaa, $color_b:#bbb) { 
+  position:relative;
+  background-image:     -webkit-linear-gradient(top, $color_a, $color_b);                       /* Chrome 10+, Saf5.1+ */
+  background-image:     -webkit-gradient(linear, 0% 0%, 0% 100%, from($color_a), to($color_b)); /* Saf4+, Chrome */
+  background-image:     -moz-linear-gradient(top,$color_a,$color_b);                            /* FF3.6 */
+  background-image:     -ms-linear-gradient(top, $color_a, $color_b);                           /* IE10 */
+  background-image:     -o-linear-gradient(top, $color_a, $color_b);                            /* Opera 11.10+ */
+}
+
 
 /*------- defaults ------------ */
 .rs_dialog_holder { font-family:helvetica, arial, 'san-serif'; color:#222; font-size:12px;}
@@ -33,18 +42,25 @@ select {
 				.day_holder { width:375px;
 					.day_selector {margin-right:7px;}
 				}
+				
+				.rs_calendar { width:155px;
+					a {display:inline-block; height:10px; width:15px; text-align:center; padding:5px 3px; font-size:12px; border-style:solid; border-color:#ccc; border-width:1px 1px 1px 1px; margin:-1px 0 0 -1px; line-height:10px; background-color:#fff; font-weight:bold;
+						&.selected {background-color:#89a; color:#fff; @include gradiant(#9ab, #789); }
+						&:hover { cursor:pointer; background-color:#dde;}
+					}
+				}
 			}
 			
 
-			.rs_summary { padding:0px; margin-top:15px;
-				span {font-weight:bold;}
+			.rs_summary { padding:0px; margin-top:15px; border-top:1px solid #ccc;
+				span {font-weight:bold; border-top:1px solid #fff; display:block; padding:10px 0 5px 0;}
 				&.fetching {color:#999;
 					span {background-image:url(<%=asset_path "recurring_select/throbber_13x13.gif" %>); background-position:center; background-repeat:no-repeat; display:inline-block; height:13px; width:13px; margin-top:-4px; padding-right:5px;}
 				}
 				label {font-weight:normal;}
 			}
 			
-			.controls { padding:10px 30px 5px 60px; width:170px;
+			.controls { padding:10px 0px 5px 0px; min-width:170px; text-align:center;
 				input[type=button] {font-size:17px; margin:0px 5px; width:70px;
 					&.save {color:#000;}
 					&.cancel {color:#444;}
