@@ -11,12 +11,29 @@
   background-image:     -moz-linear-gradient(top,$color_a,$color_b);                            /* FF3.6 */
   background-image:     -ms-linear-gradient(top, $color_a, $color_b);                           /* IE10 */
   background-image:     -o-linear-gradient(top, $color_a, $color_b);                            /* Opera 11.10+ */
+	
 }
 
+/* -------- resets ---------------*/
+
+.rs_dialog_holder { font-size:14px; color:black;
+	a {color:black;}
+	input[type=button] { 
+		font: small/normal Arial,sans-serif;
+		background: #F5F5F5; color: #444; border: 1px solid #ccc;
+		font-size: 11px; font-weight: bold; height: 27px; line-height: 27px; outline: none; padding: 0 8px; text-align: center;
+		
+		@include rounded_corners(2px);
+		@include gradiant(#f5f5f5, #f1f1f1);
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f5f5f5',EndColorStr='#f1f1f1');
+
+		&:hover {border-color:#aaa; color:#222; background-color:#f9f9f9; @include shadows(0px, 1px, 2px, rgba(0,0,0,0.2)); }
+		&:active {border-color:#1E90FF;}
+	}
+}
 
 /*------- defaults ------------ */
 .rs_dialog_holder { font-family:helvetica, arial, 'san-serif'; color:#222; font-size:12px;}
-
 
 /*------- specifics ------------ */
 
@@ -24,7 +41,7 @@ select {
   option.bold {font-weight:bold; color:red;}
 }
 
-.rs_dialog_holder { position:absolute; left:0px; right:0px; top:0px; bottom:0px; padding-left:50%; background-color:rgba(255,255,255,0.2);
+.rs_dialog_holder { position:fixed; left:0px; right:0px; top:0px; bottom:0px; padding-left:50%; background-color:rgba(255,255,255,0.2); z-index:50;
   .rs_dialog { background-color:#f6f6f6; border:1px solid #acacac; @include shadows(3px, 3px, 10px, rgba(0,0,0,0.3)); @include rounded_corners(7px);
 							display:inline-block; min-width:250px; margin-left:-125px; overflow:hidden; height:25px; position:relative;
 		.rs_dialog_content { padding:10px; 
@@ -61,10 +78,10 @@ select {
 			}
 			
 			.controls { padding:10px 0px 5px 0px; min-width:170px; text-align:center;
-				input[type=button] {font-size:17px; margin:0px 5px; width:70px;
-					&.save {color:#000;}
-					&.cancel {color:#444;}
-					&:disabled {color:#aaa;}
+				input[type=button] { margin:0px 5px; width:70px;
+					&.rs_save {color:#333; }
+					&.rs_cancel {color:#666;}
+					&.disabled {color:#aaa; }
 				}
 			}
 		}

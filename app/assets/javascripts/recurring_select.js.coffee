@@ -60,7 +60,7 @@ methods =
 
   methods: ->
     methods
-
+    
 $.fn.recurring_select = (method) ->
   if method of methods
     return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ) );

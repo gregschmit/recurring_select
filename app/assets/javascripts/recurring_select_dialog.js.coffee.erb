@@ -63,8 +63,8 @@ window.RecurringSelectDialog =
       @outer_holder.on 'click', @cancel
       @inner_holder.on 'click', (event) -> event.stopPropagation()
       @content.on 'click', 'h1 a', @cancel
-      @save_button = @content.find('input.save').on 'click', @save
-      @content.find('input.cancel').on 'click', @cancel
+      @save_button = @content.find('input.rs_save').on 'click', @save
+      @content.find('input.rs_cancel').on 'click', @cancel
 
     freqInit: ->
       @freq_select = @outer_holder.find ".rs_frequency"
@@ -139,14 +139,14 @@ window.RecurringSelectDialog =
     summaryUpdate: (new_string) =>
       if @current_rule.hash? && @current_rule.str?
         @summary.removeClass "fetching"
-        @save_button.prop("disabled", false)
+        @save_button.removeClass("disabled")
         rule_str = @current_rule.str.replace("*", "")
         if rule_str.length < 20
           rule_str = "Summary: "+rule_str
         @summary.find("span").html rule_str
       else
         @summary.addClass "fetching"
-        @save_button.prop("disabled", true)
+        @save_button.addClass("disabled")
         @summary.find("span").html ""
         @summaryFetch()
     

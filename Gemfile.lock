@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    recurring_select (0.0.1)
+    recurring_select (0.0.3)
       coffee-rails (~> 3.1.1)
       ice_cube (~> 0.6)
       jquery-rails

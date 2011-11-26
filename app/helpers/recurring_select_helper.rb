@@ -86,6 +86,10 @@ module RecurringSelectHelper
 
   module FormBuilder
     def select_recurring(method, default_schedules = nil, options = {}, html_options = {})
+      if !@template.respond_to?(:select_recurring)
+        @template.class.send(:include, RecurringSelectHelper::FormHelper)
+      end
+      
       @template.select_recurring(@object_name, method, default_schedules, options.merge(:object => @object), html_options)
     end
   end
