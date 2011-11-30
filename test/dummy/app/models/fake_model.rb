@@ -12,7 +12,7 @@ class FakeModel
   end
   
   def current_custom_rule
-    IceCube::Rule.monthly.day_of_month(10).to_hash
+    IceCube::Rule.daily(2).to_hash
   end
   
   

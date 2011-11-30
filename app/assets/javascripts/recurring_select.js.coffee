@@ -3,8 +3,8 @@
 
 $ = jQuery
 $ ->
-  $(".recurring_select").each ->
-    $(this).recurring_select("set_initial_values")
+  $(document).on "focus", ".recurring_select", ->
+    $(this).recurring_select('set_initial_values')
 
   $(document).on "change", ".recurring_select", ->
     $(this).recurring_select('changed')

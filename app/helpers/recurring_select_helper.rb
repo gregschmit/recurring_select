@@ -11,7 +11,8 @@ module RecurringSelectHelper
     def recurring_options_for_select(currently_selected_rule = nil, default_schedules = nil, options = {})
       
       options_array = []
-      blank_option = ["- not recurring -", nil]
+      blank_option_label = options[:blank_label] || "- not recurring -"
+      blank_option = [blank_option_label, nil]
       seperator = ["or", {:disabled => true}]
       
       if default_schedules.blank?
