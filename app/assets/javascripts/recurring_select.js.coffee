@@ -33,6 +33,7 @@ methods =
     
     @val new_json_val
     methods.set_initial_values.apply @
+    @.trigger "recurring_select:save"
 
   current_rule: ->
     str:  @data("initial-value-str")
@@ -41,6 +42,8 @@ methods =
   cancel: ->
     @val @data("initial-value-hash")
     @data "recurring-select-active", false
+    @.trigger "recurring_select:cancel"
+    
 
   insert_option: (new_rule_str, new_rule_json) ->
     seperator = @find("option:disabled")

@@ -13,7 +13,7 @@ window.RecurringSelectDialog =
       if !(@current_rule.hash? && (rule_type = @current_rule.hash.rule_type)?)
         @freqChanged()
       else
-        setTimeout @positionDialog, 10 # allow initial render
+        setTimeout @positionDialogVert, 10 # allow initial render
 
 
     initDialogBox: ->
@@ -23,14 +23,15 @@ window.RecurringSelectDialog =
       @inner_holder = @outer_holder.find ".rs_dialog"
       @content = @outer_holder.find ".rs_dialog_content"
 
-      @positionDialog(true)
+      @positionDialogVert(true)
       @mainEventInit()
       @freqInit()
       @summaryInit()
       
       
-    positionDialog: (initial_positioning) =>
+    positionDialogVert: (initial_positioning) =>
       window_height = $(window).height()
+      window_width  = $(window).width()  
       dialog_height = @content.outerHeight()
       if dialog_height < 80
         dialog_height = 80
@@ -192,7 +193,7 @@ window.RecurringSelectDialog =
           @current_rule.str = "Daily"
           @initDailyOptions()
       @summaryUpdate()
-      @positionDialog()
+      @positionDialogVert()
     
     intervalChanged: =>
       @current_rule.str = null
