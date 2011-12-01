@@ -27,6 +27,7 @@ window.RecurringSelectDialog =
       @mainEventInit()
       @freqInit()
       @summaryInit()
+      @freq_select.focus()
       
       
     positionDialogVert: (initial_positioning) =>
@@ -36,6 +37,7 @@ window.RecurringSelectDialog =
       if dialog_height < 80
         dialog_height = 80
       margin_top = (window_height - dialog_height)/2 - 30
+      margin_top = 0 if margin_top < 0
       new_style_hash =
         "margin-top": margin_top+"px"
         "height":dialog_height+"px"

@@ -28,7 +28,9 @@ methods =
     @find("option[data-custom]").remove()
     new_json_val = JSON.stringify(new_rule.hash)
 
-    if $.inArray(new_json_val, @find("option").map -> $(@).val())
+    # TODO: check for matching name, and replace that value if found
+
+    if $.inArray(new_json_val, @find("option").map -> $(@).val()) == -1
       methods.insert_option.apply @, [new_rule.str, new_json_val]
     
     @val new_json_val
