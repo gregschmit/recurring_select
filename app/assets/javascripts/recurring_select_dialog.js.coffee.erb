@@ -109,6 +109,8 @@ window.RecurringSelectDialog =
           section.find(".day_selector input[value='"+val+"']").prop("checked", true)
       section.on "change", ".day_selector input", @daysChanged
       
+      section.on "click tap", ".day_selector input[type='checkbox']", -> event.stopPropagation()
+      
       section.show()
       
     initMonthlyOptions: ->
