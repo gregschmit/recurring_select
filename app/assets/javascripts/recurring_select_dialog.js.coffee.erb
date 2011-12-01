@@ -63,8 +63,11 @@ window.RecurringSelectDialog =
 # ========================= Init Methods ===============================
 
     mainEventInit: ->
+      # Additional events are for jQuery Mobile
       @outer_holder.on 'click tap', @cancel
-      @inner_holder.on 'click tap swipe vclick', (event) -> event.stopPropagation() # Additional events are for jQuery Mobile
+      @inner_holder.on 'click tap taphold swipe vclick', (event) -> 
+        event.stopPropagation()
+        event.preventDefault()
       @content.on 'click', 'h1 a', @cancel
       @save_button = @content.find('input.rs_save').on 'click', @save
       @content.find('input.rs_cancel').on 'click', @cancel
