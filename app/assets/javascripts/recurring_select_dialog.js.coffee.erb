@@ -68,9 +68,9 @@ window.RecurringSelectDialog =
       @inner_holder.on 'click tap taphold swipe vclick', (event) -> 
         event.stopPropagation()
         event.preventDefault()
-      @content.on 'click', 'h1 a', @cancel
-      @save_button = @content.find('input.rs_save').on 'click', @save
-      @content.find('input.rs_cancel').on 'click', @cancel
+      @content.on 'click tap', 'h1 a', @cancel
+      @save_button = @content.find('input.rs_save').on "click tap", @save
+      @content.find('input.rs_cancel').on "click tap", @cancel
 
     freqInit: ->
       @freq_select = @outer_holder.find ".rs_frequency"
@@ -92,7 +92,7 @@ window.RecurringSelectDialog =
       section = @content.find('.daily_options')
       interval_input = section.find('.rs_daily_interval')
       interval_input.val(@current_rule.hash.interval)
-      interval_input.on "change keyup", @intervalChanged
+      interval_input.on "change", @intervalChanged
       section.show()
       
     initWeeklyOptions: ->
@@ -101,7 +101,7 @@ window.RecurringSelectDialog =
       # connect the interval field
       interval_input = section.find('.rs_weekly_interval')
       interval_input.val(@current_rule.hash.interval)
-      interval_input.on "change keyup", @intervalChanged
+      interval_input.on "change", @intervalChanged
       
       # connect the day fields
       if @current_rule.hash.validations? && @current_rule.hash.validations.day?
@@ -115,24 +115,24 @@ window.RecurringSelectDialog =
       section = @content.find('.monthly_options')
       interval_input = section.find('.rs_monthly_interval')
       interval_input.val(@current_rule.hash.interval)
-      interval_input.on "change keyup", @intervalChanged
+      interval_input.on "change", @intervalChanged
       
       @current_rule.hash.validations ||= {}
       @current_rule.hash.validations.day_of_month ||= []
       monthly_calendar = section.find(".rs_calendar")
       monthly_calendar.html ""
       for num in [1..31]
-        monthly_calendar.append (day_link =$(document.createElement("a")).text(num))
+        monthly_calendar.append (day_link = $(document.createElement("a")).text(num))
         if $.inArray(num, @current_rule.hash.validations.day_of_month) != -1
           day_link.addClass("selected")
-      monthly_calendar.find("a").on "click", @dayOfMonthChanged
+      monthly_calendar.find("a").on "click tap", @dayOfMonthChanged
       section.show()
       
     initYearlyOptions: ->
       section = @content.find('.yearly_options')
       interval_input = section.find('.rs_yearly_interval')
       interval_input.val(@current_rule.hash.interval)
-      interval_input.on "change keyup", @intervalChanged
+      interval_input.on "change", @intervalChanged
       section.show()
       
 
