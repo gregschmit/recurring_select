@@ -92,7 +92,7 @@ window.RecurringSelectDialog =
       section = @content.find('.daily_options')
       interval_input = section.find('.rs_daily_interval')
       interval_input.val(@current_rule.hash.interval)
-      interval_input.on "change", @intervalChanged
+      interval_input.on "change keyup", @intervalChanged
       section.show()
       
     initWeeklyOptions: ->
@@ -101,7 +101,7 @@ window.RecurringSelectDialog =
       # connect the interval field
       interval_input = section.find('.rs_weekly_interval')
       interval_input.val(@current_rule.hash.interval)
-      interval_input.on "change", @intervalChanged
+      interval_input.on "change keyup", @intervalChanged
       
       # connect the day fields
       if @current_rule.hash.validations? && @current_rule.hash.validations.day?
@@ -109,7 +109,7 @@ window.RecurringSelectDialog =
           section.find(".day_selector input[value='"+val+"']").prop("checked", true)
       section.on "change", ".day_selector input", @daysChanged
       
-      section.on "click tap", ".day_selector input[type='checkbox']", -> event.stopPropagation()
+      section.on "click tap", ".day_selector input[type='checkbox']", (event) -> event.stopPropagation()
       
       section.show()
       
@@ -117,7 +117,7 @@ window.RecurringSelectDialog =
       section = @content.find('.monthly_options')
       interval_input = section.find('.rs_monthly_interval')
       interval_input.val(@current_rule.hash.interval)
-      interval_input.on "change", @intervalChanged
+      interval_input.on "change keyup", @intervalChanged
       
       @current_rule.hash.validations ||= {}
       @current_rule.hash.validations.day_of_month ||= []
@@ -134,7 +134,7 @@ window.RecurringSelectDialog =
       section = @content.find('.yearly_options')
       interval_input = section.find('.rs_yearly_interval')
       interval_input.val(@current_rule.hash.interval)
-      interval_input.on "change", @intervalChanged
+      interval_input.on "change keyup", @intervalChanged
       section.show()
       
 
@@ -202,13 +202,13 @@ window.RecurringSelectDialog =
       @summaryUpdate()
       @positionDialogVert()
     
-    intervalChanged: =>
+    intervalChanged: (event) =>
       @current_rule.str = null
       @current_rule.hash ||= {}
       @current_rule.hash.interval = parseInt($(event.currentTarget).val())
       if @current_rule.hash.interval < 1 || isNaN(@current_rule.hash.interval)
         @current_rule.hash.interval = 1 
-        $(event.currentTarget).val(@current_rule.hash.interval)      
+        # $(event.currentTarget).val(@current_rule.hash.interval)      
       @summaryUpdate()
       
     daysChanged: =>
@@ -219,7 +219,7 @@ window.RecurringSelectDialog =
       @current_rule.hash.validations.day = raw_days.get()
       @summaryUpdate()
       
-    dayOfMonthChanged: =>
+    dayOfMonthChanged: (event) =>
       $(event.currentTarget).toggleClass("selected")
       @current_rule.str = null
       @current_rule.hash ||= {}
