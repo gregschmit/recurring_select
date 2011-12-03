@@ -18,7 +18,10 @@ window.RecurringSelectDialog =
 
     initDialogBox: ->
       $(".rs_dialog_holder").remove()
-      $("body").append "<%= ActionController::Base.helpers.escape_javascript @template %>"
+      
+      open_in = $("body")
+      open_in = $(".ui-page-active") if $(".ui-page-active").length
+      open_in.append "<%= ActionController::Base.helpers.escape_javascript @template %>"
       @outer_holder = $(".rs_dialog_holder")
       @inner_holder = @outer_holder.find ".rs_dialog"
       @content = @outer_holder.find ".rs_dialog_content"
@@ -28,6 +31,8 @@ window.RecurringSelectDialog =
       @freqInit()
       @summaryInit()
       @freq_select.focus()
+      @outer_holder.trigger "recurring_select:dialog_opened"
+      
       
       
     positionDialogVert: (initial_positioning) =>
@@ -37,10 +42,10 @@ window.RecurringSelectDialog =
       if dialog_height < 80
         dialog_height = 80
       margin_top = (window_height - dialog_height)/2 - 30
-      margin_top = 0 if margin_top < 0
+      margin_top = 10 if margin_top < 10
       new_style_hash =
-        "margin-top": margin_top+"px"
-        "height":dialog_height+"px"
+        "margin-top" : margin_top+"px"
+        "height" : dialog_height+"px"
 
       if initial_positioning?
         @inner_holder.css new_style_hash
