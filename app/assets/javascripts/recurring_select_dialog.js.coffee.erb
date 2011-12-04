@@ -43,6 +43,9 @@ window.RecurringSelectDialog =
         dialog_height = 80
       margin_top = (window_height - dialog_height)/2 - 30
       margin_top = 10 if margin_top < 10
+      if dialog_height > window_height - 20
+        dialog_height = window_height - 20
+      
       new_style_hash =
         "margin-top" : margin_top+"px"
         "height" : dialog_height+"px"
