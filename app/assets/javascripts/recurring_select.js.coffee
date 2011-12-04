@@ -23,6 +23,7 @@ methods =
   open_custom: ->
     @data "recurring-select-active", true
     new RecurringSelectDialog(@)
+    @blur()
 
   save: (new_rule) ->
     @find("option[data-custom]").remove()

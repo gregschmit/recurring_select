@@ -60,6 +60,10 @@ window.RecurringSelectDialog =
       @outer_holder.remove()
       @recurring_selector.recurring_select('cancel')
 
+    outerCancel: (event) =>
+      if $(event.target).hasClass("rs_dialog_holder")
+        @cancel()
+
     save: =>
       return if !@current_rule.str?
       @outer_holder.remove()
@@ -68,11 +72,8 @@ window.RecurringSelectDialog =
 # ========================= Init Methods ===============================
 
     mainEventInit: ->
-      # Additional events are for jQuery Mobile
-      @outer_holder.on 'click tap', @cancel
-      @inner_holder.on 'click tap taphold swipe vclick', (event) -> 
-        event.stopPropagation()
-        # event.preventDefault()
+      # Tap hooks are for jQueryMobile
+      @outer_holder.on 'click tap', @outerCancel
       @content.on 'click tap', 'h1 a', @cancel
       @save_button = @content.find('input.rs_save').on "click tap", @save
       @content.find('input.rs_cancel').on "click tap", @cancel

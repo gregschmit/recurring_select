@@ -12,7 +12,7 @@ module RecurringSelectHelper
       
       options_array = []
       blank_option_label = options[:blank_label] || "- not recurring -"
-      blank_option = [blank_option_label, nil]
+      blank_option = [blank_option_label, "null"]
       seperator = ["or", {:disabled => true}]
       
       if default_schedules.blank?
