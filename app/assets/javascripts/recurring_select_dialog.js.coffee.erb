@@ -111,10 +111,8 @@ window.RecurringSelectDialog =
       # connect the day fields
       if @current_rule.hash.validations? && @current_rule.hash.validations.day?
         $(@current_rule.hash.validations.day).each (index, val) ->
-          section.find(".day_selector input[value='"+val+"']").prop("checked", true)
-      section.on "change", ".day_selector input", @daysChanged
-      
-      section.on "click tap", ".day_selector input[type='checkbox']", (event) -> event.stopPropagation()
+          section.find(".day_holder a[data-value='"+val+"']").addClass("selected")
+      section.on "click", ".day_holder a", @daysChanged
       
       section.show()
       
@@ -216,13 +214,15 @@ window.RecurringSelectDialog =
         # $(event.currentTarget).val(@current_rule.hash.interval)      
       @summaryUpdate()
       
-    daysChanged: =>
+    daysChanged: (event) =>
+      $(event.currentTarget).toggleClass("selected")
       @current_rule.str = null
       @current_rule.hash ||= {}
       @current_rule.hash.validations = {}
-      raw_days = @content.find(".day_selector input:checked").map -> parseInt($(this).val())
+      raw_days = @content.find(".day_holder a.selected").map -> parseInt($(this).data("value"))
       @current_rule.hash.validations.day = raw_days.get()
       @summaryUpdate()
+      false # this prevents default and propogation
       
     dayOfMonthChanged: (event) =>
       $(event.currentTarget).toggleClass("selected")

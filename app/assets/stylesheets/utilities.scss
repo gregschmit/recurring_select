@@ -1,0 +1,18 @@
+@mixin shadows($x_offset: 0px, $y_offset: 1px, $size: 8px, $color: rgba(0, 0, 0, 0.5), $inset: "") { 
+  -webkit-box-shadow: $x_offset $y_offset $size $color $inset;
+  -moz-box-shadow:    $x_offset $y_offset $size $color $inset;
+  -ms-box-shadow:     $x_offset $y_offset $size $color $inset;
+  -o-box-shadow:      $x_offset $y_offset $size $color $inset;
+  box-shadow:         $x_offset $y_offset $size $color $inset;
+}
+
+@mixin rounded_corners($radius: 5px) { -moz-border-radius: $radius; -webkit-border-radius: $radius; border-radius: $radius;}
+
+@mixin gradiant ($color_a:#aaa, $color_b:#bbb) { 
+  position:relative;
+  background-image:     -webkit-linear-gradient(top, $color_a, $color_b);                       /* Chrome 10+, Saf5.1+ */
+  background-image:     -webkit-gradient(linear, 0% 0%, 0% 100%, from($color_a), to($color_b)); /* Saf4+, Chrome */
+  background-image:     -moz-linear-gradient(top,$color_a,$color_b);                            /* FF3.6 */
+  background-image:     -ms-linear-gradient(top, $color_a, $color_b);                           /* IE10 */
+  background-image:     -o-linear-gradient(top, $color_a, $color_b);                            /* Opera 11.10+ */
+}

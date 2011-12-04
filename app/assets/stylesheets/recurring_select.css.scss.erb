@@ -1,18 +1,4 @@
-@mixin shadows($x_offset: 0px, $y_offset: 1px, $size: 8px, $color: rgba(0, 0, 0, 0.5)) { 
-  -webkit-box-shadow:$x_offset $y_offset $size $color;
-  -moz-box-shadow:$x_offset $y_offset $size $color;
-  box-shadow:$x_offset $y_offset $size $color;
-}
-@mixin rounded_corners($radius: 5px) { -moz-border-radius: $radius; -webkit-border-radius: $radius; border-radius: $radius;}
-@mixin gradiant ($color_a:#aaa, $color_b:#bbb) { 
-  position:relative;
-  background-image:     -webkit-linear-gradient(top, $color_a, $color_b);                       /* Chrome 10+, Saf5.1+ */
-  background-image:     -webkit-gradient(linear, 0% 0%, 0% 100%, from($color_a), to($color_b)); /* Saf4+, Chrome */
-  background-image:     -moz-linear-gradient(top,$color_a,$color_b);                            /* FF3.6 */
-  background-image:     -ms-linear-gradient(top, $color_a, $color_b);                           /* IE10 */
-  background-image:     -o-linear-gradient(top, $color_a, $color_b);                            /* Opera 11.10+ */
-	
-}
+@import "utilities.scss";
 
 /* -------- resets ---------------*/
 
@@ -57,13 +43,16 @@ select {
 			.freq_option_section { display:none;
 				.rs_interval {width:30px; text-align:center;}
 				
-				.day_holder { width:375px;
-					.day_selector {margin-right:7px;}
+				.day_holder { border-left:1px solid #ccc; position:relative; margin-top:5px; height:26px;
+					a {display:block; padding:5px 7px; font-size:14px; border-style:solid; border-color:#ccc; border-width:1px 1px 1px 0px; float:left; text-decoration:none; font-weight:bold; @include shadows(0px, 1px, 2px, rgba(0,0,0,0.1), inset); background-color:#fff;;
+						&.selected {background-color:#89a; color:#fff;@include shadows(1px, 1px, 2px, rgba(0,0,0,0.2), inset);  @include gradiant(#9ab, #789); }
+						&:hover { cursor:pointer; background-color:#dde;}
+					}
 				}
 				
 				.rs_calendar { width:155px;
 					a {display:inline-block; height:10px; width:15px; text-align:center; padding:5px 3px; font-size:12px; border-style:solid; border-color:#ccc; border-width:1px 1px 1px 1px; margin:-1px 0 0 -1px; line-height:10px; background-color:#fff; font-weight:bold;
-						&.selected {background-color:#89a; color:#fff; @include gradiant(#9ab, #789); }
+						&.selected {background-color:#89a; color:#fff; @include gradiant(#789, #9ab); }
 						&:hover { cursor:pointer; background-color:#dde;}
 					}
 				}
