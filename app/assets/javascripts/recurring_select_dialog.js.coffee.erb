@@ -72,7 +72,7 @@ window.RecurringSelectDialog =
       @outer_holder.on 'click tap', @cancel
       @inner_holder.on 'click tap taphold swipe vclick', (event) -> 
         event.stopPropagation()
-        event.preventDefault()
+        # event.preventDefault()
       @content.on 'click tap', 'h1 a', @cancel
       @save_button = @content.find('input.rs_save').on "click tap", @save
       @content.find('input.rs_cancel').on "click tap", @cancel
