@@ -232,4 +232,5 @@ window.RecurringSelectDialog =
       raw_days = @content.find(".monthly_options a.selected").map -> parseInt($(this).text())
       @current_rule.hash.validations.day_of_month = raw_days.get()
       @summaryUpdate()
+      false
     
