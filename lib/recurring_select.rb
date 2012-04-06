@@ -19,7 +19,7 @@ module RecurringSelect
   def self.is_valid_rule?(possible_rule)
     if possible_rule.blank? or
       ( possible_rule.is_a?(String) and (possible_rule=~/^null|false|0|custom$/) ) or
-      new_rule.is_a?(FalseClass)
+      possible_rule.is_a?(FalseClass)
       false
     else
       true

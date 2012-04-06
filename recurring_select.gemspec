@@ -21,6 +21,6 @@ Gem::Specification.new do |s|
   s.add_dependency "ice_cube", ">= 0.7"
   s.add_dependency "sass-rails", ">= 3.1"
   s.add_dependency "coffee-rails", ">= 3.1"
-  
+
   s.add_development_dependency "pry"
 end
