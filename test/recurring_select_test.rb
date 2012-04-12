@@ -13,6 +13,7 @@ class RecurringSelectTest < ActiveSupport::TestCase
     assert !RecurringSelect.is_valid_rule?("0")
     assert !RecurringSelect.is_valid_rule?("custom")
     assert RecurringSelect.is_valid_rule?(IceCube::Rule.weekly.to_hash.to_json)
+    assert RecurringSelect.is_valid_rule?("10")
   end
 
 end
