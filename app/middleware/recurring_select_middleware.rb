@@ -1,11 +1,11 @@
 require "ice_cube"
 
 class RecurringSelectMiddleware
-  
+
   def initialize(app)
     @app = app
   end
-  
+
   def call(env)
     if env["PATH_INFO"] =~ /^\/recurring_select\/translate/
       request = Rack::Request.new(env)
@@ -22,5 +22,5 @@ class RecurringSelectMiddleware
       @app.call(env)
     end
   end
-  
+
 end

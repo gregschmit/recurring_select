@@ -133,6 +133,13 @@ window.RecurringSelectDialog =
         monthly_calendar.append (day_link = $(document.createElement("a")).text(num))
         if $.inArray(num, @current_rule.hash.validations.day_of_month) != -1
           day_link.addClass("selected")
+
+      # add last day of month button
+      monthly_calendar.append (end_of_month_link = $(document.createElement("a")).text("Last Day"))
+      end_of_month_link.addClass("end_of_month")
+      if $.inArray(-1, @current_rule.hash.validations.day_of_month) != -1
+        end_of_month_link.addClass("selected")
+
       monthly_calendar.find("a").on "click tap", @dayOfMonthChanged
       section.show()
 
@@ -232,7 +239,11 @@ window.RecurringSelectDialog =
       @current_rule.str = null
       @current_rule.hash ||= {}
       @current_rule.hash.validations = {}
-      raw_days = @content.find(".monthly_options a.selected").map -> parseInt($(this).text())
+      raw_days = @content.find(".monthly_options a.selected").map ->
+        console.log $(this)
+        res = if $(this).text() == "Last Day" then -1 else parseInt($(this).text())
+        console.log res
+        res
       @current_rule.hash.validations.day_of_month = raw_days.get()
       @summaryUpdate()
       false
