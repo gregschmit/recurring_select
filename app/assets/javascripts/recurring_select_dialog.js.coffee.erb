@@ -15,10 +15,9 @@ window.RecurringSelectDialog =
       else
         setTimeout @positionDialogVert, 10 # allow initial render
 
-
     initDialogBox: ->
       $(".rs_dialog_holder").remove()
-      
+
       open_in = $("body")
       open_in = $(".ui-page-active") if $(".ui-page-active").length
       open_in.append "<%= ActionController::Base.helpers.escape_javascript @template %>"
@@ -32,12 +31,10 @@ window.RecurringSelectDialog =
       @summaryInit()
       @freq_select.focus()
       @outer_holder.trigger "recurring_select:dialog_opened"
-      
-      
-      
+
     positionDialogVert: (initial_positioning) =>
       window_height = $(window).height()
-      window_width  = $(window).width()  
+      window_width  = $(window).width()
       dialog_height = @content.outerHeight()
       if dialog_height < 80
         dialog_height = 80
@@ -45,7 +42,7 @@ window.RecurringSelectDialog =
       margin_top = 10 if margin_top < 10
       # if dialog_height > window_height - 20
       #   dialog_height = window_height - 20
-      
+
       new_style_hash =
         "margin-top" : margin_top+"px"
         "height" : dialog_height+"px"
@@ -60,7 +57,7 @@ window.RecurringSelectDialog =
           @inner_holder.removeClass "animated"
           @content.css {"width": "auto"}
           @inner_holder.trigger "recurring_select:dialog_positioned"
-        
+
     cancel: =>
       @outer_holder.remove()
       @recurring_selector.recurring_select('cancel')
@@ -105,7 +102,7 @@ window.RecurringSelectDialog =
       interval_input.val(@current_rule.hash.interval)
       interval_input.on "change keyup", @intervalChanged
       section.show()
-      
+
     initWeeklyOptions: ->
       section = @content.find('.weekly_options')
 
@@ -113,21 +110,21 @@ window.RecurringSelectDialog =
       interval_input = section.find('.rs_weekly_interval')
       interval_input.val(@current_rule.hash.interval)
       interval_input.on "change keyup", @intervalChanged
-      
+
       # connect the day fields
       if @current_rule.hash.validations? && @current_rule.hash.validations.day?
         $(@current_rule.hash.validations.day).each (index, val) ->
           section.find(".day_holder a[data-value='"+val+"']").addClass("selected")
       section.on "click", ".day_holder a", @daysChanged
-      
+
       section.show()
-      
+
     initMonthlyOptions: ->
       section = @content.find('.monthly_options')
       interval_input = section.find('.rs_monthly_interval')
       interval_input.val(@current_rule.hash.interval)
       interval_input.on "change keyup", @intervalChanged
-      
+
       @current_rule.hash.validations ||= {}
       @current_rule.hash.validations.day_of_month ||= []
       monthly_calendar = section.find(".rs_calendar")
@@ -138,14 +135,14 @@ window.RecurringSelectDialog =
           day_link.addClass("selected")
       monthly_calendar.find("a").on "click tap", @dayOfMonthChanged
       section.show()
-      
+
     initYearlyOptions: ->
       section = @content.find('.yearly_options')
       interval_input = section.find('.rs_yearly_interval')
       interval_input.val(@current_rule.hash.interval)
       interval_input.on "change keyup", @intervalChanged
       section.show()
-      
+
 
     summaryInit: ->
       @summary = @outer_holder.find(".rs_summary")
@@ -166,7 +163,7 @@ window.RecurringSelectDialog =
         @save_button.addClass("disabled")
         @summary.find("span").html ""
         @summaryFetch()
-    
+
     summaryFetch: ->
       return if !(@current_rule.hash? && (rule_type = @current_rule.hash.rule_type)?)
       @content.css {"width": @content.width()+"px"}
@@ -181,7 +178,7 @@ window.RecurringSelectDialog =
       @summaryUpdate()
       @content.css {"width": "auto"}
 
-# ========================= Change callbacks ===============================      
+# ========================= Change callbacks ===============================
 
     freqChanged: =>
       @current_rule.hash ||= {}
@@ -210,16 +207,16 @@ window.RecurringSelectDialog =
           @initDailyOptions()
       @summaryUpdate()
       @positionDialogVert()
-    
+
     intervalChanged: (event) =>
       @current_rule.str = null
       @current_rule.hash ||= {}
       @current_rule.hash.interval = parseInt($(event.currentTarget).val())
       if @current_rule.hash.interval < 1 || isNaN(@current_rule.hash.interval)
-        @current_rule.hash.interval = 1 
-        # $(event.currentTarget).val(@current_rule.hash.interval)      
+        @current_rule.hash.interval = 1
+        # $(event.currentTarget).val(@current_rule.hash.interval)
       @summaryUpdate()
-      
+
     daysChanged: (event) =>
       $(event.currentTarget).toggleClass("selected")
       @current_rule.str = null
@@ -229,7 +226,7 @@ window.RecurringSelectDialog =
       @current_rule.hash.validations.day = raw_days.get()
       @summaryUpdate()
       false # this prevents default and propogation
-      
+
     dayOfMonthChanged: (event) =>
       $(event.currentTarget).toggleClass("selected")
       @current_rule.str = null
@@ -239,4 +236,4 @@ window.RecurringSelectDialog =
       @current_rule.hash.validations.day_of_month = raw_days.get()
       @summaryUpdate()
       false
-    
+
