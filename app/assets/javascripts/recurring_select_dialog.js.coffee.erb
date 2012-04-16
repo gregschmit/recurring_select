@@ -240,9 +240,7 @@ window.RecurringSelectDialog =
       @current_rule.hash ||= {}
       @current_rule.hash.validations = {}
       raw_days = @content.find(".monthly_options a.selected").map ->
-        console.log $(this)
         res = if $(this).text() == "Last Day" then -1 else parseInt($(this).text())
-        console.log res
         res
       @current_rule.hash.validations.day_of_month = raw_days.get()
       @summaryUpdate()
