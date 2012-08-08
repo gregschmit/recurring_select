@@ -36,6 +36,14 @@
   </p>
 
   <p>
+    <%= f.label :non_recurring_rule, "default with custom non-recurring rule" %><br/>
+    <%= f.select_recurring :non_recurring_rule, [
+      ["Custom non-blank option", 1],
+      IceCube::Rule.monthly.day_of_month(-1)
+    ], :allow_blank => true %>
+  </p>
+
+  <p>
     <%= f.submit %>
   </p>
 <% end %>

@@ -17,13 +17,22 @@ module RecurringSelect
   end
 
   def self.is_valid_rule?(possible_rule)
-    if possible_rule.blank? or
-      ( possible_rule.is_a?(String) and (possible_rule=~/^(null|false|0|custom)$/) ) or
-      possible_rule.is_a?(FalseClass)
-      false
-    else
-      true
+    return true if possible_rule.is_a?(IceCube::Rule)
+    return false if possible_rule.blank?
+
+    if possible_rule.is_a?(String)
+      begin
+        JSON.parse(possible_rule)
+        return true
+      rescue JSON::ParserError
+        return false
+      end
     end
+
+    # TODO: this should really have an extra step where it tries to perform the final parsing
+    return true if possible_rule.is_a?(Hash)
+
+    false #only a hash or a string of a hash can be valid
   end
 
   private

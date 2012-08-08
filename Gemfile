@@ -10,6 +10,7 @@ gem "jquery-rails"
 gem "pg"
 gem "pry"
 gem "ice_cube"
+gem "mocha", :require => false
 
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or

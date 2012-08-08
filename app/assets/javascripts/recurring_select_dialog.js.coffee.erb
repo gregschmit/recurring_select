@@ -10,7 +10,7 @@ window.RecurringSelectDialog =
     constructor: (@recurring_selector) ->
       @current_rule = @recurring_selector.recurring_select('current_rule')
       @initDialogBox()
-      if !(@current_rule.hash? && (rule_type = @current_rule.hash.rule_type)?)
+      if not @current_rule.hash? or not @current_rule.hash.rule_type?
         @freqChanged()
       else
         setTimeout @positionDialogVert, 10 # allow initial render
@@ -188,6 +188,8 @@ window.RecurringSelectDialog =
 # ========================= Change callbacks ===============================
 
     freqChanged: =>
+      @current_rule.hash = null unless $.isPlainObject(@current_rule.hash) # for custom values
+
       @current_rule.hash ||= {}
       @current_rule.hash.interval = 1
       @current_rule.hash.until = null
