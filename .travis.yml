@@ -7,4 +7,4 @@ before_script:
   - psql -c 'create database recurring_select_test' -U postgres
 script: 
   - RAILS_ENV=test bundle exec rake --trace db:migrate
-  - bundle exec rake/
+  - bundle exec rake test/
