@@ -44,10 +44,14 @@
         <p>
           Every
           <input type='text' name='rs_monthly_interval' class='rs_monthly_interval rs_interval' value='1' size='2' />
-          month(s) on the:
+          month(s):
         </p>
-        <p class="rs_calendar">
+        <p class="monthly_rule_type">
+          <span>Day of Month <input type="radio" class="monthly_rule_type_day" name="monthly_rule_type" value="true" /></span>
+          <span>Day of Week <input type="radio" class="monthly_rule_type_week" name="monthly_rule_type" value="true" /></span>
         </p>
+        <p class="rs_calendar_day"></p>
+        <p class="rs_calendar_week"></p>
       </div>
 
       <div class="yearly_options freq_option_section">
@@ -58,8 +62,8 @@
         </p>
       </div>
 
+
       <p class='rs_summary'>
-        <!-- <label>Summary:</label> -->
         <span></span>
       </p>
 

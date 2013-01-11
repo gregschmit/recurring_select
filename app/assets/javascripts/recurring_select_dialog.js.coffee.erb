@@ -127,20 +127,15 @@ window.RecurringSelectDialog =
 
       @current_rule.hash.validations ||= {}
       @current_rule.hash.validations.day_of_month ||= []
-      monthly_calendar = section.find(".rs_calendar")
-      monthly_calendar.html ""
-      for num in [1..31]
-        monthly_calendar.append (day_link = $(document.createElement("a")).text(num))
-        if $.inArray(num, @current_rule.hash.validations.day_of_month) != -1
-          day_link.addClass("selected")
+      @current_rule.hash.validations.day_of_week ||= {}
+      @init_calendar_days(section)
+      @init_calendar_weeks(section)
 
-      # add last day of month button
-      monthly_calendar.append (end_of_month_link = $(document.createElement("a")).text("Last Day"))
-      end_of_month_link.addClass("end_of_month")
-      if $.inArray(-1, @current_rule.hash.validations.day_of_month) != -1
-        end_of_month_link.addClass("selected")
-
-      monthly_calendar.find("a").on "click tap", @dayOfMonthChanged
+      in_week_mode = Object.keys(@current_rule.hash.validations.day_of_week).length > 0
+      section.find(".monthly_rule_type_week").prop("checked", in_week_mode)
+      section.find(".monthly_rule_type_day").prop("checked", !in_week_mode)
+      @toggle_month_view()
+      section.find("input[name=monthly_rule_type]").on "change", @toggle_month_view
       section.show()
 
     initYearlyOptions: ->
@@ -184,6 +179,41 @@ window.RecurringSelectDialog =
       @current_rule.str = data
       @summaryUpdate()
       @content.css {"width": "auto"}
+
+    init_calendar_days: (section) =>
+      monthly_calendar = section.find(".rs_calendar_day")
+      monthly_calendar.html ""
+      for num in [1..31]
+        monthly_calendar.append (day_link = $(document.createElement("a")).text(num))
+        if $.inArray(num, @current_rule.hash.validations.day_of_month) != -1
+          day_link.addClass("selected")
+
+      # add last day of month button
+      monthly_calendar.append (end_of_month_link = $(document.createElement("a")).text("Last Day"))
+      end_of_month_link.addClass("end_of_month")
+      if $.inArray(-1, @current_rule.hash.validations.day_of_month) != -1
+        end_of_month_link.addClass("selected")
+
+      monthly_calendar.find("a").on "click tap", @dateOfMonthChanged
+
+    init_calendar_weeks: (section) =>
+      monthly_calendar = section.find(".rs_calendar_week")
+      monthly_calendar.html ""
+      for num in [1..4]
+        for day_of_week in ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
+          day_link = $("<a>", {text: day_of_week[0].toUpperCase()})
+          day_link.attr("day", day_of_week)
+          day_link.attr("instance", num)
+          monthly_calendar.append day_link
+      $.each @current_rule.hash.validations.day_of_week, (key, value) ->
+        $.each value, (index, instance) ->
+          section.find("a[day='#{key}'][instance='#{instance}']").addClass("selected")
+      monthly_calendar.find("a").on "click tap", @weekOfMonthChanged
+
+    toggle_month_view: =>
+      week_mode = @content.find(".monthly_rule_type_week").prop("checked")
+      @content.find(".rs_calendar_week").toggle(week_mode)
+      @content.find(".rs_calendar_day").toggle(!week_mode)
 
 # ========================= Change callbacks ===============================
 
@@ -236,15 +266,31 @@ window.RecurringSelectDialog =
       @summaryUpdate()
       false # this prevents default and propogation
 
-    dayOfMonthChanged: (event) =>
+    dateOfMonthChanged: (event) =>
       $(event.currentTarget).toggleClass("selected")
       @current_rule.str = null
       @current_rule.hash ||= {}
       @current_rule.hash.validations = {}
-      raw_days = @content.find(".monthly_options a.selected").map ->
+      raw_days = @content.find(".monthly_options .rs_calendar_day a.selected").map ->
         res = if $(this).text() == "Last Day" then -1 else parseInt($(this).text())
         res
+      @current_rule.hash.validations.day_of_week = {}
       @current_rule.hash.validations.day_of_month = raw_days.get()
+      @summaryUpdate()
+      false
+
+    weekOfMonthChanged: (event) =>
+      $(event.currentTarget).toggleClass("selected")
+      @current_rule.str = null
+      @current_rule.hash ||= {}
+      @current_rule.hash.validations = {}
+      @current_rule.hash.validations.day_of_month = []
+      @current_rule.hash.validations.day_of_week = {}
+      @content.find(".monthly_options .rs_calendar_week a.selected").each (index, elm) =>
+        day = $(elm).attr("day")
+        instance = parseInt($(elm).attr("instance"))
+        @current_rule.hash.validations.day_of_week[day] ||= []
+        @current_rule.hash.validations.day_of_week[day].push instance
       @summaryUpdate()
       false
 

@@ -19,4 +19,17 @@ class RecurringSelectTest < ActiveSupport::TestCase
     assert RecurringSelect.is_valid_rule?(IceCube::Rule.weekly.to_hash.to_json)
   end
 
+  test "filter_params - Monthly with day_of_week" do
+    assert_equal RecurringSelect.filter_params({
+      :validations=>{"day_of_week"=>{"wednesday"=>["1", "3"]}},
+      :rule_type=>"IceCube::MonthlyRule",
+      :interval=>1
+    }), {
+      :validations=>{:day_of_week =>{:wednesday =>[1, 3]}},
+      :rule_type=>"IceCube::MonthlyRule",
+      :interval=>1
+    }
+
+  end
+
 end

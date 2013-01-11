@@ -1,4 +1,13 @@
 require "recurring_select/engine"
+require "ice_cube"
+
+#TODO: remove monkey patch when https://github.com/seejohnrun/ice_cube/issues/136 is fixed
+IceCube::ValidatedRule.class_eval do
+  alias old_to_s to_s
+  def to_s
+    old_to_s.gsub("when it is", "and")
+  end
+end
 
 module RecurringSelect
 
@@ -12,6 +21,7 @@ module RecurringSelect
 
       params.symbolize_keys!
       rules_hash = filter_params(params)
+
       IceCube::Rule.from_hash(rules_hash)
     end
   end
@@ -41,17 +51,29 @@ module RecurringSelect
     params.reject!{|key, value| value.blank? || value=="null" }
 
     params[:interval] = params[:interval].to_i if params[:interval]
+    params.delete(:interval) if params[:interval] == 1
 
     params[:validations] ||= {}
     params[:validations].symbolize_keys!
+
     if params[:validations][:day]
-      params[:validations][:day] = params[:validations][:day].collect{|d| d.to_i }
+      params[:validations][:day] = params[:validations][:day].collect(&:to_i)
     end
+
     if params[:validations][:day_of_month]
-      params[:validations][:day_of_month] = params[:validations][:day_of_month].collect{|d| d.to_i }
+      params[:validations][:day_of_month] = params[:validations][:day_of_month].collect(&:to_i)
     end
+
+    if params[:validations][:day_of_week]
+      params[:validations][:day_of_week] ||= {}
+      params[:validations][:day_of_week].symbolize_keys!
+      params[:validations][:day_of_week].each{|key, value|
+        params[:validations][:day_of_week][key] = value.collect(&:to_i)
+      }
+    end
+
     if params[:validations][:day_of_year]
-      params[:validations][:day_of_year] = params[:validations][:day_of_year].collect{|d| d.to_i }
+      params[:validations][:day_of_year] = params[:validations][:day_of_year].collect(&:to_i)
     end
 
     params
