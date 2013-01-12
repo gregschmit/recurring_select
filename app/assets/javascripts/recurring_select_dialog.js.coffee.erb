@@ -199,7 +199,9 @@ window.RecurringSelectDialog =
     init_calendar_weeks: (section) =>
       monthly_calendar = section.find(".rs_calendar_week")
       monthly_calendar.html ""
+      row_labels = ["1st", "2nd", "3rd", "4th"]
       for num in [1..4]
+        monthly_calendar.append "<span>#{row_labels[num - 1]}</span>"
         for day_of_week in ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
           day_link = $("<a>", {text: day_of_week[0].toUpperCase()})
           day_link.attr("day", day_of_week)
