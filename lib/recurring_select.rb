@@ -51,7 +51,6 @@ module RecurringSelect
     params.reject!{|key, value| value.blank? || value=="null" }
 
     params[:interval] = params[:interval].to_i if params[:interval]
-    params.delete(:interval) if params[:interval] == 1
 
     params[:validations] ||= {}
     params[:validations].symbolize_keys!
@@ -64,9 +63,18 @@ module RecurringSelect
       params[:validations][:day_of_month] = params[:validations][:day_of_month].collect(&:to_i)
     end
 
+    # this is soooooo ugly
     if params[:validations][:day_of_week]
       params[:validations][:day_of_week] ||= {}
-      params[:validations][:day_of_week].symbolize_keys!
+      if params[:validations][:day_of_week].length > 0 and not params[:validations][:day_of_week].keys.first =~ /\d/
+        params[:validations][:day_of_week].symbolize_keys!
+      else
+        originals = params[:validations][:day_of_week].dup
+        params[:validations][:day_of_week] = {}
+        originals.each{|key, value|
+          params[:validations][:day_of_week][key.to_i] = value
+        }
+      end
       params[:validations][:day_of_week].each{|key, value|
         params[:validations][:day_of_week][key] = value.collect(&:to_i)
       }

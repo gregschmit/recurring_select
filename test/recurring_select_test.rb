@@ -30,6 +30,15 @@ class RecurringSelectTest < ActiveSupport::TestCase
       :interval=>1
     }
 
+    assert_equal RecurringSelect.filter_params({
+      :validations=>{"day_of_week"=>{"2"=>["1", "3"]}},
+      :rule_type=>"IceCube::MonthlyRule",
+      :interval=>1
+    }), {
+      :validations=>{:day_of_week =>{2 =>[1, 3]}},
+      :rule_type=>"IceCube::MonthlyRule",
+      :interval=>1
+    }
   end
 
 end

@@ -200,10 +200,12 @@ window.RecurringSelectDialog =
       monthly_calendar = section.find(".rs_calendar_week")
       monthly_calendar.html ""
       row_labels = ["1st", "2nd", "3rd", "4th"]
+      cell_str = ["S", "M", "T", "W", "T", "F", "S"]
+
       for num in [1..4]
         monthly_calendar.append "<span>#{row_labels[num - 1]}</span>"
-        for day_of_week in ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
-          day_link = $("<a>", {text: day_of_week[0].toUpperCase()})
+        for day_of_week in [0..6]
+          day_link = $("<a>", {text: cell_str[day_of_week]})
           day_link.attr("day", day_of_week)
           day_link.attr("instance", num)
           monthly_calendar.append day_link
@@ -289,7 +291,7 @@ window.RecurringSelectDialog =
       @current_rule.hash.validations.day_of_month = []
       @current_rule.hash.validations.day_of_week = {}
       @content.find(".monthly_options .rs_calendar_week a.selected").each (index, elm) =>
-        day = $(elm).attr("day")
+        day = parseInt($(elm).attr("day"))
         instance = parseInt($(elm).attr("instance"))
         @current_rule.hash.validations.day_of_week[day] ||= []
         @current_rule.hash.validations.day_of_week[day].push instance
