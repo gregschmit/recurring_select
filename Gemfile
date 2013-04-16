@@ -24,3 +24,8 @@ group :test do
   gem 'rb-fsevent', :require => false
 end
 
+group :assets do
+  gem "sass-rails"
+  gem "coffee-rails"
+  gem "uglifier"
+end
