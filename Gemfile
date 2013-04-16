@@ -11,7 +11,6 @@ gem "pg"
 gem "ice_cube"
 
 group :test do
-  gem "database_cleaner"
   gem "rspec"
   #gem "mocha", :require => false
 

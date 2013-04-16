@@ -50,7 +50,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.1)
-    database_cleaner (0.9.1)
     diff-lcs (1.2.3)
     erubis (2.7.0)
     execjs (1.4.0)
@@ -159,7 +158,6 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails
-  database_cleaner
   guard (= 1.7.0)
   guard-jasmine
   guard-rspec (~> 2.5.3)
