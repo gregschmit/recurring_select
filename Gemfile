@@ -10,12 +10,18 @@ gem "jquery-rails"
 gem "pg"
 gem "pry"
 gem "ice_cube"
-gem "mocha", :require => false
 
-# Declare any dependencies that are still in development here instead of in
-# your gemspec. These might include edge Rails or gems from your path or
-# Git. Remember to move these dependencies to your gemspec before releasing
-# your gem to rubygems.org.
+group :test do
+  gem "database_cleaner"
+  gem "rspec"
+  #gem "mocha", :require => false
 
-# To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
+  gem "spork", "~> 0.9.2"
+  gem "guard", "1.7.0"
+  gem "guard-spork"
+  gem "guard-rspec", "~> 2.5.3"
+  gem "guard-jasmine"
+
+  gem 'rb-fsevent', :require => false
+end
+
