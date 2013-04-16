@@ -86,5 +86,4 @@ module RecurringSelect
 
     params
   end
-
 end
