@@ -1,6 +1,8 @@
 RecurringSelect
 =============
 
+[![Build Status](https://travis-ci.org/GetJobber/recurring_select.png)](https://travis-ci.org/GetJobber/recurring_select)
+
 This is a gem to add a number of selectors and helpers for working with recurring schedules in a rails app.
 It uses the [IceCube](https://github.com/seejohnrun/ice_cube) recurring scheduling gem.
 
