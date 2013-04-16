@@ -14,12 +14,6 @@ class FakeModel
     IceCube::Rule.daily(2).to_hash
   end
 
-  def non_recurring_rule
-    1
-  end
-
-  def persisted?
-    false
-  end
-
+  def non_recurring_rule; 1; end
+  def persisted?; false; end
 end

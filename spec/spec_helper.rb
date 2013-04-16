@@ -5,8 +5,6 @@ Spork.prefork do
   ENV["RAILS_ENV"] = "test"
   require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 
-  #require "mocha"
-
   Rails.backtrace_cleaner.remove_silencers!
 
   # Load support files
