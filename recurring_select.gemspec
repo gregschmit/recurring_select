@@ -7,11 +7,11 @@ require "recurring_select/version"
 Gem::Specification.new do |s|
   s.name        = "recurring_select"
   s.version     = RecurringSelect::VERSION
-  s.authors     = ["Forrest Zeisler"]
-  s.email       = ["development@forrestzeisler.com"]
-  s.homepage    = "http://github.com/forrest/recurring_select"
-  s.summary     = "This is a gem to add a number of selectors and helpers for working with recurring schedules in a rails app."
-  s.description = "This is a gem to add a number of selectors and helpers for working with recurring schedules in a rails app."
+  s.authors     = ["Jobber", "Forrest Zeisler", "Nathan Youngman"]
+  s.email       = ["forrest@getjobber.com"]
+  s.homepage    = "http://github.com/getjobber/recurring_select"
+  s.summary     = "A select helper which gives you magical powers to generate ice_cube rules."
+  s.description = "This gem provides a useful interface for creating recurring rules for the ice_cube gem."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]

@@ -1,9 +1,0 @@
-= RecurringSelect (Alpha)
-
-This is a gem to add a number of selectors and helpers for working with recurring schedules in a rails app. It uses the IceCube recurring scheduling gem (https://github.com/seejohnrun/ice_cube). This is still a work in progress, but feel free to make requests, or even better write some code.
-
-== Usage
-
-so much stuff...
-
-This project rocks and uses MIT-LICENSE.
