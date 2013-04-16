@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.summary     = "A select helper which gives you magical powers to generate ice_cube rules."
   s.description = "This gem provides a useful interface for creating recurring rules for the ice_cube gem."
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", ">= 3.1"

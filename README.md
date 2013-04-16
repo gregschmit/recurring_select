@@ -15,18 +15,18 @@ Basic selector:
 Load the gem:
 `gem 'recurring_select`
 
-Require assets
-  Desktop view
-    application.js
-      `//= require recurring_select`
-    application.css
-      `//= require recurring_select`
+Require assets  
+  Desktop view  
+    application.js  
+      `//= require recurring_select`  
+    application.css  
+      `//= require recurring_select`  
 
-  or jQueryMobile interface
-    application.js
-      `//= require jquery-mobile-rs`
-    application.css
-      `//= require jquery-mobile-rs`
+  or jQueryMobile interface  
+    application.js  
+      `//= require jquery-mobile-rs`  
+    application.css  
+      `//= require jquery-mobile-rs`  
 
 
 In the form view call the helper:

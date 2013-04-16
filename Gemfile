@@ -8,7 +8,6 @@ gemspec
 # jquery-rails is used by the dummy application
 gem "jquery-rails"
 gem "pg"
-gem "pry"
 gem "ice_cube"
 
 group :test do
