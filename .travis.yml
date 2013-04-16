@@ -7,3 +7,4 @@ before_script:
   - psql -c 'create database recurring_select_test' -U postgres
 script: 
   - rspec spec
+
