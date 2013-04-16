@@ -46001,3 +46001,111 @@ ActionController::RoutingError (No route matches [GET] "/index.mobile"):
 
 
   Rendered /Users/forrest/.rvm/gems/ruby-1.9.3-p327/gems/actionpack-3.2.11/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (1.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-04-16 10:14:46 -0600
+Connecting to database specified by database.yml
+Processing by SampleController#index as HTML
+  Rendered sample/index.html.erb within layouts/application (186.7ms)
+Compiled recurring_select.css  (895ms)  (pid 56507)
+Compiled application.css  (4ms)  (pid 56507)
+Compiled recurring_select_dialog.js  (437ms)  (pid 56507)
+Compiled recurring_select.js  (131ms)  (pid 56507)
+Compiled application.js  (6ms)  (pid 56507)
+Completed 200 OK in 1835ms (Views: 1834.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-04-16 10:14:49 -0600
+Processing by SampleController#index as HTML
+  Rendered sample/index.html.erb within layouts/application (8.7ms)
+Completed 200 OK in 17ms (Views: 16.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-04-16 10:14:49 -0600
+Served asset /application.css - 200 OK (11ms)
+
+
+Started GET "/assets/recurring_select.css?body=1" for 127.0.0.1 at 2013-04-16 10:14:49 -0600
+Served asset /recurring_select.css - 200 OK (3ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-04-16 10:14:49 -0600
+Served asset /jquery.js - 200 OK (8ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-04-16 10:14:49 -0600
+Served asset /jquery_ujs.js - 200 OK (2ms)
+
+
+Started GET "/assets/sample.css?body=1" for 127.0.0.1 at 2013-04-16 10:14:49 -0600
+Served asset /sample.css - 200 OK (2ms)
+
+
+Started GET "/assets/recurring_select_dialog.js?body=1" for 127.0.0.1 at 2013-04-16 10:14:49 -0600
+Served asset /recurring_select_dialog.js - 200 OK (2ms)
+
+
+Started GET "/assets/recurring_select.js?body=1" for 127.0.0.1 at 2013-04-16 10:14:49 -0600
+Served asset /recurring_select.js - 200 OK (4ms)
+
+
+Started GET "/assets/sample.js?body=1" for 127.0.0.1 at 2013-04-16 10:14:49 -0600
+Served asset /sample.js - 200 OK (2ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-04-16 10:14:49 -0600
+Served asset /application.js - 200 OK (9ms)
+
+
+Started GET "/assets/recurring_select/cancel.png" for 127.0.0.1 at 2013-04-16 10:17:55 -0600
+Served asset /recurring_select/cancel.png - 200 OK (14ms)
+
+
+Started GET "/assets/recurring_select/throbber_13x13.gif" for 127.0.0.1 at 2013-04-16 10:17:58 -0600
+Served asset /recurring_select/throbber_13x13.gif - 200 OK (14ms)
+
+
+Started POST "/recurring_select/translate" for 127.0.0.1 at 2013-04-16 10:17:58 -0600
+
+
+Started POST "/recurring_select/translate" for 127.0.0.1 at 2013-04-16 10:17:59 -0600
+
+
+Started POST "/recurring_select/translate" for 127.0.0.1 at 2013-04-16 10:18:02 -0600
+
+
+Started POST "/recurring_select/translate" for 127.0.0.1 at 2013-04-16 10:18:02 -0600
+
+
+Started POST "/recurring_select/translate" for 127.0.0.1 at 2013-04-16 10:18:05 -0600
+
+
+Started POST "/recurring_select/translate" for 127.0.0.1 at 2013-04-16 10:18:06 -0600
+
+
+Started POST "/recurring_select/translate" for 127.0.0.1 at 2013-04-16 10:18:08 -0600
+
+
+Started POST "/recurring_select/translate" for 127.0.0.1 at 2013-04-16 10:18:09 -0600
+
+
+Started POST "/recurring_select/translate" for 127.0.0.1 at 2013-04-16 10:18:10 -0600
+
+
+Started POST "/recurring_select/translate" for 127.0.0.1 at 2013-04-16 10:18:11 -0600
+
+
+Started POST "/recurring_select/translate" for 127.0.0.1 at 2013-04-16 10:18:12 -0600
+
+
+Started POST "/recurring_select/translate" for 127.0.0.1 at 2013-04-16 10:18:12 -0600
+
+
+Started POST "/recurring_select/translate" for 127.0.0.1 at 2013-04-16 10:18:13 -0600
+
+
+Started POST "/" for 127.0.0.1 at 2013-04-16 10:18:31 -0600
+Processing by SampleController#index as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"Z59YfarZ+Px2ip22caDIk58MWgXiMNe88szQaAHtOCs=", "fake_model"=>{"recurring_rules"=>"{\"validations\":{\"day\":[1,3,5]},\"rule_type\":\"IceCube::WeeklyRule\",\"interval\":2}", "current_custom_rule"=>"{\"validations\":null,\"rule_type\":\"IceCube::DailyRule\",\"interval\":1,\"until\":null,\"count\":null}", "current_existing_rule"=>"{\"validations\":{\"day_of_month\":[-1]},\"rule_type\":\"IceCube::MonthlyRule\",\"interval\":1}", "non_recurring_rule"=>"1"}, "commit"=>"Create Fake model"}
+  Rendered sample/index.html.erb within layouts/application (7.8ms)
+Completed 200 OK in 15ms (Views: 15.1ms | ActiveRecord: 0.0ms)
