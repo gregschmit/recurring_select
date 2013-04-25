@@ -51,7 +51,7 @@ module RecurringSelectHelper
     def ice_cube_rule_to_option(supplied_rule, custom = false)
       return supplied_rule unless RecurringSelect.is_valid_rule?(supplied_rule)
 
-      rule = supplied_rule.is_a?(Hash) ? IceCube::Rule.from_hash(supplied_rule) : supplied_rule
+      rule = RecurringSelect.dirty_hash_to_rule(supplied_rule)
       ar = [rule.to_s, rule.to_hash.to_json]
 
       if custom
