@@ -51,6 +51,7 @@ module RecurringSelect
     params.reject!{|key, value| value.blank? || value=="null" }
 
     params[:interval] = params[:interval].to_i if params[:interval]
+    params[:week_start] = params[:week_start].to_i if params[:week_start]
 
     params[:validations] ||= {}
     params[:validations].symbolize_keys!
