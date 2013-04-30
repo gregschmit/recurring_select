@@ -45,7 +45,7 @@ window.RecurringSelectDialog =
 
       new_style_hash =
         "margin-top" : margin_top+"px"
-        "height" : dialog_height+"px"
+        "min-height" : dialog_height+"px"
 
       if initial_positioning?
         @inner_holder.css new_style_hash
@@ -153,6 +153,7 @@ window.RecurringSelectDialog =
 # ========================= render methods ===============================
 
     summaryUpdate: (new_string) =>
+      @summary.width @content.width()
       if @current_rule.hash? && @current_rule.str?
         @summary.removeClass "fetching"
         @save_button.removeClass("disabled")
