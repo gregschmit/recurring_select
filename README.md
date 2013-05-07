@@ -8,7 +8,7 @@ It uses the [IceCube](https://github.com/seejohnrun/ice_cube) recurring scheduli
 
 Created by the [Jobber](http://getjobber.com) team for Jobber, the leading business management tool for field service companies.
 
-Check out the [live demo](http://recurring-select-demo.herokuapp.com/)
+Check out the [live demo](http://recurring-select-demo.herokuapp.com/) (code in [spec\dummy](https://github.com/GetJobber/recurring_select/tree/master/spec/dummy) folder)
 
 
 Usage
