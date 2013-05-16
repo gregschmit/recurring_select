@@ -3,7 +3,7 @@ require "ice_cube"
 module RecurringSelectHelper
   module FormHelper
     def select_recurring(object, method, default_schedules = nil, options = {}, html_options = {})
-      RecurringSelect.new(object, method, self, default_schedules, options, html_options).render
+      RecurringSelectTag.new(object, method, self, default_schedules, options, html_options).render
     end
   end
 
@@ -71,7 +71,7 @@ module RecurringSelectHelper
 
   end
 
-  class RecurringSelect < ActionView::Helpers::Tags::Base
+  class RecurringSelectTag < ActionView::Helpers::Tags::Base
     include FormOptionsHelper
 
     def initialize(object, method, template_object, default_schedules = nil, options = {}, html_options = {})
