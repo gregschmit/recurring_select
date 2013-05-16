@@ -3,7 +3,7 @@ require "ice_cube"
 module RecurringSelectHelper
   module FormHelper
     def select_recurring(object, method, default_schedules = nil, options = {}, html_options = {})
-      InstanceTag.new(object, method, self, options.delete(:object)).to_recurring_select_tag(default_schedules, options, html_options)
+      RecurringSelect.new(object, method, self, default_schedules, options, html_options).render
     end
   end
 
@@ -71,19 +71,23 @@ module RecurringSelectHelper
 
   end
 
-  class InstanceTag < ActionView::Helpers::InstanceTag
+  class RecurringSelect < ActionView::Helpers::Tags::Base
     include FormOptionsHelper
 
-    def to_recurring_select_tag(default_schedules, options, html_options)
-      html_options = recurring_select_html_options(html_options)
-      add_default_name_and_id(html_options)
-      value = value(object)
-      content_tag("select",
-                  add_options(
-                    recurring_options_for_select(value, default_schedules, options),
-                    options, value
-      ), html_options
-                 )
+    def initialize(object, method, template_object, default_schedules = nil, options = {}, html_options = {})
+      @default_schedules = default_schedules
+      @choices = @choices.to_a if @choices.is_a?(Range)
+      @method_name = method.to_s
+      @object_name = object.to_s
+      @html_options = recurring_select_html_options(html_options)
+      add_default_name_and_id(@html_options)
+
+      super(object, method, template_object, options)
+    end
+
+    def render
+      option_tags = add_options(recurring_options_for_select(value(object), @default_schedules, @options), @options, value(object))
+      select_content_tag(option_tags, @options, @html_options)
     end
 
     private
