@@ -11,4 +11,4 @@ script:
   - rspec spec
 matrix:
   allow_failures:
-    - env: "RAILS_VERSION=4.0.0.pre"
+    - env: DB=postgresql RAILS_VERSION=4.0.0.pre SASS_VERSION=4.0.0.rc1
