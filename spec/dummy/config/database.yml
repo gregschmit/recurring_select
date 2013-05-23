@@ -1,11 +1,11 @@
 development:
   adapter: postgresql
   database: recurring_select_development
-  username: forrest
-  password: 
+  username:
+  password:
 
 test:
   adapter: postgresql
   database: recurring_select_test
-  username: forrest
-  password: 
+  username:
+  password:
