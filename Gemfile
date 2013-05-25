@@ -23,6 +23,7 @@ sass_version = ENV["SASS_VERSION"] || ">= 3.1"
 
 # jquery-rails is used by the dummy application
 gem "jquery-rails"
+gem "jquery-ui-rails"
 gem "pg"
 gem "ice_cube"
 
