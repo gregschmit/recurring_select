@@ -2,7 +2,7 @@ class FakeModel
   include ActiveModel::Validations
   include ActiveModel::Conversion
   extend ActiveModel::Naming
-  include ActiveModel::MassAssignmentSecurity
+  # include ActiveModel::MassAssignmentSecurity
 
   attr_accessor :recurring_rules
 
