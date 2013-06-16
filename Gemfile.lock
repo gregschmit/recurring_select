@@ -173,9 +173,10 @@ DEPENDENCIES
   jquery-rails
   pg
   pry
+  rails (>= 3.1.0)
   rb-fsevent
   recurring_select!
   rspec
-  sass-rails
+  sass-rails (>= 3.1)
   spork (~> 0.9.2)
   uglifier

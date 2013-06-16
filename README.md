@@ -1,7 +1,7 @@
 RecurringSelect
 =============
 
-[![Build Status](https://travis-ci.org/GetJobber/recurring_select.png)](https://travis-ci.org/GetJobber/recurring_select)
+[![Build Status](https://travis-ci.org/GetJobber/recurring_select.png?branch=master)](https://travis-ci.org/GetJobber/recurring_select)
 
 This is a gem to add a number of selectors and helpers for working with recurring schedules in a rails app.
 It uses the [IceCube](https://github.com/seejohnrun/ice_cube) recurring scheduling gem.
@@ -19,18 +19,18 @@ Basic selector:
 Load the gem:
 `gem 'recurring_select`
 
-Require assets  
-  Desktop view  
-    application.js  
-      `//= require recurring_select`  
-    application.css  
-      `//= require recurring_select`  
+Require assets
+  Desktop view
+    application.js
+      `//= require recurring_select`
+    application.css
+      `//= require recurring_select`
 
-  or jQueryMobile interface  
-    application.js  
-      `//= require jquery-mobile-rs`  
-    application.css  
-      `//= require jquery-mobile-rs`  
+  or jQueryMobile interface
+    application.js
+      `//= require jquery-mobile-rs`
+    application.css
+      `//= require jquery-mobile-rs`
 
 
 In the form view call the helper:
@@ -77,6 +77,14 @@ Start the dummy server for clicking around the interface:
 
 Use [Guard](https://github.com/guard/guard) and RSpec for all tests. I'd
 love to get jasmine running also, but haven't had time yet.
+
+Tests can be ran against different versions of Rails like so:
+
+```
+RAILS_VERSION=4.0.0.pre SASS_VERSION=4.0.0.rc1 bundle update
+RAILS_VERSION=4.0.0.pre SASS_VERSION=4.0.0.rc1 bundle exec rspec spec
+```
+
 
 Feel free to open issues or send pull requests.
 
