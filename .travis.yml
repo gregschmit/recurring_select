@@ -1,10 +1,14 @@
 language: ruby
 rvm:
   - 1.9.3
+  - 2.0.0
 env:
   - DB=postgresql
+  - DB=postgresql RAILS_VERSION=4.0.0.pre SASS_VERSION=4.0.0.rc1
 before_script:
   - psql -c 'create database recurring_select_test' -U postgres
-script: 
+script:
   - rspec spec
-
+matrix:
+  allow_failures:
+    - env: DB=postgresql RAILS_VERSION=4.0.0.pre SASS_VERSION=4.0.0.rc1
