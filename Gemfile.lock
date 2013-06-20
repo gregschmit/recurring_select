@@ -62,12 +62,6 @@ GEM
       lumberjack (>= 1.0.2)
       pry (>= 0.9.10)
       thor (>= 0.14.6)
-    guard-jasmine (1.16.0)
-      childprocess
-      guard (>= 1.1.0)
-      multi_json
-      thor
-      tilt
     guard-rspec (3.0.2)
       guard (>= 1.8)
       rspec (~> 2.13)
@@ -166,7 +160,6 @@ PLATFORMS
 DEPENDENCIES
   coffee-rails
   guard
-  guard-jasmine
   guard-rspec
   guard-spork
   ice_cube

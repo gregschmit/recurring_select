@@ -28,13 +28,11 @@ gem "ice_cube"
 
 group :test do
   gem "rspec"
-  #gem "mocha", :require => false
-
   gem "spork", "~> 0.9.2"
   gem "guard"
   gem "guard-spork"
   gem "guard-rspec"
-  gem "guard-jasmine"
+  # gem "guard-jasmine"
 
   gem 'rb-fsevent', :require => false
 end
