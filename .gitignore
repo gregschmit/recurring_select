@@ -8,3 +8,4 @@ spec/dummy/.sass-cache
 *.gem
 .DS_Store
 Gemfile.lock
+*.sublime-workspace
