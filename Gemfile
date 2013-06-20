@@ -31,9 +31,9 @@ group :test do
   #gem "mocha", :require => false
 
   gem "spork", "~> 0.9.2"
-  gem "guard", "1.7.0"
+  gem "guard"
   gem "guard-spork"
-  gem "guard-rspec", "~> 2.5.3"
+  gem "guard-rspec"
   gem "guard-jasmine"
 
   gem 'rb-fsevent', :require => false
