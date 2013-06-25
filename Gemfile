@@ -27,8 +27,8 @@ gem "pg"
 gem "ice_cube"
 
 group :test do
-  gem "rspec-rails", "2.14.0.rc1"
-  gem "rspec", "2.14.0.rc1"
+  gem "rspec-rails", "2.13.0"
+  gem "rspec", "2.13.0"
   gem "spork", "~> 0.9.2"
   gem "guard"
   gem "guard-spork"
