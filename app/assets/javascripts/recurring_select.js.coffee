@@ -49,10 +49,10 @@ methods =
 
 
   insert_option: (new_rule_str, new_rule_json) ->
-    seperator = @find("option:disabled")
-    if seperator.length == 0
-      seperator = @find("option")
-    seperator = seperator.last()
+    separator = @find("option:disabled")
+    if separator.length == 0
+      separator = @find("option")
+    separator = separator.last()
 
     new_option = $(document.createElement("option"))
     new_option.attr "data-custom", true
@@ -62,7 +62,7 @@ methods =
 
     new_option.text new_rule_str
     new_option.val new_rule_json
-    new_option.insertBefore seperator
+    new_option.insertBefore separator
 
   methods: ->
     methods
