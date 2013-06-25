@@ -173,7 +173,7 @@ DEPENDENCIES
   jquery-rails
   pg
   pry
-  rails (>= 3.1.0)
+  rails (= 3.2.13)
   rb-fsevent
   recurring_select!
   rspec (= 2.13.0)
