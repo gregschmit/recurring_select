@@ -32,7 +32,6 @@ group :test do
   gem "guard"
   gem "guard-spork"
   gem "guard-rspec"
-  # gem "guard-jasmine"
 
   gem 'rb-fsevent', :require => false
 end
