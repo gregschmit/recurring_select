@@ -5,13 +5,13 @@ module RecurringSelectHelper
       options_array = []
       blank_option_label = options[:blank_label] || "- not recurring -"
       blank_option = [blank_option_label, "null"]
-      seperator = ["or", {:disabled => true}]
+      separator = ["or", {:disabled => true}]
 
       if default_schedules.blank?
         if currently_selected_rule
           options_array << blank_option if options[:allow_blank]
           options_array << ice_cube_rule_to_option(currently_selected_rule)
-          options_array << seperator
+          options_array << separator
           options_array << ["Change schedule...", "custom"]
         else
           options_array << blank_option
@@ -31,7 +31,7 @@ module RecurringSelectHelper
           custom_label = ["Custom schedule...", "custom"]
         end
 
-        options_array << seperator
+        options_array << separator
         options_array << custom_label
       end
 
