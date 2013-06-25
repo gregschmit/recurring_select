@@ -16,9 +16,7 @@ end
 
 group :test do
   gem "rspec-rails", "2.13.0"
-  gem "spork", "~> 0.9.2"
   gem "guard"
-  gem "guard-spork"
   gem "guard-rspec"
   gem 'rb-fsevent', :require => false
 end

@@ -1,7 +1,7 @@
 PATH
   remote: /Users/nathany/Dropbox/Development/jobber/recurring_select
   specs:
-    recurring_select (1.0.2)
+    recurring_select (1.1.0)
       coffee-rails (>= 3.1)
       ice_cube (>= 0.8)
       jquery-rails
