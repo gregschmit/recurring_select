@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'rspec'
+require "rspec"
 require 'spork'
 
 Spork.prefork do
