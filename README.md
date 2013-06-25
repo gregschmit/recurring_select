@@ -81,8 +81,8 @@ love to get jasmine running also, but haven't had time yet.
 Tests can be ran against different versions of Rails like so:
 
 ```
-RAILS_VERSION=4.0.0.pre SASS_VERSION=4.0.0.rc1 bundle update
-RAILS_VERSION=4.0.0.pre SASS_VERSION=4.0.0.rc1 bundle exec rspec spec
+RAILS_VERSION=4.0.0 SASS_VERSION=4.0.0 bundle update
+RAILS_VERSION=4.0.0 SASS_VERSION=4.0.0 bundle exec rspec spec
 ```
 
 
