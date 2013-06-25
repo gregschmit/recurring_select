@@ -4,11 +4,8 @@ rvm:
   - 2.0.0
 env:
   - DB=postgresql
-  - DB=postgresql RAILS_VERSION=4.0.0.rc2 SASS_VERSION=4.0.0.rc2
+  - DB=postgresql RAILS_VERSION=4.0.0 SASS_VERSION=4.0.0
 before_script:
   - psql -c 'create database recurring_select_test' -U postgres
 script:
   - rspec spec
-matrix:
-  allow_failures:
-    - env: DB=postgresql RAILS_VERSION=4.0.0.rc2 SASS_VERSION=4.0.0.rc2

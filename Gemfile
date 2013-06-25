@@ -13,7 +13,7 @@ rails = case rails_version
 when "master"
   {github: "rails/rails"}
 when "default"
-  ">= 3.1.0"
+  "3.2.13"
 else
   "~> #{rails_version}"
 end
@@ -27,14 +27,12 @@ gem "pg"
 gem "ice_cube"
 
 group :test do
-  gem "rspec"
-  #gem "mocha", :require => false
-
+  gem "rspec-rails", "2.13.0"
+  gem "rspec", "2.13.0"
   gem "spork", "~> 0.9.2"
-  gem "guard", "1.7.0"
+  gem "guard"
   gem "guard-spork"
-  gem "guard-rspec", "~> 2.5.3"
-  gem "guard-jasmine"
+  gem "guard-rspec"
 
   gem 'rb-fsevent', :require => false
 end

@@ -1,7 +1,7 @@
 RecurringSelect
 =============
 
-[![Build Status](https://travis-ci.org/GetJobber/recurring_select.png?branch=master)](https://travis-ci.org/GetJobber/recurring_select)
+[![Build Status](https://travis-ci.org/GetJobber/recurring_select.png?branch=master)](https://travis-ci.org/GetJobber/recurring_select) [![Code Climate](https://codeclimate.com/github/GetJobber/recurring_select.png)](https://codeclimate.com/github/GetJobber/recurring_select)
 
 This is a gem to add a number of selectors and helpers for working with recurring schedules in a rails app.
 It uses the [IceCube](https://github.com/seejohnrun/ice_cube) recurring scheduling gem.
@@ -81,8 +81,8 @@ love to get jasmine running also, but haven't had time yet.
 Tests can be ran against different versions of Rails like so:
 
 ```
-RAILS_VERSION=4.0.0.pre SASS_VERSION=4.0.0.rc1 bundle update
-RAILS_VERSION=4.0.0.pre SASS_VERSION=4.0.0.rc1 bundle exec rspec spec
+RAILS_VERSION=4.0.0 SASS_VERSION=4.0.0 bundle update
+RAILS_VERSION=4.0.0 SASS_VERSION=4.0.0 bundle exec rspec spec
 ```
 
 
