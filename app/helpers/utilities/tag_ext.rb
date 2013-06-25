@@ -4,7 +4,7 @@ module RecurringSelectHelper
 
     def recurring_select_html_options(html_options)
       html_options = html_options.stringify_keys
-      html_options["class"] = ((html_options["class"] || "").split() + ["recurring_select"]).join(" ")
+      html_options["class"] = (html_options["class"].to_s.split + ["recurring_select"]).join(" ")
       html_options
     end
   end
