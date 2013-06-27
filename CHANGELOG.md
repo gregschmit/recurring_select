@@ -1,4 +1,4 @@
-# 1.1.0 / Unreleased
+# 1.1.0 / 2013-06-27
 
 * [ENHANCEMENT] Rails 4 support (thanks @afhammad) #17
 
