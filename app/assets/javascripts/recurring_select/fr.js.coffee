@@ -1,10 +1,11 @@
 $.fn.recurring_select.texts = {
-  repeat: "Répéter"
+  repeat: "Récurrence"
+  last_day: "Dernier jour"
   frequency: "Fréquence"
-  daily: "Journalière"
-  weekly: "Hebdomadaire"
-  monthly: "Mensuelle"
-  yearly: "Annuelle"
+  daily: "Tous les jours"
+  weekly: "Toutes les semaines"
+  monthly: "Tous les mois"
+  yearly: "Tous les ans"
   every: "Tous les"
   days: "jour(s)"
   weeks_on: "semaine(s) le"
@@ -15,6 +16,8 @@ $.fn.recurring_select.texts = {
   day_of_week: "Jour de la semaine"
   ok: "OK"
   cancel: "Annuler"
-  days_first_letter: ["L", "M", "M", "J", "V", "S", "D" ]
+  summary: "Résumé"
+  first_day_of_week: 1
+  days_first_letter: ["D", "L", "M", "M", "J", "V", "S" ]
   order: ["1er", "2ème", "3ème", "4ème"]
 }

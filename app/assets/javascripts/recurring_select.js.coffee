@@ -75,6 +75,7 @@ $.fn.recurring_select = (method) ->
 
 $.fn.recurring_select.texts = {
   repeat: "Repeat"
+  last_day: "Last Day"
   frequency: "Frequency"
   daily: "Daily"
   weekly: "Weekly"
@@ -90,6 +91,8 @@ $.fn.recurring_select.texts = {
   day_of_week: "Day of week"
   cancel: "Cancel"
   ok: "OK"
+  summary: "Summary"
+  first_day_of_week: 0
   days_first_letter: ["S", "M", "T", "W", "T", "F", "S" ]
   order: ["1st", "2nd", "3rd", "4th"]
 }

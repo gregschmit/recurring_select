@@ -152,7 +152,7 @@ window.RecurringSelectDialog =
         @save_button.removeClass("disabled")
         rule_str = @current_rule.str.replace("*", "")
         if rule_str.length < 20
-          rule_str = "Summary: "+rule_str
+          rule_str = "#{$.fn.recurring_select.texts["summary"]}: "+rule_str
         @summary.find("span").html rule_str
       else
         @summary.addClass "fetching"
@@ -183,7 +183,7 @@ window.RecurringSelectDialog =
           day_link.addClass("selected")
 
       # add last day of month button
-      monthly_calendar.append (end_of_month_link = $(document.createElement("a")).text("Last Day"))
+      monthly_calendar.append (end_of_month_link = $(document.createElement("a")).text($.fn.recurring_select.texts["last_day"]))
       end_of_month_link.addClass("end_of_month")
       if $.inArray(-1, @current_rule.hash.validations.day_of_month) != -1
         end_of_month_link.addClass("selected")
@@ -228,19 +228,19 @@ window.RecurringSelectDialog =
       switch @freq_select.val()
         when "Weekly"
           @current_rule.hash.rule_type = "IceCube::WeeklyRule"
-          @current_rule.str = "Weekly"
+          @current_rule.str = $.fn.recurring_select.texts["weekly"]
           @initWeeklyOptions()
         when "Monthly"
           @current_rule.hash.rule_type = "IceCube::MonthlyRule"
-          @current_rule.str = "Monthly"
+          @current_rule.str = $.fn.recurring_select.texts["monthly"]
           @initMonthlyOptions()
         when "Yearly"
           @current_rule.hash.rule_type = "IceCube::YearlyRule"
-          @current_rule.str = "Yearly"
+          @current_rule.str = $.fn.recurring_select.texts["yearly"]
           @initYearlyOptions()
         else
           @current_rule.hash.rule_type = "IceCube::DailyRule"
-          @current_rule.str = "Daily"
+          @current_rule.str = $.fn.recurring_select.texts["daily"]
           @initDailyOptions()
       @summaryUpdate()
       @positionDialogVert()
@@ -270,7 +270,7 @@ window.RecurringSelectDialog =
       @current_rule.hash ||= {}
       @current_rule.hash.validations = {}
       raw_days = @content.find(".monthly_options .rs_calendar_day a.selected").map ->
-        res = if $(this).text() == "Last Day" then -1 else parseInt($(this).text())
+        res = if $(this).text() == $.fn.recurring_select.texts["last_day"] then -1 else parseInt($(this).text())
         res
       @current_rule.hash.validations.day_of_week = {}
       @current_rule.hash.validations.day_of_month = raw_days.get()
@@ -295,7 +295,7 @@ window.RecurringSelectDialog =
 # ========================= Change callbacks ===============================
 
     template: () ->
-      "
+      str = "
       <div class='rs_dialog_holder'>
         <div class='rs_dialog'>
           <div class='rs_dialog_content'>
@@ -324,13 +324,13 @@ window.RecurringSelectDialog =
                 #{$.fn.recurring_select.texts["weeks_on"]}:
               </p>
               <div class='day_holder'>
-                <a href='#'' data-value='0'>#{$.fn.recurring_select.texts["days_first_letter"][0]}</a>
-                <a href='#'' data-value='1'>#{$.fn.recurring_select.texts["days_first_letter"][1]}</a>
-                <a href='#'' data-value='2'>#{$.fn.recurring_select.texts["days_first_letter"][2]}</a>
-                <a href='#'' data-value='3'>#{$.fn.recurring_select.texts["days_first_letter"][3]}</a>
-                <a href='#'' data-value='4'>#{$.fn.recurring_select.texts["days_first_letter"][4]}</a>
-                <a href='#'' data-value='5'>#{$.fn.recurring_select.texts["days_first_letter"][5]}</a>
-                <a href='#'' data-value='6'>#{$.fn.recurring_select.texts["days_first_letter"][6]}</a>
+      "
+      for day_of_week in [$.fn.recurring_select.texts["first_day_of_week"]...(7 + $.fn.recurring_select.texts["first_day_of_week"])]
+        day_of_week = day_of_week % 7
+        console.log day_of_week
+        str += "<a href='#' data-value='#{day_of_week}'>#{$.fn.recurring_select.texts["days_first_letter"][day_of_week]}</a>"
+
+      str += "
               </div>
               <span style='clear:both; visibility:hidden; height:1px;'>.</span>
             </div>
@@ -365,6 +365,3 @@ window.RecurringSelectDialog =
         </div>
       </div>
       "
-
-
-
