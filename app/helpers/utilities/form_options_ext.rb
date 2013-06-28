@@ -3,19 +3,19 @@ module RecurringSelectHelper
     def recurring_options_for_select(currently_selected_rule = nil, default_schedules = nil, options = {})
 
       options_array = []
-      blank_option_label = options[:blank_label] || "- not recurring -"
+      blank_option_label = options[:blank_label] || I18n.t("recurring_select.not_recurring")
       blank_option = [blank_option_label, "null"]
-      separator = ["or", {:disabled => true}]
+      separator = [I18n.t("recurring_select.or"), {:disabled => true}]
 
       if default_schedules.blank?
         if currently_selected_rule
           options_array << blank_option if options[:allow_blank]
           options_array << ice_cube_rule_to_option(currently_selected_rule)
           options_array << separator
-          options_array << ["Change schedule...", "custom"]
+          options_array << [I18n.t("recurring_select.change_schedule"), "custom"]
         else
           options_array << blank_option
-          options_array << ["Set schedule...", "custom"]
+          options_array << [I18n.t("recurring_select.set_schedule"), "custom"]
         end
       else
         options_array << blank_option if options[:allow_blank]
@@ -26,9 +26,9 @@ module RecurringSelectHelper
 
         if currently_selected_rule and not current_rule_in_defaults?(currently_selected_rule, default_schedules)
           options_array << ice_cube_rule_to_option(currently_selected_rule, true)
-          custom_label = ["New custom schedule...", "custom"]
+          custom_label = [I18n.t("recurring_select.new_custom_schedule"), "custom"]
         else
-          custom_label = ["Custom schedule...", "custom"]
+          custom_label = [I18n.t("recurring_select.custom_schedule"), "custom"]
         end
 
         options_array << separator

@@ -68,6 +68,54 @@ for IceCube. This is sometimes needed based on if you're receiving strings, fixe
 numbers, strings vs symbols, etc.
 `RecurringSelect.dirty_hash_to_rule(params)`
 
+I18n
+----
+Recurrent select is I18n aware
+
+You can create a locale file like this:
+
+```
+en:
+  recurring_select:
+    not_recurring: "- not recurring -"
+    change_schedule: "Change schedule..."
+    set_schedule: "Set schedule..."
+    new_custom_schedule: "New custom schedule..."
+    custom_schedule: "Custom schedule..."
+    or: or
+```
+
+You have to translate javascript texts too by including the locale file in your assets manifest. Only french and english are supported for the moment
+
+```
+//= require recurring_select/en
+//= require recurring_select/fr
+```
+
+For other languages include a file like this:
+
+```
+$.fn.recurring_select.texts = {
+  repeat: "Repeat"
+  frequency: "Frequency"
+  daily: "Daily"
+  weekly: "Weekly"
+  monthly: "Monthly"
+  yearly: "Yearly"
+  every: "Every"
+  days: "day(s)"
+  weeks_on: "week(s) on"
+  months: "month(s)"
+  years: "year(s)"
+  first_day_of_week: 1
+  day_of_month: "Day of month"
+  day_of_week: "Day of week"
+  cancel: "Cancel"
+  ok: "OK"
+  days_first_letter: ["S", "M", "T", "W", "T", "F", "S" ]
+  order: ["1st", "2nd", "3rd", "4th"]
+}
+```
 
 Testing and development
 ----------------------
