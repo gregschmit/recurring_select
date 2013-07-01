@@ -29,6 +29,8 @@ window.RecurringSelectDialog =
       @mainEventInit()
       @freqInit()
       @summaryInit()
+      @untilInit()
+
       @freq_select.focus()
       @outer_holder.trigger "recurring_select:dialog_opened"
 
@@ -79,6 +81,8 @@ window.RecurringSelectDialog =
       @content.on 'click tap', 'h1 a', @cancel
       @save_button = @content.find('input.rs_save').on "click tap", @save
       @content.find('input.rs_cancel').on "click tap", @cancel
+      @content.find('#until').on "blur", @untilChanged
+      @content.find('#indefinite').on 'change tap', @indefiniteChanged
 
     freqInit: ->
       @freq_select = @outer_holder.find ".rs_frequency"
@@ -181,6 +185,14 @@ window.RecurringSelectDialog =
       @summaryUpdate()
       @content.css {"width": "auto"}
 
+    untilInit: =>
+      @content.find('#until').datepicker
+        dateFormat: '<%= RecurringSelect.datepicker_format %>'
+        onSelect: (date) =>
+          @setUntil date
+      .val @current_rule.hash?.until
+      @content.find('#indefinite').click() if @current_rule.hash?.until?
+
     init_calendar_days: (section) =>
       monthly_calendar = section.find(".rs_calendar_day")
       monthly_calendar.html ""
@@ -223,32 +235,34 @@ window.RecurringSelectDialog =
 # ========================= Change callbacks ===============================
 
     freqChanged: =>
+      old_until = @current_rule.hash?.until
       @current_rule.hash = null unless $.isPlainObject(@current_rule.hash) # for custom values
 
       @current_rule.hash ||= {}
+      @current_rule.hash.until = old_until
       @current_rule.hash.interval = 1
-      @current_rule.hash.until = null
       @current_rule.hash.count = null
       @current_rule.hash.validations = null
       @content.find(".freq_option_section").hide();
-      @content.find("input[type=radio], input[type=checkbox]").prop("checked", false)
+      @content.find("input[type=radio], input[type=checkbox]:not(#indefinite)").prop("checked", false)
       switch @freq_select.val()
         when "Weekly"
           @current_rule.hash.rule_type = "IceCube::WeeklyRule"
-          @current_rule.str = "Weekly"
+          #@current_rule.str = "Weekly"
           @initWeeklyOptions()
         when "Monthly"
           @current_rule.hash.rule_type = "IceCube::MonthlyRule"
-          @current_rule.str = "Monthly"
+          #@current_rule.str = "Monthly"
           @initMonthlyOptions()
         when "Yearly"
           @current_rule.hash.rule_type = "IceCube::YearlyRule"
-          @current_rule.str = "Yearly"
+          #@current_rule.str = "Yearly"
           @initYearlyOptions()
         else
           @current_rule.hash.rule_type = "IceCube::DailyRule"
-          @current_rule.str = "Daily"
+          #@current_rule.str = "Daily"
           @initDailyOptions()
+      @current_rule.str = null
       @summaryUpdate()
       @positionDialogVert()
 
@@ -299,3 +313,38 @@ window.RecurringSelectDialog =
       @summaryUpdate()
       false
 
+    untilChanged: (event) =>
+      @setUntil $(event.currentTarget).val()
+    
+    setUntil: (date) ->
+      @current_rule.hash ||= {}
+      @current_rule.str = null
+      @current_rule.hash.until = date
+      @summaryUpdate()
+      false
+
+    indefiniteChanged: (event) =>
+      $el = $(event.currentTarget)
+      $untilSection = $el.parent().next('.until_input')
+      $untilInput = $untilSection.find '#until'
+      if $el.is ':checked'
+        $untilInput.val('').blur()
+        $untilSection.hide()
+      else
+        if @current_rule.hash?.until
+          $untilInput.val @current_rule.hash.until
+        else
+          $untilInput.datepicker('setDate', @getUntilDefaultDate())
+        $untilInput.blur()
+        $untilSection.show()
+
+    getUntilDefaultDate: =>
+      today = new Date
+      year = today.getFullYear()
+      month = today.getMonth()
+      day = today.getDate()
+      switch @current_rule.hash.rule_type
+        when "IceCube::MonthlyRule" then new Date year + 1, month, day
+        when "IceCube::YearlyRule" then new Date year + 5, month, day
+        when "IceCube::WeeklyRule" then new Date year, month + 1, day
+        else new Date year, month, day + 7
