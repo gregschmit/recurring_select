@@ -1,0 +1,8 @@
+fr:
+  recurring_select:
+    not_recurring: "- non récurrent -"
+    change_schedule: "Modifier la récurrence..."
+    set_schedule: "Définir la récurrence..."
+    new_custom_schedule: "Nouvelle récurrence..."
+    custom_schedule: "Récurrence personnalisée..."
+    or: ou
