@@ -6,6 +6,7 @@ source "http://rubygems.org"
 gemspec
 
 # jquery-rails is used by the dummy application
+gem "rails", "3.2"
 gem "jquery-rails"
 gem "pg"
 gem "ice_cube"
