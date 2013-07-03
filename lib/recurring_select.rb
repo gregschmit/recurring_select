@@ -1,14 +1,6 @@
 require "recurring_select/engine"
 require "ice_cube"
 
-#TODO: remove monkey patch when https://github.com/seejohnrun/ice_cube/issues/136 is fixed
-IceCube::ValidatedRule.class_eval do
-  alias old_to_s to_s
-  def to_s
-    old_to_s.gsub("when it is", "and")
-  end
-end
-
 module RecurringSelect
 
   def self.dirty_hash_to_rule(params)
