@@ -4,12 +4,14 @@ require_relative "utilities/tag_ext"
 
 module RecurringSelectHelper
   module FormHelper
-    def select_recurring(object, method, default_schedules = nil, options = {}, html_options = {})
-      if defined?(RecurringSelectHelper::RecurringSelectTag)
-        # === Rails 4
+    if defined?(ActionView::Helpers::Tags::Base)
+      # === Rails 4
+      def select_recurring(object, method, default_schedules = nil, options = {}, html_options = {})
         RecurringSelectTag.new(object, method, self, default_schedules, options, html_options).render
-      elsif defined?(RecurringSelectHelper::InstanceTag)
-        # === Rails 3
+      end
+    elsif defined?(ActionView::Helpers::InstanceTag)
+      # === Rails 3
+      def select_recurring(object, method, default_schedules = nil, options = {}, html_options = {})
         InstanceTag.new(object, method, self, options.delete(:object)).to_recurring_select_tag(default_schedules, options, html_options)
       end
     end
