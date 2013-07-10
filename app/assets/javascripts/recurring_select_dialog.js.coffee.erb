@@ -81,7 +81,6 @@ window.RecurringSelectDialog =
       @content.on 'click tap', 'h1 a', @cancel
       @save_button = @content.find('input.rs_save').on "click tap", @save
       @content.find('input.rs_cancel').on "click tap", @cancel
-      @content.find('#until').on "blur", @untilChanged
       @content.find('#indefinite').on 'change tap', @indefiniteChanged
 
     freqInit: ->
@@ -186,11 +185,29 @@ window.RecurringSelectDialog =
       @content.css {"width": "auto"}
 
     untilInit: =>
-      @content.find('#until').datepicker
-        dateFormat: '<%= RecurringSelect.datepicker_format %>'
-        onSelect: (date) =>
-          @setUntil date
-      .val @current_rule.hash?.until
+      untilFormat = @recurring_selector.data 'until-datepicker-format'
+      $until = @content.find('#until')
+
+      @setRuleUntil = (date) =>
+        @current_rule.hash ||= {}
+        @current_rule.str = null
+        # Convert to unix time and set hash
+        @current_rule.hash.until = $.datepicker.parseDate(untilFormat, date).getTime() / 1000 if date
+        @summaryUpdate()
+        false
+
+      @setDatepickerUntil = (unix_time) =>
+        console.log unix_time
+        $until.val $.datepicker.formatDate(untilFormat, $.datepicker.parseDate('@', unix_time * 1000))
+
+      $until.datepicker
+        dateFormat: untilFormat
+        onSelect: @setRuleUntil
+      .blur (e) =>
+        @setRuleUntil(e.currentTarget.value)
+
+      @setDatepickerUntil(@current_rule.hash.until) if @current_rule.hash?.until
+
       @content.find('#indefinite').click() if @current_rule.hash?.until?
 
     init_calendar_days: (section) =>
@@ -313,16 +330,6 @@ window.RecurringSelectDialog =
       @summaryUpdate()
       false
 
-    untilChanged: (event) =>
-      @setUntil $(event.currentTarget).val()
-    
-    setUntil: (date) ->
-      @current_rule.hash ||= {}
-      @current_rule.str = null
-      @current_rule.hash.until = date
-      @summaryUpdate()
-      false
-
     indefiniteChanged: (event) =>
       $el = $(event.currentTarget)
       $untilSection = $el.parent().next('.until_input')
@@ -332,7 +339,7 @@ window.RecurringSelectDialog =
         $untilSection.hide()
       else
         if @current_rule.hash?.until
-          $untilInput.val @current_rule.hash.until
+          @setDatepickerUntil(@current_rule.hash.until)
         else
           $untilInput.datepicker('setDate', @getUntilDefaultDate())
         $untilInput.blur()

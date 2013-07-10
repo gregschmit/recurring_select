@@ -43,16 +43,15 @@ module RecurringSelectHelper
         options_array << custom_label
       end
 
-      options_for_select(options_array, currently_selected_rule.to_json)
+      options_for_select(options_array, RecurringSelect.rule_to_option_json(currently_selected_rule))
     end
 
     private
 
     def ice_cube_rule_to_option(supplied_rule, custom = false)
       return supplied_rule unless RecurringSelect.is_valid_rule?(supplied_rule)
-
       rule = RecurringSelect.dirty_hash_to_rule(supplied_rule)
-      ar = [rule.to_s, rule.to_hash.to_json]
+      ar = [rule.to_s, RecurringSelect.rule_to_option_json(rule)]
 
       if custom
         ar[0] << "*"
@@ -75,7 +74,7 @@ module RecurringSelectHelper
     include FormOptionsHelper
 
     def to_recurring_select_tag(default_schedules, options, html_options)
-      html_options = recurring_select_html_options(html_options)
+      html_options = recurring_select_html_options(options, html_options)
       add_default_name_and_id(html_options)
       value = value(object)
       content_tag("select",
@@ -88,9 +87,11 @@ module RecurringSelectHelper
 
     private
 
-    def recurring_select_html_options(html_options)
+    def recurring_select_html_options(options, html_options)
       html_options = html_options.stringify_keys
       html_options["class"] = ((html_options["class"] || "").split() + ["recurring_select"]).join(" ")
+      until_datepicker_format = options[:until_datepicker_format] || 'yy-mm-dd'
+      (html_options["data"] ||= {}).reverse_merge!(:until_datepicker_format => until_datepicker_format)
       html_options
     end
   end
