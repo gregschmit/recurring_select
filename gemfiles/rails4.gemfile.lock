@@ -122,8 +122,6 @@ PLATFORMS
 
 DEPENDENCIES
   appraisal
-  ice_cube
-  jquery-rails
   pg
   rails (= 4.0.0)
   recurring_select!

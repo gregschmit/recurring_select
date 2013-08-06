@@ -165,11 +165,7 @@ DEPENDENCIES
   coffee-rails
   guard
   guard-rspec
-  ice_cube
-  jquery-rails
   pg
-  pry
-  rails (~> 3.2)
   rb-fsevent
   recurring_select!
   rspec-rails (>= 2.14)

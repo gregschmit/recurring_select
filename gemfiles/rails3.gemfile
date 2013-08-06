@@ -2,9 +2,7 @@
 
 source "https://rubygems.org"
 
-gem "jquery-rails"
 gem "pg"
-gem "ice_cube"
 gem "rails", "~> 3.2.14"
 gem "sass-rails", "~> 3.2.6"
 

@@ -5,18 +5,9 @@ source "https://rubygems.org"
 # development dependencies will be added by default to the :development group.
 gemspec
 
-# jquery-rails is used by the dummy application
-gem "rails", "~> 3.2"
-gem "jquery-rails"
 gem "pg"
-gem "ice_cube"
-
-group :development do
-  gem "pry"
-end
 
 group :test do
-  gem "appraisal"
   gem "guard"
   gem "guard-rspec"
   gem 'rb-fsevent', :require => false
