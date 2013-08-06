@@ -7,7 +7,7 @@ gemspec
 
 gem "pg"
 
-group :test do
+group :development do
   gem "guard"
   gem "pry"
   gem "guard-rspec"
