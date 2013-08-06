@@ -2,7 +2,6 @@ require "recurring_select/engine"
 require "ice_cube"
 
 module RecurringSelect
-
   def self.dirty_hash_to_rule(params)
     if params.is_a? IceCube::Rule
       params
@@ -37,6 +36,13 @@ module RecurringSelect
     false #only a hash or a string of a hash can be valid
   end
 
+  # Convert until_time into int for comparison
+  def self.rule_to_option_json(rule)
+    return rule.to_json unless self.is_valid_rule?(rule)
+    rule = self.dirty_hash_to_rule(rule)
+    rule.to_hash.tap {|hash| hash[:until] = rule.until_time.to_i if rule.until_time}.to_json
+  end
+
   private
 
   def self.filter_params(params)
@@ -44,6 +50,14 @@ module RecurringSelect
 
     params[:interval] = params[:interval].to_i if params[:interval]
     params[:week_start] = params[:week_start].to_i if params[:week_start]
+    begin
+      if params[:until]
+        # Set to 23:59:59 (in current TZ) to encompass all events on until day
+        params[:until] = Time.zone.at(params[:until].to_i).change(hour: 23, min: 59, sec: 59)
+      end
+    rescue ArgumentError
+      # Invalid date given, attempt to assign :until will fail silently
+    end
 
     params[:validations] ||= {}
     params[:validations].symbolize_keys!

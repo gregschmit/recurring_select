@@ -8,6 +8,7 @@ gemspec
 # jquery-rails is used by the dummy application
 gem "rails", "3.2"
 gem "jquery-rails"
+gem "jquery-ui-rails"
 gem "pg"
 gem "ice_cube"
 
