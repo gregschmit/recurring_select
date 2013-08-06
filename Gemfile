@@ -3,6 +3,7 @@ source "http://rubygems.org"
 # Declare your gem's dependencies in recurring_select.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
 # development dependencies will be added by default to the :development group.
+#gem "recurring_select", :path => "./"
 gemspec
 
 # jquery-rails is used by the dummy application
@@ -16,6 +17,7 @@ group :development do
 end
 
 group :test do
+  gem "appraisal"
   gem "rspec-rails", "2.13.0"
   gem "guard"
   gem "guard-rspec"

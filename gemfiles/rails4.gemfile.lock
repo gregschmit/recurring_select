@@ -1,5 +1,5 @@
 PATH
-  remote: /Users/forrest/Documents/work/jobber/recurring_select
+  remote: ../
   specs:
     recurring_select (1.2.0)
       coffee-rails (>= 3.1)
