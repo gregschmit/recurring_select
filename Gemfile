@@ -9,8 +9,9 @@ gem "pg"
 
 group :test do
   gem "guard"
+  gem "pry"
   gem "guard-rspec"
-  gem 'rb-fsevent', :require => false
+  gem "rb-fsevent", :require => false
 end
 
 group :assets do
