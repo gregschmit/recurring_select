@@ -163,6 +163,7 @@ DEPENDENCIES
   guard-rspec
   pg
   pry
+  rake (>= 0.9.6)
   rb-fsevent
   recurring_select!
   rspec-rails (>= 2.14)
