@@ -1,10 +1,7 @@
 language: ruby
-bundler_args: --without test
 rvm:
   - 1.9.3
   - 2.0.0
-script:
-  - rake spec
 gemfile:
   - gemfiles/rails3.gemfile
   - gemfiles/rails4.gemfile
