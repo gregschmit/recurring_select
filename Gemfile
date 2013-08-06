@@ -5,17 +5,3 @@ source "https://rubygems.org"
 # development dependencies will be added by default to the :development group.
 gemspec
 
-gem "pg"
-
-group :test do
-  gem "guard"
-  gem "pry"
-  gem "guard-rspec"
-  gem "rb-fsevent", :require => false
-end
-
-group :assets do
-  gem "sass-rails"
-  gem "coffee-rails"
-  gem "uglifier"
-end
