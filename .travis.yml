@@ -7,7 +7,7 @@ env:
 before_script:
   - psql -c 'create database recurring_select_test' -U postgres
 script:
-  - bundle exec rake appraisal
+  - rake appraisal
 gemfile:
   - gemfiles/rails3.gemfile
   - gemfiles/rails4.gemfile
