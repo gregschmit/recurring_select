@@ -67,6 +67,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.23)
     multi_json (1.7.8)
+    pg (0.16.0)
     polyglot (0.3.3)
     rack (1.4.5)
     rack-cache (1.2)
@@ -131,6 +132,8 @@ PLATFORMS
 DEPENDENCIES
   appraisal (>= 0.5.2)
   bundler (>= 1.3.5)
+  jquery-rails
+  pg
   rails (~> 3.2.14)
   rake (>= 0.9.6)
   recurring_select!

@@ -2,7 +2,7 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-Bundler.require
+Bundler.require(*Rails.groups(:assets => %w(development test)))
 require "recurring_select"
 
 module Dummy
