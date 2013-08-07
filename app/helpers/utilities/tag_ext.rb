@@ -9,7 +9,7 @@ module RecurringSelectHelper
     end
   end
 
-  if defined?(ActionView::Helpers::Tags::Base)
+  if Rails::VERSION::STRING.to_f >= 4.0
     # === Rails 4
     class RecurringSelectTag < ActionView::Helpers::Tags::Base
       include RecurringSelectHelper::FormOptionsHelper
@@ -32,7 +32,7 @@ module RecurringSelectHelper
       end
     end
 
-  elsif defined?(ActionView::Helpers::InstanceTag)
+  else
     # === Rails 3
     class InstanceTag < ActionView::Helpers::InstanceTag
       include RecurringSelectHelper::FormOptionsHelper

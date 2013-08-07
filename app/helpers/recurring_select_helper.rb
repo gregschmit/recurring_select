@@ -5,10 +5,10 @@ require_relative "utilities/tag_ext"
 module RecurringSelectHelper
   module FormHelper
     def select_recurring(object, method, default_schedules = nil, options = {}, html_options = {})
-      if defined?(RecurringSelectHelper::RecurringSelectTag)
+      if Rails::VERSION::STRING.to_f >= 4.0
         # === Rails 4
         RecurringSelectTag.new(object, method, self, default_schedules, options, html_options).render
-      elsif defined?(RecurringSelectHelper::InstanceTag)
+      else
         # === Rails 3
         InstanceTag.new(object, method, self, options.delete(:object)).to_recurring_select_tag(default_schedules, options, html_options)
       end
