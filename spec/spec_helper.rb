@@ -1,4 +1,3 @@
-require 'rubygems'
 require "rspec"
 
 ENV["RAILS_ENV"] = "test"

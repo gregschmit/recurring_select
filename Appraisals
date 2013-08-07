@@ -1,5 +1,5 @@
 appraise "rails3" do
-  gem "rails", "~> 3.2.13"
+  gem "rails", "~> 3.2.14"
   gem "sass-rails", "~> 3.2.6"
 end
 

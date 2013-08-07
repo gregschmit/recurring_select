@@ -86,7 +86,6 @@ $.fn.recurring_select.texts = {
   weeks_on: "week(s) on"
   months: "month(s)"
   years: "year(s)"
-  first_day_of_week: 1
   day_of_month: "Day of month"
   day_of_week: "Day of week"
   cancel: "Cancel"
