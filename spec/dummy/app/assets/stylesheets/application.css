@@ -5,7 +5,7 @@
  *= require_self
  *= require recurring_select
  *= require jquery.ui.datepicker
- *= require_tree . 
+ *= require_tree .
 */
 
 
