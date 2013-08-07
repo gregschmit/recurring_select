@@ -17,7 +17,7 @@ Usage
 Basic selector:
 
 Load the gem:
-`gem 'recurring_select`
+`gem 'recurring_select'`
 
 Require assets
   Desktop view
