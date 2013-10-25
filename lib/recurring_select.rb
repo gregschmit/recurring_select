@@ -11,7 +11,7 @@ module RecurringSelect
         params = JSON.parse(params)
       end
 
-      params.symbolize_keys!
+      params = params.symbolize_keys
       rules_hash = filter_params(params)
 
       IceCube::Rule.from_hash(rules_hash)
