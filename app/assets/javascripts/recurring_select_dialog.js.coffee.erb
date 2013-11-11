@@ -107,7 +107,10 @@ window.RecurringSelectDialog =
       if @current_rule.hash.validations? && @current_rule.hash.validations.day?
         $(@current_rule.hash.validations.day).each (index, val) ->
           section.find(".day_holder a[data-value='"+val+"']").addClass("selected")
-      section.on "click", ".day_holder a", @daysChanged
+
+      if !@alreadyInitializedWeeklyOptions?
+        @alreadyInitializedWeeklyOptions = true
+        section.on "click", ".day_holder a", @daysChanged
 
       section.show()
 
@@ -251,7 +254,6 @@ window.RecurringSelectDialog =
       @current_rule.hash.interval = parseInt($(event.currentTarget).val())
       if @current_rule.hash.interval < 1 || isNaN(@current_rule.hash.interval)
         @current_rule.hash.interval = 1
-        # $(event.currentTarget).val(@current_rule.hash.interval)
       @summaryUpdate()
 
     daysChanged: (event) =>
@@ -327,7 +329,6 @@ window.RecurringSelectDialog =
       "
       for day_of_week in [$.fn.recurring_select.texts["first_day_of_week"]...(7 + $.fn.recurring_select.texts["first_day_of_week"])]
         day_of_week = day_of_week % 7
-        console.log day_of_week
         str += "<a href='#' data-value='#{day_of_week}'>#{$.fn.recurring_select.texts["days_first_letter"][day_of_week]}</a>"
 
       str += "
