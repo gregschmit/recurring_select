@@ -74,6 +74,7 @@ $.fn.recurring_select = (method) ->
     $.error( "Method #{method} does not exist on jQuery.recurring_select" );
 
 $.fn.recurring_select.texts = {
+  locale_iso_code: "en"
   repeat: "Repeat"
   last_day: "Last Day"
   frequency: "Frequency"

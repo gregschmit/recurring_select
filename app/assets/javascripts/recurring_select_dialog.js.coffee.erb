@@ -161,9 +161,10 @@ window.RecurringSelectDialog =
 
     summaryFetch: ->
       return if !(@current_rule.hash? && (rule_type = @current_rule.hash.rule_type)?)
+      @current_rule.hash['week_start'] = $.fn.recurring_select.texts["first_day_of_week"]
       @content.css {"width": @content.width()+"px"}
       $.ajax
-        url: "/recurring_select/translate",
+        url: "/recurring_select/translate/#{$.fn.recurring_select.texts["locale_iso_code"]}",
         type: "POST",
         data: @current_rule.hash
         success: @summaryFetchSuccess
