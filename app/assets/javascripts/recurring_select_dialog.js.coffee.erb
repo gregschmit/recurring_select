@@ -103,6 +103,10 @@ window.RecurringSelectDialog =
       interval_input.val(@current_rule.hash.interval)
       interval_input.on "change keyup", @intervalChanged
 
+      # clear selected days
+      section.find(".day_holder a").each (index, element) ->
+        $(element).removeClass("selected")
+
       # connect the day fields
       if @current_rule.hash.validations? && @current_rule.hash.validations.day?
         $(@current_rule.hash.validations.day).each (index, val) ->
