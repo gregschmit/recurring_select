@@ -32,7 +32,7 @@ module RecurringSelectHelper
       separator = [I18n.t("recurring_select.or"), {:disabled => true}]
 
       if default_schedules.blank?
-        if currently_selected_rule
+        if currently_selected_rule.present?
           options_array << blank_option if options[:allow_blank]
           options_array << ice_cube_rule_to_option(currently_selected_rule)
           options_array << separator
@@ -48,7 +48,7 @@ module RecurringSelectHelper
           ice_cube_rule_to_option(dc)
         }
 
-        if currently_selected_rule and not current_rule_in_defaults?(currently_selected_rule, default_schedules)
+        if currently_selected_rule.present? and !current_rule_in_defaults?(currently_selected_rule, default_schedules)
           options_array << ice_cube_rule_to_option(currently_selected_rule, true)
           custom_label = [I18n.t("recurring_select.new_custom_schedule"), "custom"]
         else
@@ -137,4 +137,6 @@ module RecurringSelectHelper
       end
     end
   end
+
+
 end
