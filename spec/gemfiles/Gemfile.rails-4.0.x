@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-gemspec
+gemspec :path => "./../.."
 
 gem "pg", platform: :ruby
 gem "activerecord-jdbcpostgresql-adapter", platform: :jruby
