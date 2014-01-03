@@ -15,5 +15,6 @@ matrix:
     - rvm: 1.9.3
       gemfile: spec/gemfiles/rails-4.1.x.gemfile
   allow_failures:
-    - gemfile: spec/gemfiles/rails-4.1.x.gemfile
+    - rvm: jruby-19mode
+      gemfile: spec/gemfiles/Gemfile.rails-3.2.x
   fast_finish: true
