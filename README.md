@@ -130,8 +130,8 @@ love to get jasmine running also, but haven't had time yet.
 Tests can be ran against different versions of Rails like so:
 
 ```
-rake appraisal:install
-rake appraisal
+BUNDLE_GEMFILE=spec/gemfiles/Gemfile.rails-3.2.x bundle install
+BUNDLE_GEMFILE=spec/gemfiles/Gemfile.rails-3.2.x bundle exec rake spec
 ```
 
 Feel free to open issues or send pull requests.
