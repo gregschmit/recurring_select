@@ -56,7 +56,6 @@ module RecurringSelect
       params[:validations][:day_of_month] = params[:validations][:day_of_month].collect(&:to_i)
     end
 
-    # this is soooooo ugly
     if params[:validations][:day_of_week]
       params[:validations][:day_of_week] ||= {}
       if params[:validations][:day_of_week].length > 0 and not params[:validations][:day_of_week].keys.first =~ /\d/

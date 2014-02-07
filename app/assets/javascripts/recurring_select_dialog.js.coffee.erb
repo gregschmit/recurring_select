@@ -1,7 +1,7 @@
 window.RecurringSelectDialog =
   class RecurringSelectDialog
     constructor: (@recurring_selector) ->
-      @current_rule = @recurring_selector.recurring_select('current_rule')
+      @current_rule = @recurring_selector.recurring_select('current_rule')    
       @initDialogBox()
       if not @current_rule.hash? or not @current_rule.hash.rule_type?
         @freqChanged()
@@ -75,24 +75,51 @@ window.RecurringSelectDialog =
     freqInit: ->
       @freq_select = @outer_holder.find ".rs_frequency"
       if @current_rule.hash? && (rule_type = @current_rule.hash.rule_type)?
-        if rule_type.search(/Weekly/) != -1
+        # select default options from specified IceCube::Rule options provided 
+        # default set to the daily frequency
+        if rule_type.search(/Minutely/) != -1
+          @freq_select.prop('selectedIndex', 0)
+          @initMinutelyOptions()
+        else if rule_type.search(/Hourly/) != -1
           @freq_select.prop('selectedIndex', 1)
+          @initHourlyOptions()
+        else if rule_type.search(/Weekly/) != -1
+          @freq_select.prop('selectedIndex', 3)
           @initWeeklyOptions()
         else if rule_type.search(/Monthly/) != -1
-          @freq_select.prop('selectedIndex', 2)
+          @freq_select.prop('selectedIndex', 4)
           @initMonthlyOptions()
         else if rule_type.search(/Yearly/) != -1
-          @freq_select.prop('selectedIndex', 3)
+          @freq_select.prop('selectedIndex', 5)
           @initYearlyOptions()
         else
+          @freq_select.prop('selectedIndex', 2)
           @initDailyOptions()
       @freq_select.on "change", @freqChanged
+
+    initMinutelyOptions: ->
+      section = @content.find('.minutely_options')
+      interval_input = section.find('.rs_minutely_interval')
+      interval_input.val(@current_rule.hash.interval)
+      interval_input.on "change keyup", @intervalChanged
+      section.show()
+
+    initHourlyOptions: ->
+      section = @content.find('.hourly_options')
+      interval_input = section.find('.rs_hourly_interval')
+      interval_input.val(@current_rule.hash.interval)
+      interval_input.on "change keyup", @intervalChanged
+      section.show()
 
     initDailyOptions: ->
       section = @content.find('.daily_options')
       interval_input = section.find('.rs_daily_interval')
       interval_input.val(@current_rule.hash.interval)
       interval_input.on "change keyup", @intervalChanged
+      hour_of_day_input = section.find('.rs_hour_of_day_interval')
+      hour_of_day_input.on "change keyup", @hourOfDayChanged
+      minute_of_hour_input = section.find('.rs_minute_of_hour_interval')
+      minute_of_hour_input.on "change keyup", @minuteOfHourChanged
       section.show()
 
     initWeeklyOptions: ->
@@ -225,6 +252,14 @@ window.RecurringSelectDialog =
       @content.find(".freq_option_section").hide();
       @content.find("input[type=radio], input[type=checkbox]").prop("checked", false)
       switch @freq_select.val()
+        when "Minutely"
+          @current_rule.hash.rule_type = "IceCube::MinutelyRule"
+          @current_rule.str = $.fn.recurring_select.texts["minutely"]
+          @initMinutelyOptions()
+        when "Hourly"
+          @current_rule.hash.rule_type = "IceCube::HourlyRule"
+          @current_rule.str = $.fn.recurring_select.texts["hourly"]
+          @initHourlyOptions()
         when "Weekly"
           @current_rule.hash.rule_type = "IceCube::WeeklyRule"
           @current_rule.str = $.fn.recurring_select.texts["weekly"]
@@ -250,7 +285,26 @@ window.RecurringSelectDialog =
       @current_rule.hash.interval = parseInt($(event.currentTarget).val())
       if @current_rule.hash.interval < 1 || isNaN(@current_rule.hash.interval)
         @current_rule.hash.interval = 1
-        # $(event.currentTarget).val(@current_rule.hash.interval)
+      @summaryUpdate()
+
+    hourOfDayChanged: (event) =>
+      @current_rule.hash ||= {}
+      @current_rule.str ||= ""
+      @current_rule.hash.hour_of_day = parseInt($(event.currentTarget).val())
+      if isNaN(@current_rule.hash.hour_of_day) || @current_rule.hash.hour_of_day < 0 || @current_rule.hash.hour_of_day > 23
+        @current_rule.hash.hour_of_day = 4
+      if @current_rule.hash.hour_of_day? && @current_rule.hash.minute_of_hour?
+        @current_rule.str = @current_rule.str.split(" at")[0] + ' at ' + @current_rule.hash.hour_of_day + ':' + @current_rule.hash.minute_of_hour
+      @summaryUpdate()
+
+    minuteOfHourChanged: (event) =>
+      @current_rule.hash ||= {}
+      @current_rule.str ||= ""
+      @current_rule.hash.minute_of_hour = parseInt($(event.currentTarget).val())
+      if isNaN(@current_rule.hash.minute_of_hour) || @current_rule.hash.minute_of_hour < 0 || @current_rule.hash.minute_of_hour > 59
+        @current_rule.hash.minute_of_hour = 0
+       if @current_rule.hash.hour_of_day? && @current_rule.hash.minute_of_hour?
+        @current_rule.str = @current_rule.str.split(" at")[0] + ' at ' + @current_rule.hash.hour_of_day + ':' + @current_rule.hash.minute_of_hour
       @summaryUpdate()
 
     daysChanged: (event) =>
@@ -302,6 +356,8 @@ window.RecurringSelectDialog =
             <p>
               <label for='rs_frequency'>#{$.fn.recurring_select.texts["frequency"]}:</label>
               <select id='rs_frequency' class='rs_frequency' name='rs_frequency'>
+                <option value='Minutely'>#{$.fn.recurring_select.texts["minutely"]}</option>
+                <option value='Hourly'>#{$.fn.recurring_select.texts["hourly"]}</option>
                 <option value='Daily'>#{$.fn.recurring_select.texts["daily"]}</option>
                 <option value='Weekly'>#{$.fn.recurring_select.texts["weekly"]}</option>
                 <option value='Monthly'>#{$.fn.recurring_select.texts["monthly"]}</option>
@@ -309,11 +365,32 @@ window.RecurringSelectDialog =
               </select>
             </p>
 
+            <div class='minutely_options freq_option_section'>
+              <p>
+                #{$.fn.recurring_select.texts["every"]}
+                <input type='text' name='rs_minutely_interval' class='rs_minutely_interval rs_interval' value='1' size='2' />
+                #{$.fn.recurring_select.texts["minutes"]}
+              </p>
+            </div>
+            <div class='hourly_options freq_option_section'>
+              <p>
+                #{$.fn.recurring_select.texts["every"]}
+                <input type='text' name='rs_hourly_interval' class='rs_hourly_interval rs_interval' value='1' size='2' />
+                #{$.fn.recurring_select.texts["hours"]}
+              </p>
+            </div>
             <div class='daily_options freq_option_section'>
               <p>
                 #{$.fn.recurring_select.texts["every"]}
                 <input type='text' name='rs_daily_interval' class='rs_daily_interval rs_interval' value='1' size='2' />
                 #{$.fn.recurring_select.texts["days"]}
+              </p>
+              <p>
+                <span style='margin-left:20px;'>#{$.fn.recurring_select.texts["at"]}
+                <input type='text' name='rs_hour_of_day_interval' class='rs_hour_of_day_interval rs_interval' value='4' size='2' />
+                :
+                <input type='text' name='rs_minute_of_hour_interval' class='rs_minute_of_hour_interval rs_interval' value='00' size='2' />
+                </span>
               </p>
             </div>
             <div class='weekly_options freq_option_section'>
@@ -326,7 +403,6 @@ window.RecurringSelectDialog =
       "
       for day_of_week in [$.fn.recurring_select.texts["first_day_of_week"]...(7 + $.fn.recurring_select.texts["first_day_of_week"])]
         day_of_week = day_of_week % 7
-        console.log day_of_week
         str += "<a href='#' data-value='#{day_of_week}'>#{$.fn.recurring_select.texts["days_first_letter"][day_of_week]}</a>"
 
       str += "
