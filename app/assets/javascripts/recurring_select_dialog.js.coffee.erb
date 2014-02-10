@@ -1,7 +1,7 @@
 window.RecurringSelectDialog =
   class RecurringSelectDialog
     constructor: (@recurring_selector) ->
-      @current_rule = @recurring_selector.recurring_select('current_rule')    
+      @current_rule = @recurring_selector.recurring_select 'current_rule'
       @initDialogBox()
       if not @current_rule.hash? or not @current_rule.hash.rule_type?
         @freqChanged()
@@ -28,13 +28,10 @@ window.RecurringSelectDialog =
       window_height = $(window).height()
       window_width  = $(window).width()
       dialog_height = @content.outerHeight()
-      if dialog_height < 80
-        dialog_height = 80
+      dialog_height = 80 if dialog_height < 80
       margin_top = (window_height - dialog_height)/2 - 30
       margin_top = 10 if margin_top < 10
-      # if dialog_height > window_height - 20
-      #   dialog_height = window_height - 20
-
+     
       new_style_hash =
         "margin-top" : margin_top+"px"
         "min-height" : dialog_height+"px"
@@ -52,12 +49,11 @@ window.RecurringSelectDialog =
 
     cancel: =>
       @outer_holder.remove()
-      @recurring_selector.recurring_select('cancel')
+      @recurring_selector.recurring_select 'cancel'
 
     outerCancel: (event) =>
-      if $(event.target).hasClass("rs_dialog_holder")
-        @cancel()
-
+      @cancel() if $(event.target).hasClass "rs_dialog_holder"
+        
     save: =>
       return if !@current_rule.str?
       @outer_holder.remove()
@@ -67,10 +63,10 @@ window.RecurringSelectDialog =
 
     mainEventInit: ->
       # Tap hooks are for jQueryMobile
-      @outer_holder.on 'click tap', @outerCancel
-      @content.on 'click tap', 'h1 a', @cancel
-      @save_button = @content.find('input.rs_save').on "click tap", @save
-      @content.find('input.rs_cancel').on "click tap", @cancel
+      @outer_holder.on('click tap', @outerCancel)
+      @content.on('click tap', 'h1 a', @cancel)
+      @save_button = @content.find('input.rs_save').on("click tap", @save)
+      @content.find('input.rs_cancel').on("click tap", @cancel)
 
     freqInit: ->
       @freq_select = @outer_holder.find ".rs_frequency"
@@ -98,75 +94,72 @@ window.RecurringSelectDialog =
       @freq_select.on "change", @freqChanged
 
     initMinutelyOptions: ->
-      section = @content.find('.minutely_options')
-      interval_input = section.find('.rs_minutely_interval')
-      interval_input.val(@current_rule.hash.interval)
-      interval_input.on "change keyup", @intervalChanged
+      section = @content.find '.minutely_options'
+      interval_input = section.find '.rs_minutely_interval'
+      interval_input.val @current_rule.hash.interval
+      interval_input.on("change keyup", @intervalChanged)
       section.show()
 
     initHourlyOptions: ->
-      section = @content.find('.hourly_options')
-      interval_input = section.find('.rs_hourly_interval')
-      interval_input.val(@current_rule.hash.interval)
-      interval_input.on "change keyup", @intervalChanged
+      section = @content.find '.hourly_options' 
+      interval_input = section.find '.rs_hourly_interval'
+      interval_input.val @current_rule.hash.interval
+      interval_input.on("change keyup", @intervalChanged)
       section.show()
 
     initDailyOptions: ->
-      section = @content.find('.daily_options')
-      interval_input = section.find('.rs_daily_interval')
-      interval_input.val(@current_rule.hash.interval)
-      interval_input.on "change keyup", @intervalChanged
-      hour_of_day_input = section.find('.rs_hour_of_day_interval')
-      hour_of_day_input.on "change keyup", @hourOfDayChanged
-      minute_of_hour_input = section.find('.rs_minute_of_hour_interval')
-      minute_of_hour_input.on "change keyup", @minuteOfHourChanged
+      section = @content.find '.daily_options'
+      interval_input = section.find '.rs_daily_interval'
+      interval_input.val @current_rule.hash.interval
+      interval_input.on("change keyup", @intervalChanged)
+      hour_of_day_input = section.find '.rs_hour_of_day_interval'
+      hour_of_day_input.val @current_rule.hash.validations.hour_of_day if @current_rule.hash.validations
+      hour_of_day_input.on("change keyup", @hourOfDayChanged)
+      minute_of_hour_input = section.find '.rs_minute_of_hour_interval'
+      minute_of_hour_input.val @current_rule.hash.validations.minute_of_hour if @current_rule.hash.validations  
+      minute_of_hour_input.on("change keyup", @minuteOfHourChanged)
       section.show()
 
     initWeeklyOptions: ->
-      section = @content.find('.weekly_options')
+      section = @content.find '.weekly_options'
+      interval_input = section.find '.rs_weekly_interval'
+      interval_input.val @current_rule.hash.interval
+      interval_input.on("change keyup", @intervalChanged)
 
-      # connect the interval field
-      interval_input = section.find('.rs_weekly_interval')
-      interval_input.val(@current_rule.hash.interval)
-      interval_input.on "change keyup", @intervalChanged
-
-      # connect the day fields
       if @current_rule.hash.validations? && @current_rule.hash.validations.day?
         $(@current_rule.hash.validations.day).each (index, val) ->
           section.find(".day_holder a[data-value='"+val+"']").addClass("selected")
-      section.on "click", ".day_holder a", @daysChanged
+      section.on("click", ".day_holder a", @daysChanged)
 
       section.show()
 
     initMonthlyOptions: ->
-      section = @content.find('.monthly_options')
-      interval_input = section.find('.rs_monthly_interval')
-      interval_input.val(@current_rule.hash.interval)
-      interval_input.on "change keyup", @intervalChanged
+      section = @content.find '.monthly_options'
+      interval_input = section.find '.rs_monthly_interval'
+      interval_input.val @current_rule.hash.interval
+      interval_input.on("change keyup", @intervalChanged)
 
-      @current_rule.hash.validations ||= {}
-      @current_rule.hash.validations.day_of_month ||= []
-      @current_rule.hash.validations.day_of_week ||= {}
-      @init_calendar_days(section)
-      @init_calendar_weeks(section)
+      @current_rule.hash.validations ||= {day_of_month: [], day_of_week: {}}
+      @init_calendar_days section
+      @init_calendar_weeks section
 
       in_week_mode = Object.keys(@current_rule.hash.validations.day_of_week).length > 0
       section.find(".monthly_rule_type_week").prop("checked", in_week_mode)
       section.find(".monthly_rule_type_day").prop("checked", !in_week_mode)
       @toggle_month_view()
-      section.find("input[name=monthly_rule_type]").on "change", @toggle_month_view
+      section.find("input[name=monthly_rule_type]").on("change", @toggle_month_view)
       section.show()
 
     initYearlyOptions: ->
-      section = @content.find('.yearly_options')
-      interval_input = section.find('.rs_yearly_interval')
-      interval_input.val(@current_rule.hash.interval)
-      interval_input.on "change keyup", @intervalChanged
+      section = @content.find '.yearly_options'
+      interval_input = section.find '.rs_yearly_interval'
+      interval_input.val @current_rule.hash.interval
+      interval_input.on("change keyup", @intervalChanged)
       section.show()
 
 
     summaryInit: ->
-      @summary = @outer_holder.find(".rs_summary")
+      @summary = @outer_holder.find ".rs_summary"
       @summaryUpdate()
 
 # ========================= render methods ===============================
@@ -175,14 +168,14 @@ window.RecurringSelectDialog =
       @summary.width @content.width()
       if @current_rule.hash? && @current_rule.str?
         @summary.removeClass "fetching"
-        @save_button.removeClass("disabled")
+        @save_button.removeClass "disabled"
         rule_str = @current_rule.str.replace("*", "")
         if rule_str.length < 20
           rule_str = "#{$.fn.recurring_select.texts["summary"]}: "+rule_str
         @summary.find("span").html rule_str
       else
         @summary.addClass "fetching"
-        @save_button.addClass("disabled")
+        @save_button.addClass "disabled"
         @summary.find("span").html ""
         @summaryFetch()
 
@@ -201,7 +194,7 @@ window.RecurringSelectDialog =
       @content.css {"width": "auto"}
 
     init_calendar_days: (section) =>
-      monthly_calendar = section.find(".rs_calendar_day")
+      monthly_calendar = section.find ".rs_calendar_day"
       monthly_calendar.html ""
       for num in [1..31]
         monthly_calendar.append (day_link = $(document.createElement("a")).text(num))
@@ -217,7 +210,7 @@ window.RecurringSelectDialog =
       monthly_calendar.find("a").on "click tap", @dateOfMonthChanged
 
     init_calendar_weeks: (section) =>
-      monthly_calendar = section.find(".rs_calendar_week")
+      monthly_calendar = section.find ".rs_calendar_week"
       monthly_calendar.html ""
       row_labels = $.fn.recurring_select.texts["order"]
       cell_str = $.fn.recurring_select.texts["days_first_letter"]
@@ -280,35 +273,28 @@ window.RecurringSelectDialog =
       @positionDialogVert()
 
     intervalChanged: (event) =>
+      interval_val = parseInt($(event.currentTarget).val())
       @current_rule.str = null
       @current_rule.hash ||= {}
-      @current_rule.hash.interval = parseInt($(event.currentTarget).val())
-      if @current_rule.hash.interval < 1 || isNaN(@current_rule.hash.interval)
-        @current_rule.hash.interval = 1
+      @current_rule.hash.interval = 1 if interval_val < 1 || !interval?
       @summaryUpdate()
 
     hourOfDayChanged: (event) =>
+      hour_val = parseInt($(event.currentTarget).val())
+      @current_rule.str = null
       @current_rule.hash ||= {}
-      @current_rule.str ||= ""
-      @current_rule.hash.hour_of_day = parseInt($(event.currentTarget).val())
-      if isNaN(@current_rule.hash.hour_of_day) || @current_rule.hash.hour_of_day < 0 || @current_rule.hash.hour_of_day > 23
-        @current_rule.hash.hour_of_day = 4
-      if @current_rule.hash.hour_of_day? && @current_rule.hash.minute_of_hour?
-        @current_rule.str = @current_rule.str.split(" at")[0] + ' at ' + @current_rule.hash.hour_of_day + ':' + @current_rule.hash.minute_of_hour
+      @current_rule.hash.validations.hour_of_day = if hour_val? &&  0 < hour_val <= 23 then hour_val else 4
       @summaryUpdate()
 
     minuteOfHourChanged: (event) =>
+      minute_val = parseInt($(event.currentTarget).val())
+      @current_rule.str = null
       @current_rule.hash ||= {}
-      @current_rule.str ||= ""
-      @current_rule.hash.minute_of_hour = parseInt($(event.currentTarget).val())
-      if isNaN(@current_rule.hash.minute_of_hour) || @current_rule.hash.minute_of_hour < 0 || @current_rule.hash.minute_of_hour > 59
-        @current_rule.hash.minute_of_hour = 0
-       if @current_rule.hash.hour_of_day? && @current_rule.hash.minute_of_hour?
-        @current_rule.str = @current_rule.str.split(" at")[0] + ' at ' + @current_rule.hash.hour_of_day + ':' + @current_rule.hash.minute_of_hour
+      @current_rule.hash.validations.minute_of_hour = if minute_val? && 0 < minute_val <= 59 then minute_val else 0
       @summaryUpdate()
 
     daysChanged: (event) =>
-      $(event.currentTarget).toggleClass("selected")
+      $(event.currentTarget).toggleClass "selected"
       @current_rule.str = null
       @current_rule.hash ||= {}
       @current_rule.hash.validations = {}
@@ -318,7 +304,7 @@ window.RecurringSelectDialog =
       false # this prevents default and propogation
 
     dateOfMonthChanged: (event) =>
-      $(event.currentTarget).toggleClass("selected")
+      $(event.currentTarget).toggleClass "selected"
       @current_rule.str = null
       @current_rule.hash ||= {}
       @current_rule.hash.validations = {}
@@ -386,10 +372,10 @@ window.RecurringSelectDialog =
                 #{$.fn.recurring_select.texts["days"]}
               </p>
               <p>
-                <span style='margin-left:20px;'>#{$.fn.recurring_select.texts["at"]}
-                <input type='text' name='rs_hour_of_day_interval' class='rs_hour_of_day_interval rs_interval' value='4' size='2' />
+                <span class='time-validation'>#{$.fn.recurring_select.texts["at"]}
+                <input type='text' name='rs_hour_of_day_interval' class='rs_hour_of_day_interval rs_interval' placeholder='4' size='2' />
                 :
-                <input type='text' name='rs_minute_of_hour_interval' class='rs_minute_of_hour_interval rs_interval' value='00' size='2' />
+                <input type='text' name='rs_minute_of_hour_interval' class='rs_minute_of_hour_interval rs_interval' placeholder='00' size='2' />
                 </span>
               </p>
             </div>
