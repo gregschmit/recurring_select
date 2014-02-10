@@ -15,10 +15,7 @@ module RecurringSelectHelper
 
   module FormBuilder
     def select_recurring(method, default_schedules = nil, options = {}, html_options = {})
-      if !@template.respond_to?(:select_recurring)
-        @template.class.send(:include, RecurringSelectHelper::FormHelper)
-      end
-
+      @template.class.send(:include, RecurringSelectHelper::FormHelper) unless @template.respond_to?(:select_recurring)
       @template.select_recurring(@object_name, method, default_schedules, options.merge(:object => @object), html_options)
     end
   end
@@ -43,16 +40,14 @@ module RecurringSelectHelper
         end
       else
         options_array << blank_option if options[:allow_blank]
+        options_array += default_schedules.collect {|dc| ice_cube_rule_to_option(dc) }
 
-        options_array += default_schedules.collect{|dc|
-          ice_cube_rule_to_option(dc)
-        }
-
+        custom_label = 
         if currently_selected_rule.present? and !current_rule_in_defaults?(currently_selected_rule, default_schedules)
           options_array << ice_cube_rule_to_option(currently_selected_rule, true)
-          custom_label = [I18n.t("recurring_select.new_custom_schedule"), "custom"]
+          [I18n.t("recurring_select.new_custom_schedule"), "custom"]
         else
-          custom_label = [I18n.t("recurring_select.custom_schedule"), "custom"]
+          [I18n.t("recurring_select.custom_schedule"), "custom"]
         end
 
         options_array << separator
