@@ -96,6 +96,7 @@ For other languages include a file like this:
 
 ```
 $.fn.recurring_select.texts = {
+  locale_iso_code: "fr"
   repeat: "Repeat"
   frequency: "Frequency"
   daily: "Daily"
