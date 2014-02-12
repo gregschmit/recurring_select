@@ -22,7 +22,6 @@ Gem::Specification.new do |s|
   s.add_dependency "sass-rails", ">= 3.1"
   s.add_dependency "coffee-rails", ">= 3.1"
 
-  s.add_development_dependency "appraisal", ">= 0.5.2"
   s.add_development_dependency "bundler", ">= 1.3.5"
   s.add_development_dependency "rspec-rails", ">= 2.14"
   s.add_development_dependency "rspec", ">= 2.14"

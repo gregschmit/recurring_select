@@ -1,7 +1,20 @@
 language: ruby
+before_install: gem install bundler -v 1.5.1
+script: bundle exec rspec spec
 rvm:
   - 1.9.3
   - 2.0.0
+  - 2.1.0
+  - jruby-19mode
 gemfile:
-  - gemfiles/rails3.gemfile
-  - gemfiles/rails4.gemfile
+  - spec/gemfiles/Gemfile.rails-3.2.x
+  - spec/gemfiles/Gemfile.rails-4.0.x
+  - spec/gemfiles/Gemfile.rails-4.1.x
+matrix:
+  exclude:
+    - rvm: 1.9.3
+      gemfile: spec/gemfiles/rails-4.1.x.gemfile
+  allow_failures:
+    - rvm: jruby-19mode
+      gemfile: spec/gemfiles/Gemfile.rails-3.2.x
+  fast_finish: true
