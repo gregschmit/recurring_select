@@ -49,7 +49,7 @@ f.select_recurring :current_existing_rule, [
 
 :allow_blank let's you pick if there is a "not recurring" value
 ```
-  f.select_recurring :current_existing_rule, :allow_blank => true
+  f.select_recurring :current_existing_rule, nil, :allow_blank => true
 ```
 
 
