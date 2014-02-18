@@ -326,7 +326,6 @@ window.RecurringSelectDialog =
       "
       for day_of_week in [$.fn.recurring_select.texts["first_day_of_week"]...(7 + $.fn.recurring_select.texts["first_day_of_week"])]
         day_of_week = day_of_week % 7
-        console.log day_of_week
         str += "<a href='#' data-value='#{day_of_week}'>#{$.fn.recurring_select.texts["days_first_letter"][day_of_week]}</a>"
 
       str += "
