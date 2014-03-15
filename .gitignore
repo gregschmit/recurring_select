@@ -14,3 +14,4 @@ spec/dummy/.sass-cache
 .DS_Store
 *.sublime-workspace
 
+.idea

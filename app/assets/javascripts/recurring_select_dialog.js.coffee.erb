@@ -13,6 +13,7 @@ window.RecurringSelectDialog =
 
       open_in = $("body")
       open_in = $(".ui-page-active") if $(".ui-page-active").length
+      open_in = $(".modal") if $(".modal:visible").length
       open_in.append @template()
       @outer_holder = $(".rs_dialog_holder")
       @inner_holder = @outer_holder.find ".rs_dialog"
