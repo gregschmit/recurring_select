@@ -1,6 +1,8 @@
 # unreleased
 
-* Fixed recurring dialog in IE [#46](https://github.com/GetJobber/recurring_select/pull/46) (thanks @ttp)
+* Show currently selected rule first when selected [#65](https://github.com/GetJobber/recurring_select/pull/65) (thanks @ericmwalsh)
+* [FIX] Fix hidden dialog when called from Bootstrap modal. [#47](https://github.com/GetJobber/recurring_select/pull/47) (thanks @rgrwatson85)
+* [FIX] Fix dialog in IE. [#46](https://github.com/GetJobber/recurring_select/pull/46) (thanks @ttp)
 * Travis CI: Testing against latest point releases of Rails.
 
 # 1.2.1 / 2014-02-12
@@ -23,7 +25,6 @@ constant (thanks @fourseven)
 
 * [FIX] For blank select fields.
 * Testing multiple Rails versions in Travis CI.
-* Show currently selected rule first when selected [#65](https://github.com/GetJobber/recurring_select/pull/65) (thanks @ericmwalsh)
 
 # 1.2.0 / 2013-07-03
 
