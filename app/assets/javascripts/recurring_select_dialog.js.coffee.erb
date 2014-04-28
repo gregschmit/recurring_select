@@ -43,7 +43,6 @@ window.RecurringSelectDialog =
         @inner_holder.css new_style_hash
         @inner_holder.trigger "recurring_select:dialog_positioned"
       else
-        @content.css {"width": @content.width()+"px"}
         @inner_holder.addClass "animated"
         @inner_holder.animate new_style_hash, 200, =>
           @inner_holder.removeClass "animated"
@@ -161,7 +160,6 @@ window.RecurringSelectDialog =
 
     summaryFetch: ->
       return if !(@current_rule.hash? && (rule_type = @current_rule.hash.rule_type)?)
-      @content.css {"width": @content.width()+"px"}
       $.ajax
         url: "/recurring_select/translate",
         type: "POST",
