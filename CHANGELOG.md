@@ -1,6 +1,7 @@
 # unreleased
 
 * Show currently selected rule first when selected [#65](https://github.com/GetJobber/recurring_select/pull/65) (thanks @ericmwalsh)
+* [FIX] Add some explicit CSS rules to fix issues with Zurb Foundation. [#50](https://github.com/GetJobber/recurring_select/pull/50) (thanks @ndbroadbent)
 * [FIX] Fix hidden dialog when called from Bootstrap modal. [#47](https://github.com/GetJobber/recurring_select/pull/47) (thanks @rgrwatson85)
 * [FIX] Fix dialog in IE. [#46](https://github.com/GetJobber/recurring_select/pull/46) (thanks @ttp)
 * Travis CI: Testing against latest point releases of Rails.
