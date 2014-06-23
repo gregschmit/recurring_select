@@ -130,7 +130,7 @@ Tests can be ran against different versions of Rails like so:
 
 ```
 BUNDLE_GEMFILE=spec/gemfiles/Gemfile.rails-3.2.x bundle install
-BUNDLE_GEMFILE=spec/gemfiles/Gemfile.rails-3.2.x bundle exec rake spec
+BUNDLE_GEMFILE=spec/gemfiles/Gemfile.rails-3.2.x bundle exec rspec spec
 ```
 
 Feel free to open issues or send pull requests.
