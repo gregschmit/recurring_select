@@ -20,17 +20,14 @@ Load the gem:
 `gem 'recurring_select'`
 
 Require assets
-  Desktop view
-    application.js
-      `//= require recurring_select`
-    application.css
-      `//= require recurring_select`
 
-  or jQueryMobile interface
-    application.js
-      `//= require jquery-mobile-rs`
-    application.css
-      `//= require jquery-mobile-rs`
+####Desktop view:
+- application.js: `//= require recurring_select`
+- application.css: `//= require recurring_select`
+
+####or jQueryMobile interface:
+- application.js: `//= require jquery-mobile-rs`
+- application.css: `//= require jquery-mobile-rs`
 
 
 In the form view call the helper:
@@ -40,7 +37,7 @@ Options
 -------
 
 Defaults Values
-```
+```ruby
 f.select_recurring :current_existing_rule, [
   IceCube::Rule.weekly.day(:monday, :wednesday, :friday),
   IceCube::Rule.monthly.day_of_month(-1)
@@ -48,7 +45,7 @@ f.select_recurring :current_existing_rule, [
 ```
 
 :allow_blank let's you pick if there is a "not recurring" value
-```
+```ruby
   f.select_recurring :current_existing_rule, nil, :allow_blank => true
 ```
 
@@ -74,7 +71,7 @@ Recurrent select is I18n aware
 
 You can create a locale file like this:
 
-```
+```yaml
 en:
   recurring_select:
     not_recurring: "- not recurring -"
@@ -94,7 +91,7 @@ You have to translate javascript texts too by including the locale file in your 
 
 For other languages include a file like this:
 
-```
+```javascript
 $.fn.recurring_select.texts = {
   repeat: "Repeat"
   frequency: "Frequency"
