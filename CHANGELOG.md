@@ -4,6 +4,7 @@
 * [FIX] Add some explicit CSS rules to fix issues with Zurb Foundation. [#50](https://github.com/GetJobber/recurring_select/pull/50) (thanks @ndbroadbent)
 * [FIX] Fix hidden dialog when called from Bootstrap modal. [#47](https://github.com/GetJobber/recurring_select/pull/47) (thanks @rgrwatson85)
 * [FIX] Fix dialog in IE. [#46](https://github.com/GetJobber/recurring_select/pull/46) (thanks @ttp)
+* [FIX] Fix rebinding for day of the week selection [#60](https://github.com/GetJobber/recurring_select/pull/60) (thanks @joshjordan)
 * Travis CI: Testing against latest point releases of Rails.
 
 # 1.2.1 / 2014-02-12
