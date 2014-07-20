@@ -107,7 +107,7 @@ window.RecurringSelectDialog =
       if @current_rule.hash.validations? && @current_rule.hash.validations.day?
         $(@current_rule.hash.validations.day).each (index, val) ->
           section.find(".day_holder a[data-value='"+val+"']").addClass("selected")
-      section.on "click", ".day_holder a", @daysChanged
+      section.off('click', '.day_holder a').on "click", ".day_holder a", @daysChanged
 
       section.show()
 
