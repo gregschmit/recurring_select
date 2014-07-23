@@ -44,6 +44,17 @@ module RecurringSelect
 
     params[:interval] = params[:interval].to_i if params[:interval]
     params[:week_start] = params[:week_start].to_i if params[:week_start]
+    begin
+      # IceCube::TimeUtil will serialize a TimeWithZone into a hash, such as:
+      #  {time: Thu, 04 Sep 2014 06:59:59 +0000, zone: "Pacific Time (US & Canada)"}
+      # So don't try to DateTime.parse the hash.  IceCube::TimeUtil wil deserialize this for us.
+      if params[:until] && !params[:until].is_a?(Hash)
+        # Set to 23:59:59 (in current TZ) to encompass all events on until day
+        params[:until] = DateTime.parse(params[:until]).in_time_zone(Time.zone).change(hour: 23, min: 59, sec: 59)
+      end
+    rescue ArgumentError
+      # Invalid date given, attempt to assign :until will fail silently
+    end
 
     params[:validations] ||= {}
     params[:validations].symbolize_keys!
