@@ -303,12 +303,11 @@ window.RecurringSelectDialog =
 
     untilChanged: (event) =>
       @setUntil $(event.currentTarget).val()
-    
+
     setUntil: (date) ->
       @current_rule.hash ||= {}
       @current_rule.str = null
       @current_rule.hash.until = date
-      console.log @current_rule.hash
       @summaryUpdate()
       false
 
