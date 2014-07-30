@@ -313,7 +313,7 @@ window.RecurringSelectDialog =
 
     indefiniteChanged: (event) =>
       $el = $(event.currentTarget)
-      $untilSection = $el.parent().next('.until_input')
+      $untilSection = $el.parents('.until_option').find('.until_input')
       $untilInput = $untilSection.find '#until'
       if $el.is ':checked'
         $untilInput.val('').blur()
@@ -401,8 +401,10 @@ window.RecurringSelectDialog =
             </div>
             <div class='until_option'>
               <p class='indefinite_input'>
-                <input id='indefinite' type='checkbox' checked='checked' />
-                <label for='indefinite'>Repeats indefinitely</label>
+                <label for='indefinite'>
+                  <input id='indefinite' type='checkbox' checked='checked' />
+                  Repeats indefinitely
+                </label>
               </p>
               <p class='until_input' style='display:none'>
                 Until
