@@ -166,6 +166,7 @@ window.RecurringSelectDialog =
         url: "/recurring_select/translate",
         type: "POST",
         data: @current_rule.hash
+        dataType: "html"
         success: @summaryFetchSuccess
 
     summaryFetchSuccess: (data) =>
