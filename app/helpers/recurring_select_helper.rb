@@ -26,37 +26,42 @@ module RecurringSelectHelper
   module FormOptionsHelper
     def recurring_options_for_select(currently_selected_rule = nil, default_schedules = nil, options = {})
 
-      options_array = []
+      pre_options_array = []
+      post_options_array = []
+      grouped_options_array = []
       blank_option_label = options[:blank_label] || I18n.t("recurring_select.not_recurring")
       blank_option = [blank_option_label, "null"]
 
       if default_schedules.blank?
         if currently_selected_rule.present?
-          options_array << blank_option if options[:allow_blank]
-          options_array << ice_cube_rule_to_option(currently_selected_rule)
-          options_array << [I18n.t("recurring_select.change_schedule"), "custom"]
+          pre_options_array << blank_option if options[:allow_blank]
+          pre_options_array << ice_cube_rule_to_option(currently_selected_rule)
+          post_options_array << [I18n.t("recurring_select.change_schedule"), "custom"]
         else
-          options_array << blank_option
-          options_array << [I18n.t("recurring_select.set_schedule"), "custom"]
+          pre_options_array << blank_option
+          post_options_array << [I18n.t("recurring_select.set_schedule"), "custom"]
         end
       else
-        options_array << blank_option if options[:allow_blank]
-
-        options_array += default_schedules.collect{|dc|
-          ice_cube_rule_to_option(dc)
+        grouped_options_array += default_schedules.collect{|group_name, group_defaults|
+          [ group_name,
+            group_defaults.collect { |group_default|
+              ice_cube_rule_to_option(group_default)
+            }
+          ]
         }
 
         if currently_selected_rule.present? and !current_rule_in_defaults?(currently_selected_rule, default_schedules)
-          options_array << ice_cube_rule_to_option(currently_selected_rule, true)
+          pre_options_array << ice_cube_rule_to_option(currently_selected_rule, true)
           custom_label = [I18n.t("recurring_select.new_custom_schedule"), "custom"]
         else
+          pre_options_array << blank_option if options[:allow_blank]
           custom_label = [I18n.t("recurring_select.custom_schedule"), "custom"]
         end
 
-        options_array << custom_label
+        post_options_array << custom_label
       end
 
-      options_for_select(options_array, currently_selected_rule.to_json)
+      options_for_select(pre_options_array) + grouped_options_for_select(grouped_options_array, currently_selected_rule.to_json) + options_for_select(post_options_array)
     end
 
     private
