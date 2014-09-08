@@ -33,10 +33,10 @@ module RecurringSelectHelper
 
       if default_schedules.blank?
         if currently_selected_rule.present?
-          options_array << blank_option if options[:allow_blank]
           options_array << ice_cube_rule_to_option(currently_selected_rule)
           options_array << separator
           options_array << [I18n.t("recurring_select.change_schedule"), "custom"]
+          options_array << blank_option if options[:allow_blank]
         else
           options_array << blank_option
           options_array << [I18n.t("recurring_select.set_schedule"), "custom"]
