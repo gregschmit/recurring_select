@@ -23,6 +23,7 @@ constant (thanks @fourseven)
 
 * [FIX] For blank select fields.
 * Testing multiple Rails versions in Travis CI.
+* Show currently selected rule first when selected [#65](https://github.com/GetJobber/recurring_select/pull/65) (thanks @ericmwalsh)
 
 # 1.2.0 / 2013-07-03
 
