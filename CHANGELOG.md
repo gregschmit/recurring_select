@@ -1,4 +1,4 @@
-# unreleased
+# 1.2.2 / 2014-09-29
 
 * Show currently selected rule first when selected [#65](https://github.com/GetJobber/recurring_select/pull/65) (thanks @ericmwalsh)
 * [FIX] Add some explicit CSS rules to fix issues with Zurb Foundation. [#50](https://github.com/GetJobber/recurring_select/pull/50) (thanks @ndbroadbent)
