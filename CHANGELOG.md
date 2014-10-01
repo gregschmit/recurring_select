@@ -1,3 +1,7 @@
+# 1.2.3 / 2014-10-01
+
+* Revert fix hidden dialog when called from Bootstrap modal. [#47](https://github.com/GetJobber/recurring_select/pull/47)
+
 # 1.2.2 / 2014-09-29
 
 * Show currently selected rule first when selected [#65](https://github.com/GetJobber/recurring_select/pull/65) (thanks @ericmwalsh)
