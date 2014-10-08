@@ -19,5 +19,6 @@ $.fn.recurring_select.texts = {
   summary: "Résumé"
   first_day_of_week: 1
   days_first_letter: ["D", "L", "M", "M", "J", "V", "S" ]
-  order: ["1er", "2ème", "3ème", "4ème"]
+  order: ["1er", "2ème", "3ème", "4ème", "5ème", "Dernier"]
+  show_week: [true, true, true, true, false, false]
 }

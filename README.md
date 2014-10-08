@@ -99,7 +99,7 @@ You have to translate JavaScript texts too by including the locale file in your 
 
 For other languages include a JavaScript file like this:
 
-```javascript
+```coffeescript
 $.fn.recurring_select.texts = {
   repeat: "Repeat"
   frequency: "Frequency"
@@ -117,8 +117,18 @@ $.fn.recurring_select.texts = {
   day_of_week: "Day of week"
   cancel: "Cancel"
   ok: "OK"
-  days_first_letter: ["S", "M", "T", "W", "T", "F", "S" ]
-  order: ["1st", "2nd", "3rd", "4th"]
+  days_first_letter: ["S", "M", "T", "W", "T", "F", "S"]
+  order: ["1st", "2nd", "3rd", "4th", "5th", "Last"]
+}
+```
+
+Options include:
+
+```coffeescript
+$.fn.recurring_select.options = {
+  monthly: {
+    show_week: [true, true, true, true, false, false] //display week 1, 2 .... Last
+  }
 }
 ```
 
