@@ -93,5 +93,5 @@ $.fn.recurring_select.texts = {
   summary: "Summary"
   first_day_of_week: 0
   days_first_letter: ["S", "M", "T", "W", "T", "F", "S" ]
-  order: ["1st", "2nd", "3rd", "4th"]
+  order: ["1st", "2nd", "3rd", "4th", "5th", "Last"]
 }

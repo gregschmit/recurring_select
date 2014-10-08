@@ -195,8 +195,8 @@ window.RecurringSelectDialog =
       row_labels = $.fn.recurring_select.texts["order"]
       cell_str = $.fn.recurring_select.texts["days_first_letter"]
 
-      for num in [1..4]
-        monthly_calendar.append "<span>#{row_labels[num - 1]}</span>"
+      for num, index in [1, 2, 3, 4, 5, -1]
+        monthly_calendar.append "<span>#{row_labels[index]}</span>"
         for day_of_week in [0..6]
           day_link = $("<a>", {text: cell_str[day_of_week]})
           day_link.attr("day", day_of_week)
