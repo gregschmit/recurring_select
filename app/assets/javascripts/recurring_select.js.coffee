@@ -73,6 +73,12 @@ $.fn.recurring_select = (method) ->
   else
     $.error( "Method #{method} does not exist on jQuery.recurring_select" );
 
+$.fn.recurring_select.options = {
+  monthly: {
+    show_week: [true, true, true, true, false, false]
+  }
+}
+
 $.fn.recurring_select.texts = {
   repeat: "Repeat"
   last_day: "Last Day"

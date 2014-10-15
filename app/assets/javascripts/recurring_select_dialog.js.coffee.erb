@@ -193,15 +193,17 @@ window.RecurringSelectDialog =
       monthly_calendar = section.find(".rs_calendar_week")
       monthly_calendar.html ""
       row_labels = $.fn.recurring_select.texts["order"]
+      show_row = $.fn.recurring_select.options["monthly"]["show_week"]
       cell_str = $.fn.recurring_select.texts["days_first_letter"]
 
       for num, index in [1, 2, 3, 4, 5, -1]
-        monthly_calendar.append "<span>#{row_labels[index]}</span>"
-        for day_of_week in [0..6]
-          day_link = $("<a>", {text: cell_str[day_of_week]})
-          day_link.attr("day", day_of_week)
-          day_link.attr("instance", num)
-          monthly_calendar.append day_link
+        if show_row[index]
+          monthly_calendar.append "<span>#{row_labels[index]}</span>"
+          for day_of_week in [0..6]
+            day_link = $("<a>", {text: cell_str[day_of_week]})
+            day_link.attr("day", day_of_week)
+            day_link.attr("instance", num)
+            monthly_calendar.append day_link
       $.each @current_rule.hash.validations.day_of_week, (key, value) ->
         $.each value, (index, instance) ->
           section.find("a[day='#{key}'][instance='#{instance}']").addClass("selected")

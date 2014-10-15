@@ -118,7 +118,18 @@ $.fn.recurring_select.texts = {
   cancel: "Cancel"
   ok: "OK"
   days_first_letter: ["S", "M", "T", "W", "T", "F", "S" ]
-  order: ["1st", "2nd", "3rd", "4th"]
+  order: ["1st", "2nd", "3rd", "4th", "5th", "Last"]
+  show_week: [true, true, true, true, false, false]
+}
+```
+
+Javascript options include:
+
+```javascript
+$.fn.recurring_select.options = {
+  monthly: {
+    show_week: [true, true, true, true, false, false] //display week 1, 2 .... Last
+  }
 }
 ```
 
