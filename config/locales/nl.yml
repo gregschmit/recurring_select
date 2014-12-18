@@ -1,0 +1,8 @@
+nl:
+  recurring_select:
+    not_recurring: "- niet herhalen -"
+    change_schedule: "Rooster aanpassen..."
+    set_schedule: "Rooster instellen..."
+    new_custom_schedule: "Nieuw aangepast rooster..."
+    custom_schedule: "Aangepast rooster..."
+    or: of
