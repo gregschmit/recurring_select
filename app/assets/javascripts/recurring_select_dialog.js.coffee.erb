@@ -161,7 +161,7 @@ window.RecurringSelectDialog =
     summaryFetch: ->
       return if !(@current_rule.hash? && (rule_type = @current_rule.hash.rule_type)?)
       $.ajax
-        url: "/recurring_select/translate",
+        url: "<%= Rails.application.config.action_controller.relative_url_root %>/recurring_select/translate",
         type: "POST",
         data: @current_rule.hash
         success: @summaryFetchSuccess
