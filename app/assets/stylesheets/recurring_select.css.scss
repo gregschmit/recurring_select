@@ -33,7 +33,7 @@ select {
               display:inline-block; min-width:200px; margin-left:-125px; overflow:hidden; position:relative;
     .rs_dialog_content { padding:10px;
       h1 { font-size:16px; padding:0px; margin:0 0 10px 0;
-        a {float:right; display:inline-block; height:16px; width:16px; background-image:url(<%=asset_path "recurring_select/cancel.png"%>); background-position:center; background-repeat:no-repeat;}
+        a {float:right; display:inline-block; height:16px; width:16px; background-image:image-url("recurring_select/cancel.png"); background-position:center; background-repeat:no-repeat;}
       }
 
       p { padding:5px 0; margin:0; line-height: 14px;
@@ -80,7 +80,7 @@ select {
       .rs_summary { padding:0px; margin-top:15px; border-top:1px solid #ccc;
         span {font-weight:bold; border-top:1px solid #fff; display:block; padding:10px 0 5px 0;}
         &.fetching {color:#999;
-          span {background-image:url(<%=asset_path "recurring_select/throbber_13x13.gif" %>); background-position:center; background-repeat:no-repeat; display:inline-block; height:13px; width:13px; margin-top:-4px; padding-right:5px;}
+          span {background-image:image-url("recurring_select/throbber_13x13.gif"); background-position:center; background-repeat:no-repeat; display:inline-block; height:13px; width:13px; margin-top:-4px; padding-right:5px;}
         }
         label {font-weight:normal;}
       }

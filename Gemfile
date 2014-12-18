@@ -1,10 +1,10 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 gemspec
 
-gem "pg", platform: :ruby
-gem "activerecord-jdbcpostgresql-adapter", platform: :jruby
+gem 'pg', platform: :ruby
+gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
 
-gem "jquery-rails"
+gem 'jquery-rails'
 
-gem "rails", "4.0.2"
-gem "sass-rails"
+gem 'rails', '4.0.10'
+gem 'sass-rails', '~> 4.0.3'
