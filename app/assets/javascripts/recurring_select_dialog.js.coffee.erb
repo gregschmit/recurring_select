@@ -102,10 +102,15 @@ window.RecurringSelectDialog =
       interval_input.val(@current_rule.hash.interval)
       interval_input.on "change keyup", @intervalChanged
 
+      # clear selected days
+      section.find(".day_holder a").each (index, element) ->
+        $(element).removeClass("selected")
+
       # connect the day fields
       if @current_rule.hash.validations? && @current_rule.hash.validations.day?
         $(@current_rule.hash.validations.day).each (index, val) ->
           section.find(".day_holder a[data-value='"+val+"']").addClass("selected")
+
       section.off('click', '.day_holder a').on "click", ".day_holder a", @daysChanged
 
       section.show()
@@ -160,8 +165,9 @@ window.RecurringSelectDialog =
 
     summaryFetch: ->
       return if !(@current_rule.hash? && (rule_type = @current_rule.hash.rule_type)?)
+      @current_rule.hash['week_start'] = $.fn.recurring_select.texts["first_day_of_week"]
       $.ajax
-        url: "<%= Rails.application.config.action_controller.relative_url_root %>/recurring_select/translate",
+        url: "<%= Rails.application.config.action_controller.relative_url_root %>/recurring_select/translate/#{$.fn.recurring_select.texts["locale_iso_code"]}",
         type: "POST",
         data: @current_rule.hash
         success: @summaryFetchSuccess
@@ -196,12 +202,14 @@ window.RecurringSelectDialog =
 
       for num, index in [1, 2, 3, 4, 5, -1]
         if show_row[index]
-          monthly_calendar.append "<span>#{row_labels[index]}</span>"
-          for day_of_week in [0..6]
-            day_link = $("<a>", {text: cell_str[day_of_week]})
+          monthly_calendar.append "<span>#{row_labels[num - 1]}</span>"
+          for day_of_week in [$.fn.recurring_select.texts["first_day_of_week"]...(7 + $.fn.recurring_select.texts["first_day_of_week"])]
+            day_of_week = day_of_week % 7
+            day_link = $("<a>", {text: cell_str[day_of_week] })
             day_link.attr("day", day_of_week)
             day_link.attr("instance", num)
             monthly_calendar.append day_link
+
       $.each @current_rule.hash.validations.day_of_week, (key, value) ->
         $.each value, (index, instance) ->
           section.find("a[day='#{key}'][instance='#{instance}']").addClass("selected")
@@ -250,7 +258,6 @@ window.RecurringSelectDialog =
       @current_rule.hash.interval = parseInt($(event.currentTarget).val())
       if @current_rule.hash.interval < 1 || isNaN(@current_rule.hash.interval)
         @current_rule.hash.interval = 1
-        # $(event.currentTarget).val(@current_rule.hash.interval)
       @summaryUpdate()
 
     daysChanged: (event) =>
