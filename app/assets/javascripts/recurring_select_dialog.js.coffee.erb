@@ -43,7 +43,6 @@ window.RecurringSelectDialog =
         @inner_holder.css new_style_hash
         @inner_holder.trigger "recurring_select:dialog_positioned"
       else
-        @content.css {"width": @content.width()+"px"}
         @inner_holder.addClass "animated"
         @inner_holder.animate new_style_hash, 200, =>
           @inner_holder.removeClass "animated"
@@ -167,9 +166,8 @@ window.RecurringSelectDialog =
     summaryFetch: ->
       return if !(@current_rule.hash? && (rule_type = @current_rule.hash.rule_type)?)
       @current_rule.hash['week_start'] = $.fn.recurring_select.texts["first_day_of_week"]
-      @content.css {"width": @content.width()+"px"}
       $.ajax
-        url: "/recurring_select/translate/#{$.fn.recurring_select.texts["locale_iso_code"]}",
+        url: "<%= Rails.application.config.action_controller.relative_url_root %>/recurring_select/translate/#{$.fn.recurring_select.texts["locale_iso_code"]}",
         type: "POST",
         data: @current_rule.hash
         success: @summaryFetchSuccess
