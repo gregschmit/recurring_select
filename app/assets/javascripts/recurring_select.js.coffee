@@ -80,6 +80,7 @@ $.fn.recurring_select.options = {
 }
 
 $.fn.recurring_select.texts = {
+  locale_iso_code: "en"
   repeat: "Repeat"
   last_day: "Last Day"
   frequency: "Frequency"
