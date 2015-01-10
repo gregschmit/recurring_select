@@ -169,7 +169,7 @@ window.RecurringSelectDialog =
       $.ajax
         url: "<%= Rails.application.config.action_controller.relative_url_root %>/recurring_select/translate/#{$.fn.recurring_select.texts["locale_iso_code"]}",
         type: "POST",
-        data: @current_rule.hash
+        data: JSON.stringify(@current_rule.hash)
         success: @summaryFetchSuccess
 
     summaryFetchSuccess: (data) =>
