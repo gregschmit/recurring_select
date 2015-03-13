@@ -1,0 +1,8 @@
+hu:
+  recurring_select:
+    not_recurring: '- nem ismétlődő -'
+    change_schedule: 'Időzítés módosítása...'
+    set_schedule: 'Időzítés beállítása...'
+    new_custom_schedule: 'Új egyedi időzítés...'
+    custom_schedule: 'Egyedi időzítés...'
+    or: 'vagy'
