@@ -1,0 +1,8 @@
+pt-BR:
+  recurring_select:
+    not_recurring: "- não recorrente -"
+    change_schedule: "Alterar agendamento..."
+    set_schedule: "Definir agendamento..."
+    new_custom_schedule: "Novo agendamento personalizado..."
+    custom_schedule: "Agendamento personalizado..."
+    or: ou
