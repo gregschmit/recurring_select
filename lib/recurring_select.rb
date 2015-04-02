@@ -7,14 +7,15 @@ module RecurringSelect
     if params.is_a? IceCube::Rule
       params
     else
-      if params.is_a?(String)
-        params = JSON.parse(params)
+      params = JSON.parse(params, quirks_mode: true) if params.is_a?(String)
+      if params.nil?
+        nil
+      else
+        params = params.symbolize_keys
+        rules_hash = filter_params(params)
+        IceCube::Rule.from_hash(rules_hash)
       end
 
-      params = params.symbolize_keys
-      rules_hash = filter_params(params)
-
-      IceCube::Rule.from_hash(rules_hash)
     end
   end
 
