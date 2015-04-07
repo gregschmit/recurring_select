@@ -127,6 +127,9 @@ Options include:
 
 ```coffeescript
 $.fn.recurring_select.options = {
+  hourly: {
+    enable: true //enable hourly option - disabled by default
+  },
   monthly: {
     show_week: [true, true, true, true, false, false] //display week 1, 2 .... Last
   }
