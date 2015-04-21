@@ -21,8 +21,8 @@ window.RecurringSelectDialog =
       @mainEventInit()
       @freqInit()
       @summaryInit()
-      @freq_select.focus()
       @outer_holder.trigger "recurring_select:dialog_opened"
+      @freq_select.focus()
 
     positionDialogVert: (initial_positioning) =>
       window_height = $(window).height()
