@@ -1,0 +1,8 @@
+da:
+  recurring_select:
+    not_recurring: "- ikke gentagende -"
+    change_schedule: "Skift tidsplan..."
+    set_schedule: "Vælg tidsplan..."
+    new_custom_schedule: "Ny tilpasset tidsplan..."
+    custom_schedule: "Tilpasset tidsplan..."
+    or: eller
