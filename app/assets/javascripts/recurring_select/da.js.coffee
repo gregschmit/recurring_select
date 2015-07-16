@@ -18,7 +18,7 @@ $.fn.recurring_select.texts = {
   ok: "OK"
   cancel: "Annuller"
   summary: "Valgt"
-  first_day_of_week: 1
+  first_day_of_week: 0
   days_first_letter: ["S", "M", "T", "O", "T", "F", "L" ]
   order: ["1.", "2.", "3.", "4.", "5.", "Sidst"]
   show_week: [true, true, true, true, false, false]
