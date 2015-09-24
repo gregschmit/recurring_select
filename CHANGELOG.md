@@ -1,3 +1,8 @@
+# 2.0.0 / 2015-09-24
+
+* [BREAKING-CHANGE] Dropping support for rails 3.X - Upgrade to sass-rails 4
+* [FIX] Rename all css.scss to .scss [#86](https://github.com/GetJobber/recurring_select/pull/86)
+
 # 1.2.4 / 2014-10-17
 
 * Options to show 5th week and last week in monthly recurring UI. [#66](https://github.com/GetJobber/recurring_select/pull/66) (thanks @naomiaro)

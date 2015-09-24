@@ -8,7 +8,6 @@ rvm:
   - 2.2.0
   - jruby-19mode
 gemfile:
-  - spec/gemfiles/Gemfile.rails-3.2.x
   - spec/gemfiles/Gemfile.rails-4.0.x
   - spec/gemfiles/Gemfile.rails-4.1.x
   - spec/gemfiles/Gemfile.rails-4.2.x
