@@ -100,4 +100,10 @@ select {
     }
 
   }
+  
+  input {
+    &.rs_error {
+      border-color: red;
+    }
+  }
 }
