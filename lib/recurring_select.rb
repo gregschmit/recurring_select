@@ -2,7 +2,34 @@ require "recurring_select/engine"
 require "ice_cube"
 
 module RecurringSelect
-
+  
+  class << self
+    attr_writer :date_format
+  
+    def date_format
+      @date_format || '%Y-%m-%d'
+    end
+  
+    # Convert from format to jQuery UI datepicker date format
+    def datepicker_format
+      datepicker_format = String.new date_format
+      @datepicker_mappings.each { |k, v| datepicker_format[k] &&= v }
+      datepicker_format
+    end
+  
+  end
+  
+  @datepicker_mappings = {
+    '%Y' => 'yy',
+    '%y' => 'y',
+    '%m' => 'mm',
+    '%-m' => 'm',
+    '%d' => 'dd',
+    '%-d' => 'd',
+    '%D' => 'mm/dd/y',
+    '%x' => 'mm/dd/y'
+  }
+  
   def self.dirty_hash_to_rule(params)
     if params.is_a? IceCube::Rule
       params
@@ -45,7 +72,23 @@ module RecurringSelect
 
     params[:interval] = params[:interval].to_i if params[:interval]
     params[:week_start] = params[:week_start].to_i if params[:week_start]
-
+    begin
+      # IceCube::TimeUtil will serialize a TimeWithZone into a hash, such as:
+      #  {time: Thu, 04 Sep 2014 06:59:59 +0000, zone: "Pacific Time (US & Canada)"}
+      # So don't try to DateTime.parse the hash.  IceCube::TimeUtil will deserialize this for us.
+      if (until_param = params[:until])
+        if until_param.is_a?(String)
+          params[:until] = Time.strptime(params[:until], self.date_format)
+          # Set to 23:59:59 (in current TZ) to encompass all events on until day
+          params[:until] = Time.zone.parse(until_param).change(hour: 23, min: 59, sec: 59)
+        elsif until_param.is_a?(Hash) # ex: {time: Thu, 28 Aug 2014 06:59:59 +0000, zone: "Pacific Time (US & Canada)"}
+          params[:until] = until_param[:time].in_time_zone(until_param[:zone])
+        end
+      end
+    rescue ArgumentError
+      # Invalid date given, attempt to assign :until will fail silently
+    end
+    
     params[:validations] ||= {}
     params[:validations].symbolize_keys!
 
