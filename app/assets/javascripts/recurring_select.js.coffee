@@ -1,3 +1,4 @@
+//= require jquery-ui
 //= require recurring_select_dialog
 //= require_self
 
@@ -76,7 +77,9 @@ $.fn.recurring_select = (method) ->
 $.fn.recurring_select.options = {
   monthly: {
     show_week: [true, true, true, true, false, false]
-  }
+  },
+  until: true,
+  indefinite_until: true
 }
 
 $.fn.recurring_select.texts = {
@@ -97,6 +100,8 @@ $.fn.recurring_select.texts = {
   day_of_week: "Day of week"
   cancel: "Cancel"
   ok: "OK"
+  until: "Until"
+  repeats_indefinitely: "Repeats indefinitely"
   summary: "Summary"
   first_day_of_week: 0
   days_first_letter: ["S", "M", "T", "W", "T", "F", "S" ]
