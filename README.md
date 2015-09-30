@@ -130,7 +130,10 @@ $.fn.recurring_select.options = {
   monthly: {
     show_week: [true, true, true, true, false, false] //display week 1, 2 .... Last
   }
+  until: true                                         //require until date
+  indefinite_until: true                              //until be set to indefinite
 }
+
 ```
 
 ## Testing and Development
