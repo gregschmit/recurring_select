@@ -21,6 +21,7 @@ window.RecurringSelectDialog =
       @mainEventInit()
       @freqInit()
       @summaryInit()
+      @untilInit()
       @outer_holder.trigger "recurring_select:dialog_opened"
       @freq_select.focus()
 
@@ -59,6 +60,10 @@ window.RecurringSelectDialog =
 
     save: =>
       return if !@current_rule.str?
+      if !$.fn.recurring_select.options.indefinite_until && $.fn.recurring_select.options.until && !@current_rule.hash?.until?
+        @content.find('input.rs_until').addClass 'rs_error'
+        return false
+        
       @outer_holder.remove()
       @recurring_selector.recurring_select('save', @current_rule)
 
@@ -70,6 +75,8 @@ window.RecurringSelectDialog =
       @content.on 'click tap', 'h1 a', @cancel
       @save_button = @content.find('input.rs_save').on "click tap", @save
       @content.find('input.rs_cancel').on "click tap", @cancel
+      @content.find('input.rs_until').on "change", @untilChanged
+      @content.find('input.rs_indefinite').on 'change tap', @indefiniteChanged
 
     freqInit: ->
       @freq_select = @outer_holder.find ".rs_frequency"
@@ -176,7 +183,16 @@ window.RecurringSelectDialog =
       @current_rule.str = data
       @summaryUpdate()
       @content.css {"width": "auto"}
-
+    
+    untilInit: =>
+      @content.find('input.rs_until').datepicker
+        dateFormat: '<%= RecurringSelect.datepicker_format %>'
+        onSelect: (date) =>
+          @setUntil date
+      .val @current_rule.hash?.until
+      if $.fn.recurring_select.options.indefinite_until
+        @content.find('input.rs_indefinite').click() if @current_rule.hash?.until?
+    
     init_calendar_days: (section) =>
       monthly_calendar = section.find(".rs_calendar_day")
       monthly_calendar.html ""
@@ -223,15 +239,16 @@ window.RecurringSelectDialog =
 # ========================= Change callbacks ===============================
 
     freqChanged: =>
+      old_until = @current_rule.hash?.until
       @current_rule.hash = null unless $.isPlainObject(@current_rule.hash) # for custom values
 
       @current_rule.hash ||= {}
       @current_rule.hash.interval = 1
-      @current_rule.hash.until = null
+      @current_rule.hash.until = old_until
       @current_rule.hash.count = null
       @current_rule.hash.validations = null
       @content.find(".freq_option_section").hide();
-      @content.find("input[type=radio], input[type=checkbox]").prop("checked", false)
+      @content.find("input[type=radio], input[type=checkbox]:not(.rs_indefinite)").prop("checked", false)
       switch @freq_select.val()
         when "Weekly"
           @current_rule.hash.rule_type = "IceCube::WeeklyRule"
@@ -249,9 +266,10 @@ window.RecurringSelectDialog =
           @current_rule.hash.rule_type = "IceCube::DailyRule"
           @current_rule.str = $.fn.recurring_select.texts["daily"]
           @initDailyOptions()
+      @current_rule.str = null
       @summaryUpdate()
       @positionDialogVert()
-
+    
     intervalChanged: (event) =>
       @current_rule.str = null
       @current_rule.hash ||= {}
@@ -297,6 +315,43 @@ window.RecurringSelectDialog =
         @current_rule.hash.validations.day_of_week[day].push instance
       @summaryUpdate()
       false
+
+    untilChanged: (event) =>
+       @setUntil $(event.currentTarget).val()
+    
+    setUntil: (date) ->
+      @current_rule.hash ||= {}
+      @current_rule.str = null
+      @current_rule.hash.until = date
+      @summaryUpdate()
+      false
+    
+    indefiniteChanged: (event) =>
+      $el = $(event.currentTarget)
+      $untilSection = $el.parents('.until_option').find('.until_input')
+      $untilInput = $untilSection.find 'input.rs_until'
+      if $el.is ':checked'
+        $untilInput.val('').blur()
+        $untilSection.hide()
+      else
+        if @current_rule.hash?.until
+          $untilInput.val @current_rule.hash.until
+        else
+          $untilInput.datepicker('setDate', @getUntilDefaultDate())
+            .focus
+        $untilInput.blur()
+        $untilSection.show()
+    
+    getUntilDefaultDate: =>
+      today = new Date
+      year = today.getFullYear()
+      month = today.getMonth()
+      day = today.getDate()
+      switch @current_rule.hash.rule_type
+        when "IceCube::MonthlyRule" then new Date year + 1, month, day
+        when "IceCube::YearlyRule" then new Date year + 5, month, day
+        when "IceCube::WeeklyRule" then new Date year, month + 1, day
+        else new Date year, month, day + 7
 
 # ========================= Change callbacks ===============================
 
@@ -358,7 +413,28 @@ window.RecurringSelectDialog =
                 <input type='text' data-wrapper-class='ui-recurring-select' name='rs_yearly_interval' class='rs_yearly_interval rs_interval' value='1' size='2' />
                 #{$.fn.recurring_select.texts["years"]}
               </p>
-            </div>
+            </div>"
+            
+      if $.fn.recurring_select.options.until
+ 
+        str +="<div class='until_option'>"
+          
+        if $.fn.recurring_select.options.indefinite_until
+          str +="<p class='indefinite_input'>
+                  <label for='indefinite'>
+                    <input id='indefinite' class='rs_indefinite' type='checkbox' checked='checked' />
+                    #{$.fn.recurring_select.texts["repeats_indefinitely"]}
+                  </label>
+                </p>"
+        
+        
+        str += "<p class='until_input'>
+                #{$.fn.recurring_select.texts["until"]}
+                <input id='until' type='text' name='rs_until' readonly size='15' class='rs_until date' />
+              </p>
+            </div>"
+            
+      str += "
             <p class='rs_summary'>
               <span></span>
             </p>
