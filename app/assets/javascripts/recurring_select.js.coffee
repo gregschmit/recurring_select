@@ -79,7 +79,10 @@ $.fn.recurring_select.options = {
     show_week: [true, true, true, true, false, false]
   },
   until: true,
-  indefinite_until: true
+  indefinite_until: true,
+  datepicker: {
+    firstDay: 1  # 1 = monday, 0 = sunday
+  }
 }
 
 $.fn.recurring_select.texts = {
