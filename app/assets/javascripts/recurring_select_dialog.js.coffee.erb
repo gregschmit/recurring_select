@@ -2,22 +2,36 @@ window.RecurringSelectDialog =
   class RecurringSelectDialog
     constructor: (@recurring_selector) ->
       @current_rule = @recurring_selector.recurring_select('current_rule')
+      @position = @recurring_selector.data('recurring-select-position') ? 'fixed'
+
       @initDialogBox()
       if not @current_rule.hash? or not @current_rule.hash.rule_type?
         @freqChanged()
-      else
+      else if @position != 'inline'
         setTimeout @positionDialogVert, 10 # allow initial render
+
+      if @position != 'fixed'
+        $('body').on 'click.recurring_select_cancel', (e) =>
+          unless $(e.target).closest('.rs_dialog_content').length
+            @cancel(e)
+            $('body').off('click.recurring_select_cancel')
+
 
     initDialogBox: ->
       $(".rs_dialog_holder").remove()
 
-      open_in = $("body")
+      open_in = if @position == 'inline'
+        @recurring_selector.parent()
+      else
+        $("body")
+
       open_in = $(".ui-page-active") if $(".ui-page-active").length
       open_in.append @template()
       @outer_holder = $(".rs_dialog_holder")
+      @outer_holder.addClass @position
       @inner_holder = @outer_holder.find ".rs_dialog"
       @content = @outer_holder.find ".rs_dialog_content"
-      @positionDialogVert(true)
+      @positionDialogVert(true) unless @position == 'inline'
       @mainEventInit()
       @freqInit()
       @summaryInit()
@@ -49,7 +63,8 @@ window.RecurringSelectDialog =
           @content.css {"width": "auto"}
           @inner_holder.trigger "recurring_select:dialog_positioned"
 
-    cancel: =>
+    cancel: (e) =>
+      e.preventDefault() if e
       @outer_holder.remove()
       @recurring_selector.recurring_select('cancel')
 
@@ -250,7 +265,7 @@ window.RecurringSelectDialog =
           @current_rule.str = $.fn.recurring_select.texts["daily"]
           @initDailyOptions()
       @summaryUpdate()
-      @positionDialogVert()
+      @positionDialogVert() unless @position == 'inline'
 
     intervalChanged: (event) =>
       @current_rule.str = null
