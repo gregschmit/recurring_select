@@ -10,12 +10,6 @@ window.RecurringSelectDialog =
       else if @position != 'inline'
         setTimeout @positionDialogVert, 10 # allow initial render
 
-      if @position != 'fixed'
-        $('body').on 'click.recurring_select_cancel', (e) =>
-          unless $(e.target).parent(@recurring_selector).length
-            @cancel(e)
-
-
     initDialogBox: ->
       $(".rs_dialog_holder").remove()
 
