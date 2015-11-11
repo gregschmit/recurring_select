@@ -55,7 +55,7 @@ window.RecurringSelectDialog =
       @recurring_selector.recurring_select('cancel')
 
     outerCancel: (event) =>
-      if $(event.target).hasClass("rs_dialog_holder")
+      if $.fn.recurring_select.options.close_on_outside_click && $(event.target).hasClass("rs_dialog_holder")
         @cancel()
 
     save: =>
