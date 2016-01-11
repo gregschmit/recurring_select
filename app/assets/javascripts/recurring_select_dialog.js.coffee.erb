@@ -325,23 +325,32 @@ window.RecurringSelectDialog =
         if $.inArray(num, @current_rule.hash.validations.day_of_month) != -1
           day_link.addClass("selected")
       yearly_calendar.find("a").on "click tap", @dateOfYearChanged
+      @selectMonthAndDay()
       false
 
     dateOfYearChanged: (event) =>
-      selected_month = parseInt(@content.find("#rs_yearly_months").val()) + 1
       yearly_calendar = @content.find(".rs_calendar_year")
       yearly_calendar.find("a").removeClass("selected")
       $(event.currentTarget).toggleClass("selected")
+      @selectMonthAndDay()
+      false
+
+    selectMonthAndDay: () =>
+      selected_month = parseInt(@content.find("#rs_yearly_months").val()) + 1
       @current_rule.str = null
       @current_rule.hash ||= {}
       @current_rule.hash.validations = {}
       raw_days = @content.find(".yearly_options .rs_calendar_year a.selected").map ->
         res = if $(this).text() == $.fn.recurring_select.texts["last_day"] then -1 else parseInt($(this).text())
         res
-      @current_rule.hash.validations.day_of_month = raw_days.get()
-      @current_rule.hash.validations.month_of_year = selected_month
+      if raw_days.get().length != 0
+        @current_rule.hash.validations.day_of_month = raw_days.get()
+        @current_rule.hash.validations.month_of_year = selected_month
+      else
+        @current_rule.hash.validations = null
       @summaryUpdate()
       false
+
 
 
 # ========================= Change callbacks ===============================
@@ -389,7 +398,7 @@ window.RecurringSelectDialog =
               <p>
                 #{$.fn.recurring_select.texts["every"]}
                 <input type='text' data-wrapper-class='ui-recurring-select' name='rs_monthly_interval' class='rs_monthly_interval rs_interval' value='1' size='2' />
-                #{$.fn.recurring_select.texts["months"]}:
+                #{$.fn.recurring_select.texts["months_on"]}:
               </p>
               <p class='monthly_rule_type'>
                 <span><label for='monthly_rule_type_day'>#{$.fn.recurring_select.texts["day_of_month"]}</label><input type='radio' class='monthly_rule_type_day' name='monthly_rule_type' id='monthly_rule_type_day' value='true' /></span>
@@ -402,7 +411,7 @@ window.RecurringSelectDialog =
               <p>
                 #{$.fn.recurring_select.texts["every"]}
                 <input type='text' data-wrapper-class='ui-recurring-select' name='rs_yearly_interval' class='rs_yearly_interval rs_interval' value='1' size='2' />
-                #{$.fn.recurring_select.texts["years"]}
+                #{$.fn.recurring_select.texts["years_on"]}
               </p>
               <select id='rs_yearly_months'>
                 <option value='0'>January</option>
