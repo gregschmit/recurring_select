@@ -78,6 +78,10 @@ module RecurringSelect
       params[:validations][:day_of_year] = params[:validations][:day_of_year].collect(&:to_i)
     end
 
+    if params[:validations][:month_of_year]
+      params[:validations][:month_of_year] = params[:validations][:month_of_year].to_i
+    end
+
     params
   end
 end

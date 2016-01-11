@@ -139,6 +139,11 @@ window.RecurringSelectDialog =
       interval_input = section.find('.rs_yearly_interval')
       interval_input.val(@current_rule.hash.interval)
       interval_input.on "change keyup", @intervalChanged
+
+      @current_rule.hash.validations ||= {}
+      @current_rule.hash.validations.day_of_month ||= []
+      @current_rule.hash.validations.day_of_week ||= {}
+      @init_calendar_year(section)
       section.show()
 
 
@@ -220,6 +225,17 @@ window.RecurringSelectDialog =
       @content.find(".rs_calendar_week").toggle(week_mode)
       @content.find(".rs_calendar_day").toggle(!week_mode)
 
+    init_calendar_year: (section) =>
+      yearly_calendar = section.find(".rs_calendar_year")
+      yearly_calendar.html ""
+      for num in [1..31]
+        yearly_calendar.append (day_link = $(document.createElement("a")).text(num))
+        if $.inArray(num, @current_rule.hash.validations.day_of_month) != -1
+          day_link.addClass("selected")
+
+      section.find("#rs_yearly_months").on "change", @monthSelectedChanged
+      yearly_calendar.find("a").on "click tap", @dateOfYearChanged
+
 # ========================= Change callbacks ===============================
 
     freqChanged: =>
@@ -298,6 +314,36 @@ window.RecurringSelectDialog =
       @summaryUpdate()
       false
 
+    monthSelectedChanged: (event) =>
+      selected_month = @content.find("#rs_yearly_months").val()
+      days_in_month = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+      yearly_calendar = @content.find(".rs_calendar_year")
+      yearly_calendar.html ""
+      for num in [1..days_in_month[selected_month]]
+        yearly_calendar.append (day_link = $(document.createElement("a")).text(num))
+        if $.inArray(num, @current_rule.hash.validations.day_of_month) != -1
+          day_link.addClass("selected")
+      yearly_calendar.find("a").on "click tap", @dateOfYearChanged
+      false
+
+    dateOfYearChanged: (event) =>
+      selected_month = parseInt(@content.find("#rs_yearly_months").val()) + 1
+      yearly_calendar = @content.find(".rs_calendar_year")
+      yearly_calendar.find("a").removeClass("selected")
+      $(event.currentTarget).toggleClass("selected")
+      @current_rule.str = null
+      @current_rule.hash ||= {}
+      @current_rule.hash.validations = {}
+      raw_days = @content.find(".yearly_options .rs_calendar_year a.selected").map ->
+        res = if $(this).text() == $.fn.recurring_select.texts["last_day"] then -1 else parseInt($(this).text())
+        res
+      @current_rule.hash.validations.day_of_month = raw_days.get()
+      @current_rule.hash.validations.month_of_year = selected_month
+      @summaryUpdate()
+      false
+
+
 # ========================= Change callbacks ===============================
 
     template: () ->
@@ -358,6 +404,21 @@ window.RecurringSelectDialog =
                 <input type='text' data-wrapper-class='ui-recurring-select' name='rs_yearly_interval' class='rs_yearly_interval rs_interval' value='1' size='2' />
                 #{$.fn.recurring_select.texts["years"]}
               </p>
+              <select id='rs_yearly_months'>
+                <option value='0'>January</option>
+                <option value='1'>February</option>
+                <option value='2'>March</option>
+                <option value='3'>April</option>
+                <option value='4'>May</option>
+                <option value='5'>June</option>
+                <option value='6'>July</option>
+                <option value='7'>August</option>
+                <option value='8'>September</option>
+                <option value='9'>October</option>
+                <option value='10'>November</option>
+                <option value='11'>December</option>
+              </select>
+              <p class='rs_calendar_year'></p>
             </div>
             <p class='rs_summary'>
               <span></span>
