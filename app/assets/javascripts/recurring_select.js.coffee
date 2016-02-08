@@ -81,7 +81,8 @@ $.fn.recurring_select.options = {
   until: true,
   indefinite_until: true,
   datepicker: {
-    firstDay: 1  # 1 = monday, 0 = sunday
+    firstDay: 1,  # 1 = monday, 0 = sunday
+    beforeShowDayFunction: ->
   },
   close_on_outside_click: true
 }

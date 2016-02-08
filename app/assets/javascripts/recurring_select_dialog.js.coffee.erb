@@ -188,6 +188,7 @@ window.RecurringSelectDialog =
       @content.find('input.rs_until').datepicker
         firstDay: $.fn.recurring_select.options.datepicker.firstDay
         dateFormat: '<%= RecurringSelect.datepicker_format %>'
+        beforeShowDay: $.fn.recurring_select.options.datepicker.beforeShowDayFunction
         onSelect: (date) =>
           @setUntil date
       .val @current_rule.hash?.until
