@@ -1,0 +1,8 @@
+de:
+  recurring_select:
+    not_recurring: "Nicht wiederholen"
+    change_schedule: "Zeitplan ändern"
+    set_schedule: "Wähle einen Zeitplan..."
+    new_custom_schedule: "Neuen Zeitplan anpassen..."
+    custom_schedule: "Zeitplan anpassen..."
+    or: oder
