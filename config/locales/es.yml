@@ -1,0 +1,8 @@
+es:
+  recurring_select:
+    not_recurring: "Que no se repita"
+    change_schedule: "Cambia el horario..."
+    set_schedule: "Establece un horario..."
+    new_custom_schedule: "Nuevo horario personalizado..."
+    custom_schedule: "Horario personalizado..."
+    or: o

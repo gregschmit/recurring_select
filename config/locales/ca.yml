@@ -1,0 +1,8 @@
+ca:
+  recurring_select:
+    not_recurring: "­Que no es repeteixi"
+    change_schedule: "Canvia l’horari..."
+    set_schedule: "Estableix un horari..."
+    new_custom_schedule: "Nou horari personalitzat..."
+    custom_schedule: "Horari personalitzat..."
+    or: o
