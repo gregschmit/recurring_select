@@ -16,7 +16,6 @@ $.fn.recurring_select.texts = {
   day_of_month: "Dag på måneden"
   day_of_week: "Dag på ugen"
   ok: "OK"
-  cancel: "Annuller"
   summary: "Valgt"
   first_day_of_week: 0
   days_first_letter: ["S", "M", "T", "O", "T", "F", "L" ]
