@@ -7,7 +7,7 @@ $.fn.recurring_select.texts = {
   weekly: "Wöchentlich"
   monthly: "Monatlich"
   yearly: "Jährlich"
-  every: "Jeden"
+  every: "Jede(n)"
   days: "Tag(e)"
   weeks_on: "Woche(n) am"
   months: "Monat(e)"
