@@ -2,7 +2,7 @@ $.fn.recurring_select.texts = {
   locale_iso_code: "ca"
   repeat: "Repeteix"
   last_day: "Últim dia"
-  frequency: "Freqüènciaes"
+  frequency: "Freqüència"
   daily: "Diariament"
   weekly: "Setmanalment"
   monthly: "Mensualment"
@@ -18,7 +18,7 @@ $.fn.recurring_select.texts = {
   ok: "OK"
   summary: "Sumari"
   first_day_of_week: 0
-  days_first_letter: [ "DL", "DT", "DC", "DJ", "DV", "DS", "DG" ]
+  days_first_letter: [ "DG", "DL", "DT", "DC", "DJ", "DV", "DS" ]
   order: ["1r", "2n", "3r", "4t", "5è", "l’últim"]
   show_week: [true, true, true, true, false, false]
 }
