@@ -103,6 +103,7 @@ For other languages include a JavaScript file like this:
 $.fn.recurring_select.texts = {
   locale_iso_code: "fr"
   repeat: "Repeat"
+  last_day: "Last Day"
   frequency: "Frequency"
   daily: "Daily"
   weekly: "Weekly"
@@ -113,12 +114,13 @@ $.fn.recurring_select.texts = {
   weeks_on: "week(s) on"
   months: "month(s)"
   years: "year(s)"
-  first_day_of_week: 1
   day_of_month: "Day of month"
   day_of_week: "Day of week"
   cancel: "Cancel"
   ok: "OK"
-  days_first_letter: ["S", "M", "T", "W", "T", "F", "S"]
+  summary: "Summary"
+  first_day_of_week: 1
+  days_first_letter: ["S", "M", "T", "W", "T", "F", "S" ]
   order: ["1st", "2nd", "3rd", "4th", "5th", "Last"]
 }
 ```
