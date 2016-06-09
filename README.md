@@ -90,11 +90,12 @@ en:
     or: or
 ```
 
-You have to translate JavaScript texts too by including the locale file in your assets manifest. Only French and English are supported for the moment.
+You have to translate JavaScript texts too by including the locale file in your assets manifest. Only French, English and Spanish are supported for the moment.
 
 ```
 //= require recurring_select/en
 //= require recurring_select/fr
+//= require recurring_select/es
 ```
 
 For other languages include a JavaScript file like this:
