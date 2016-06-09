@@ -343,6 +343,7 @@ window.RecurringSelectDialog =
             .focus
         $untilInput.blur()
         $untilSection.show()
+      @summaryUpdate()
     
     getUntilDefaultDate: =>
       today = new Date
