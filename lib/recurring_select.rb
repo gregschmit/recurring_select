@@ -80,7 +80,7 @@ module RecurringSelect
         if until_param.is_a?(String)
           params[:until] = Time.strptime(params[:until], self.date_format)
           # Set to 23:59:59 (in current TZ) to encompass all events on until day
-          params[:until] = Time.zone.parse(until_param).change(hour: 23, min: 59, sec: 59)
+          params[:until] = Time.zone.parse(params[:until].to_s).change(hour: 23, min: 59, sec: 59)
         elsif until_param.is_a?(Hash) # ex: {time: Thu, 28 Aug 2014 06:59:59 +0000, zone: "Pacific Time (US & Canada)"}
           params[:until] = until_param[:time].in_time_zone(until_param[:zone])
         end
