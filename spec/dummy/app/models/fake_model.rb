@@ -4,7 +4,8 @@ class FakeModel
   extend ActiveModel::Naming
   # include ActiveModel::MassAssignmentSecurity
 
-  attr_accessor :recurring_rules
+  attr_accessor :repeat_rule, :start_date, :end_date,
+    :start_time, :end_time
 
   def current_existing_rule
     IceCube::Rule.monthly.day_of_month(-1).to_hash
