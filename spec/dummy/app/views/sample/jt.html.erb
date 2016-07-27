@@ -16,15 +16,11 @@
   </p>
 
   <p>
-    <%= f.hidden_field :repeat_rule, class: 'appointment-system-repeat-rule-value', value: '{"interval":1,"until":null,"count":null,"validations":{"day":[4]},"rule_type":"IceCube::WeeklyRule","week_start":0}' %>
+    <%= f.hidden_field :repeat_rule, class: 'appointment-system-repeat-rule-value', value: '' %>
   </p>
 
   <p class="repeat_rule_component"></p>
 
-  <p>
-    <%= f.label :end_date, "Repeat end time" %>
-    <%= f.date_select :end_date, input_html: {class: 'select2'} %>
-  </p>
   <p>
     <%= f.submit %>
   </p>
