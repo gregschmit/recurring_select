@@ -79,7 +79,7 @@ module RecurringSelect
     end
 
     if params[:validations][:month_of_year]
-      params[:validations][:month_of_year] = params[:validations][:month_of_year].to_i
+      params[:validations][:month_of_year] = params[:validations][:month_of_year][0].to_i
     end
 
     params
