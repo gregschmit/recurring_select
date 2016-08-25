@@ -76,10 +76,10 @@ window.RecurringSelectDialog =
 
     mainEventInit: ->
       # Tap hooks are for jQueryMobile
-      @outer_holder.on 'click tap', @outerCancel
-      @content.on 'click tap', 'h1 a', @cancel
-      @save_button = @content.find('input.rs_save').on "click tap", @save
-      @content.find('input.rs_cancel').on "click tap", @cancel
+      @outer_holder.on 'tap', @outerCancel
+      @content.on 'tap', 'h1 a', @cancel
+      @save_button = @content.find('input.rs_save').on "tap", @save
+      @content.find('input.rs_cancel').on "tap", @cancel
 
     freqInit: ->
       @freq_select = @outer_holder.find ".rs_frequency"
@@ -201,7 +201,7 @@ window.RecurringSelectDialog =
       if $.inArray(-1, @current_rule.hash.validations.day_of_month) != -1
         end_of_month_link.addClass("selected")
 
-      monthly_calendar.find("a").on "click tap", @dateOfMonthChanged
+      monthly_calendar.find("a").on "tap", @dateOfMonthChanged
 
     init_calendar_weeks: (section) =>
       monthly_calendar = section.find(".rs_calendar_week")
@@ -223,7 +223,7 @@ window.RecurringSelectDialog =
       $.each @current_rule.hash.validations.day_of_week, (key, value) ->
         $.each value, (index, instance) ->
           section.find("a[day='#{key}'][instance='#{instance}']").addClass("selected")
-      monthly_calendar.find("a").on "click tap", @weekOfMonthChanged
+      monthly_calendar.find("a").on "tap", @weekOfMonthChanged
 
     toggle_month_view: =>
       week_mode = @content.find(".monthly_rule_type_week").prop("checked")
