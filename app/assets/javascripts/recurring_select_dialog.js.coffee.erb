@@ -335,6 +335,9 @@ window.RecurringSelectDialog =
       if $el.is ':checked'
         $untilInput.val('').blur()
         $untilSection.hide()
+        if @current_rule.hash
+          delete @current_rule.hash.until
+        delete @current_rule.str
       else
         if @current_rule.hash?.until
           $untilInput.val @current_rule.hash.until
@@ -343,6 +346,7 @@ window.RecurringSelectDialog =
             .focus
         $untilInput.blur()
         $untilSection.show()
+      @summaryUpdate()
     
     getUntilDefaultDate: =>
       today = new Date
