@@ -52,6 +52,11 @@ Use :allow_blank for a "not recurring" option:
   f.select_recurring :current_existing_rule, nil, :allow_blank => true
 ```
 
+Use :data attribute to position the recurring select dialog inline (after the select input):
+
+```ruby
+  f.select_recurring :current_existing_rule, nil, { :allow_blank => true }, { data: { recurring_select_position: 'inline' } }
+```
 
 ### Additional Helpers
 

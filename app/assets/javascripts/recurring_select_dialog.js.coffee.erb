@@ -2,22 +2,27 @@ window.RecurringSelectDialog =
   class RecurringSelectDialog
     constructor: (@recurring_selector) ->
       @current_rule = @recurring_selector.recurring_select('current_rule')
+      @position = @recurring_selector.data('recurring-select-position')
       @initDialogBox()
       if not @current_rule.hash? or not @current_rule.hash.rule_type?
         @freqChanged()
-      else
+      else if @position != 'inline'
         setTimeout @positionDialogVert, 10 # allow initial render
 
     initDialogBox: ->
       $(".rs_dialog_holder").remove()
 
-      open_in = $("body")
+      open_in = if @position == 'inline'
+        @recurring_selector.parent()
+      else
+        $("body")
       open_in = $(".ui-page-active") if $(".ui-page-active").length
       open_in.append @template()
       @outer_holder = $(".rs_dialog_holder")
+      @outer_holder.addClass @position
       @inner_holder = @outer_holder.find ".rs_dialog"
       @content = @outer_holder.find ".rs_dialog_content"
-      @positionDialogVert(true)
+      @positionDialogVert(true) unless @position == 'inline'
       @mainEventInit()
       @freqInit()
       @summaryInit()
@@ -50,9 +55,11 @@ window.RecurringSelectDialog =
           @content.css {"width": "auto"}
           @inner_holder.trigger "recurring_select:dialog_positioned"
 
-    cancel: =>
+    cancel: (e) =>
+      e.preventDefault() if e
       @outer_holder.remove()
       @recurring_selector.recurring_select('cancel')
+      $('body').off('click.recurring_select_cancel')
 
     outerCancel: (event) =>
       if $.fn.recurring_select.options.close_on_outside_click && $(event.target).hasClass("rs_dialog_holder")
@@ -66,6 +73,7 @@ window.RecurringSelectDialog =
         
       @outer_holder.remove()
       @recurring_selector.recurring_select('save', @current_rule)
+      $('body').off('click.recurring_select_cancel')
 
 # ========================= Init Methods ===============================
 
@@ -270,7 +278,7 @@ window.RecurringSelectDialog =
           @initDailyOptions()
       @current_rule.str = null
       @summaryUpdate()
-      @positionDialogVert()
+      @positionDialogVert() unless @position == 'inline'
     
     intervalChanged: (event) =>
       @current_rule.str = null
@@ -380,14 +388,14 @@ window.RecurringSelectDialog =
             <div class='daily_options freq_option_section'>
               <p>
                 #{$.fn.recurring_select.texts["every"]}
-                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_daily_interval' class='rs_daily_interval rs_interval' value='1' size='2' />
+                <input type='number' data-wrapper-class='ui-recurring-select' name='rs_daily_interval' class='rs_daily_interval rs_interval' value='1' size='2' />
                 #{$.fn.recurring_select.texts["days"]}
               </p>
             </div>
             <div class='weekly_options freq_option_section'>
               <p>
                 #{$.fn.recurring_select.texts["every"]}
-                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_weekly_interval' class='rs_weekly_interval rs_interval' value='1' size='2' />
+                <input type='number' data-wrapper-class='ui-recurring-select' name='rs_weekly_interval' class='rs_weekly_interval rs_interval' value='1' size='2' />
                 #{$.fn.recurring_select.texts["weeks_on"]}:
               </p>
               <div class='day_holder'>
@@ -403,7 +411,7 @@ window.RecurringSelectDialog =
             <div class='monthly_options freq_option_section'>
               <p>
                 #{$.fn.recurring_select.texts["every"]}
-                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_monthly_interval' class='rs_monthly_interval rs_interval' value='1' size='2' />
+                <input type='number' data-wrapper-class='ui-recurring-select' name='rs_monthly_interval' class='rs_monthly_interval rs_interval' value='1' size='2' />
                 #{$.fn.recurring_select.texts["months"]}:
               </p>
               <p class='monthly_rule_type'>
@@ -416,7 +424,7 @@ window.RecurringSelectDialog =
             <div class='yearly_options freq_option_section'>
               <p>
                 #{$.fn.recurring_select.texts["every"]}
-                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_yearly_interval' class='rs_yearly_interval rs_interval' value='1' size='2' />
+                <input type='number' data-wrapper-class='ui-recurring-select' name='rs_yearly_interval' class='rs_yearly_interval rs_interval' value='1' size='2' />
                 #{$.fn.recurring_select.texts["years"]}
               </p>
             </div>"
