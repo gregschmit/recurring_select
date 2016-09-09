@@ -375,9 +375,9 @@ window.RecurringSelectDialog =
         <div class='rs_dialog'>
           <div class='rs_dialog_content'>
             <h1>#{$.fn.recurring_select.texts["repeat"]} <a href='#' title='#{$.fn.recurring_select.texts["cancel"]}' Alt='#{$.fn.recurring_select.texts["cancel"]}'></a> </h1>
-            <p class='frequency-select-wrapper'>
-              <label for='rs_frequency'>#{$.fn.recurring_select.texts["frequency"]}:</label>
-              <select data-wrapper-class='ui-recurring-select' id='rs_frequency' class='rs_frequency' name='rs_frequency'>
+            <p class='frequency-select-wrapper form-item form-item-small'>
+              <label for='rs_frequency' class='form-label'>#{$.fn.recurring_select.texts["frequency"]}:</label>
+              <select data-wrapper-class='ui-recurring-select' id='rs_frequency' class='rs_frequency form-select' name='rs_frequency'>
                 <option value='Daily'>#{$.fn.recurring_select.texts["daily"]}</option>
                 <option value='Weekly'>#{$.fn.recurring_select.texts["weekly"]}</option>
                 <option value='Monthly'>#{$.fn.recurring_select.texts["monthly"]}</option>
@@ -386,16 +386,53 @@ window.RecurringSelectDialog =
             </p>
 
             <div class='daily_options freq_option_section'>
-              <p>
+              <p class='every form-item form-item-small'>
+                <label for='rs_daily_interval' class='form-label'>#{$.fn.recurring_select.texts["settings"]}</label>
                 #{$.fn.recurring_select.texts["every"]}
-                <input type='number' data-wrapper-class='ui-recurring-select' name='rs_daily_interval' class='rs_daily_interval rs_interval' value='1' size='2' />
+                <select data-wrapper-class='ui-recurring-select' name='rs_daily_interval' class='form-select rs_daily_interval rs_interval'>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                  <option>12</option>
+                  <option>13</option>
+                  <option>14</option>
+                  <option>15</option>
+                  <option>16</option>
+                  <option>17</option>
+                  <option>18</option>
+                  <option>19</option>
+                  <option>20</option>
+                  <option>21</option>
+                </select>
                 #{$.fn.recurring_select.texts["days"]}
               </p>
             </div>
             <div class='weekly_options freq_option_section'>
-              <p>
+              <p class='every form-item form-item-small'>
+                <label for='rs_weekly_interval' class='form-label'>#{$.fn.recurring_select.texts["settings"]}</label>
                 #{$.fn.recurring_select.texts["every"]}
-                <input type='number' data-wrapper-class='ui-recurring-select' name='rs_weekly_interval' class='rs_weekly_interval rs_interval' value='1' size='2' />
+                <select data-wrapper-class='ui-recurring-select' name='rs_weekly_interval' class='form-select rs_weekly_interval rs_interval'>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                  <option>12</option>
+                </select>
                 #{$.fn.recurring_select.texts["weeks_on"]}:
               </p>
               <div class='day_holder'>
@@ -409,9 +446,23 @@ window.RecurringSelectDialog =
               <span style='clear:both; visibility:hidden; height:1px;'>.</span>
             </div>
             <div class='monthly_options freq_option_section'>
-              <p>
+              <p class='every form-item form-item-small'>
+                <label for='rs_monthly_interval' class='form-label'>#{$.fn.recurring_select.texts["settings"]}</label>
                 #{$.fn.recurring_select.texts["every"]}
-                <input type='number' data-wrapper-class='ui-recurring-select' name='rs_monthly_interval' class='rs_monthly_interval rs_interval' value='1' size='2' />
+                <select data-wrapper-class='ui-recurring-select' name='rs_monthly_interval' class='form-select rs_monthly_interval rs_interval'>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                  <option>12</option>
+                </select>
                 #{$.fn.recurring_select.texts["months"]}:
               </p>
               <p class='monthly_rule_type'>
@@ -422,9 +473,23 @@ window.RecurringSelectDialog =
               <p class='rs_calendar_week'></p>
             </div>
             <div class='yearly_options freq_option_section'>
-              <p>
+              <p class='every form-item form-item-small'>
+                <label for='rs_yearly_interval' class='form-label'>#{$.fn.recurring_select.texts["settings"]}</label>
                 #{$.fn.recurring_select.texts["every"]}
-                <input type='number' data-wrapper-class='ui-recurring-select' name='rs_yearly_interval' class='rs_yearly_interval rs_interval' value='1' size='2' />
+                <select data-wrapper-class='ui-recurring-select' name='rs_yearly_interval' class='form-select rs_yearly_interval rs_interval'>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                  <option>12</option>
+                </select>
                 #{$.fn.recurring_select.texts["years"]}
               </p>
             </div>"
@@ -442,9 +507,9 @@ window.RecurringSelectDialog =
                 </p>"
         
         
-        str += "<p class='until_input'>
-                #{$.fn.recurring_select.texts["until"]}
-                <input id='until' type='text' name='rs_until' readonly size='15' class='rs_until date' />
+        str += "<p class='until_input form-item form-item-small'>
+                <label for='until' class='form-label'>#{$.fn.recurring_select.texts["until"]}</label>
+                <input id='until' type='text' name='rs_until' readonly size='15' class='rs_until date form-input' />
               </p>
             </div>"
             
