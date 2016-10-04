@@ -83,7 +83,11 @@ window.RecurringSelectDialog =
         else if rule_type.search(/Yearly/) != -1
           @freq_select.prop('selectedIndex', 3)
           @initYearlyOptions()
+        else if rule_type.search(/Once/) != -1
+          @freq_select.prop('selectedIndex', 4)
+          @initSingleOccurrenceOptions()
         else
+          @freq_select.prop('selectedIndex', 0)
           @initDailyOptions()
       @freq_select.on "change", @freqChanged
 
@@ -141,6 +145,12 @@ window.RecurringSelectDialog =
       interval_input.on "change keyup", @intervalChanged
       section.show()
 
+    initSingleOccurrenceOptions: ->
+      section = @content.find('.once_options')
+      time_input = section.find('.rs_time')
+      time_input.val(@current_rule.hash.time)
+      time_input.on "change", @timeChanged
+      section.show()
 
     summaryInit: ->
       @summary = @outer_holder.find(".rs_summary")
@@ -227,6 +237,7 @@ window.RecurringSelectDialog =
 
       @current_rule.hash ||= {}
       @current_rule.hash.interval = 1
+      @current_rule.hash.time = null
       @current_rule.hash.until = null
       @current_rule.hash.count = null
       @current_rule.hash.validations = null
@@ -245,6 +256,10 @@ window.RecurringSelectDialog =
           @current_rule.hash.rule_type = "IceCube::YearlyRule"
           @current_rule.str = $.fn.recurring_select.texts["yearly"]
           @initYearlyOptions()
+        when "Once"
+          @current_rule.hash.rule_type = "IceCube::SingleOccurrenceRule"
+          @current_rule.str = $.fn.recurring_select.texts["once"]
+          @initSingleOccurrenceOptions()
         else
           @current_rule.hash.rule_type = "IceCube::DailyRule"
           @current_rule.str = $.fn.recurring_select.texts["daily"]
@@ -258,6 +273,12 @@ window.RecurringSelectDialog =
       @current_rule.hash.interval = parseInt($(event.currentTarget).val())
       if @current_rule.hash.interval < 1 || isNaN(@current_rule.hash.interval)
         @current_rule.hash.interval = 1
+      @summaryUpdate()
+
+    timeChanged: (event) =>
+      @current_rule.str = null
+      @current_rule.hash ||= {}
+      @current_rule.hash.time = $(event.currentTarget).val()
       @summaryUpdate()
 
     daysChanged: (event) =>
@@ -313,6 +334,7 @@ window.RecurringSelectDialog =
                 <option value='Weekly'>#{$.fn.recurring_select.texts["weekly"]}</option>
                 <option value='Monthly'>#{$.fn.recurring_select.texts["monthly"]}</option>
                 <option value='Yearly'>#{$.fn.recurring_select.texts["yearly"]}</option>
+                <option value='Once'>#{$.fn.recurring_select.texts["once"]}</option>
               </select>
             </p>
 
@@ -357,6 +379,13 @@ window.RecurringSelectDialog =
                 #{$.fn.recurring_select.texts["every"]}
                 <input type='text' data-wrapper-class='ui-recurring-select' name='rs_yearly_interval' class='rs_yearly_interval rs_interval' value='1' size='2' />
                 #{$.fn.recurring_select.texts["years"]}
+              </p>
+            </div>
+            <div class='once_options freq_option_section'>
+              <p>
+                <!-- Intentionally not initializing the timepicker so as to give the freedom to developer
+                     Use the format accepted by Time.parse. May set an additonal placeholder. -->
+                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_time' class='rs_time form-input' size='15'/>
               </p>
             </div>
             <p class='rs_summary'>
