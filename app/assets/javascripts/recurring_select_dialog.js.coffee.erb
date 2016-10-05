@@ -11,7 +11,8 @@ window.RecurringSelectDialog =
     initDialogBox: ->
       $(".rs_dialog_holder").remove()
 
-      open_in = $("body")
+      selector = $.fn.recurring_select.options["dialogContext"]["open_in_selector"]
+      open_in = $(selector)
       open_in = $(".ui-page-active") if $(".ui-page-active").length
       open_in.append @template()
       @outer_holder = $(".rs_dialog_holder")
@@ -25,8 +26,9 @@ window.RecurringSelectDialog =
       @freq_select.focus()
 
     positionDialogVert: (initial_positioning) =>
-      window_height = $(window).height()
-      window_width  = $(window).width()
+      selector = $.fn.recurring_select.options["dialogContext"]["sizing_selector"]
+      window_height = $(selector).height()
+      window_width  = $(selector).width()
       dialog_height = @content.outerHeight()
       if dialog_height < 80
         dialog_height = 80

@@ -14,6 +14,10 @@ methods =
     @data 'initial-value-hash', @val()
     @data 'initial-value-str', $(@find("option").get()[@.prop("selectedIndex")]).text()
 
+  set_dialog_context: (open_in_selector, sizing_selector) ->
+    $.fn.recurring_select.options["dialogContext"]["open_in_selector"] = open_in_selector
+    $.fn.recurring_select.options["dialogContext"]["sizing_selector"] = sizing_selector
+
   changed: ->
     if @val() == "custom"
       methods.open_custom.apply(@)
@@ -76,6 +80,10 @@ $.fn.recurring_select = (method) ->
 $.fn.recurring_select.options = {
   monthly: {
     show_week: [true, true, true, true, false, false]
+  }
+  dialogContext: {
+    open_in_selector : 'body'
+    sizing_selector  : window
   }
 }
 
