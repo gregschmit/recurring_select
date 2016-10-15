@@ -315,7 +315,7 @@ window.RecurringSelectDialog =
         @current_rule.hash.count = count;
 
     countChanged: (event) =>
-      countUpdate()
+      @countUpdate()
       @summaryUpdate()
       false # this prevents default and propogation
 
@@ -330,7 +330,7 @@ window.RecurringSelectDialog =
         @current_rule.hash.until = test
 
     untilChanged: (event) =>
-      untilUpdate()
+      @untilUpdate()
       @summaryUpdate()
       false # this prevents default and propogation
 
