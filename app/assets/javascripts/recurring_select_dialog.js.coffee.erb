@@ -326,9 +326,9 @@ window.RecurringSelectDialog =
       @current_rule.str = null
       @current_rule.hash ||= {}
       @current_rule.hash.validations = {}
-      until = @content.find("#count").val()
-      if until != @current_rule.hash.until
-        @current_rule.hash.until = until;
+      test = @content.find("#count").val()
+      if test != @current_rule.hash.until
+        @current_rule.hash.until = test
 
     untilChanged: (event) =>
       untilUpdate()
