@@ -48,7 +48,6 @@ module RecurringSelect
     params[:count] = params[:count].to_i if params[:count]
     if params[:until]
       p = params[:until].to_date rescue nil
-      Rails.logger.debug "filter_params gets until: #{params[:until].inspect} and #{p.inspect}"
       params.delete(:until) unless p
     end
 
