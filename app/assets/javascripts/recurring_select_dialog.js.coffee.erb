@@ -21,6 +21,7 @@ window.RecurringSelectDialog =
       @positionDialogVert(true)
       @mainEventInit()
       @freqInit()
+      @limitInit()
       @summaryInit()
       @outer_holder.trigger "recurring_select:dialog_opened"
       @freq_select.focus()
@@ -93,6 +94,19 @@ window.RecurringSelectDialog =
           @initDailyOptions()
       @freq_select.on "change", @freqChanged
 
+    limitInit: ->
+      if @current_rule.hash? && (rule_type = @current_rule.hash.rule_type)?
+        if rule_type.search(/until/i) != -1
+          date = rule_type.match(/until (.*)$/i)
+          @content.find('#until').val(date)
+          @content.find('#radio_limit_until').prop('checked', true)
+        else if rule_type.search(/times/i) != -1
+          times = rule_type.match(/(\d*) times/i)[1]
+          @content.find('#count').val(times)
+          @content.find('#radio_limit_count').prop('checked', true)
+        else
+          @content.find('#radio_limit_none').prop('checked', true)
+      
     initDailyOptions: ->
       section = @content.find('.daily_options')
       interval_input = section.find('.rs_daily_interval')
@@ -408,7 +422,7 @@ window.RecurringSelectDialog =
               </p>
             </div>
             <p> 
-              <span><input type='radio' name='limit' id='radio_limit_none' value='none' checked='checked' /><label for='none'>No Limit</label></span> 
+              <span><input type='radio' name='limit' id='radio_limit_none' value='none' /><label for='none'>No Limit</label></span> 
               <span><input type='radio' name='limit' id='radio_limit_until' value='until' /><label for='until'>Until</label><input type='date' name='until' id='until' size='8' /></span>
               <span><input type='radio' name='limit' id='radio_limit_count' value='count' /><label for='count'>Count</label><input type='text' name='count' id='count' size='1' /></span> 
             </p>
