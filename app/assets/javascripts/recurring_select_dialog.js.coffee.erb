@@ -16,6 +16,7 @@ window.RecurringSelectDialog =
       open_in = $(".ui-page-active") if $(".ui-page-active").length
       open_in.append @template()
       @outer_holder = $(".rs_dialog_holder")
+      @outer_holder.css('z-index', @getMaxZindex(@outer_holder) + 1)
       @inner_holder = @outer_holder.find ".rs_dialog"
       @content = @outer_holder.find ".rs_dialog_content"
       @positionDialogVert(true)
@@ -25,6 +26,16 @@ window.RecurringSelectDialog =
       @summaryInit()
       @outer_holder.trigger "recurring_select:dialog_opened"
       @freq_select.focus()
+
+    getMaxZindex: (target) =>
+      value = 0
+      while target.length && target[ 0 ] != document
+        position = target.css( "position" );
+        test = parseInt( target.css( 'zIndex' ), 10 )
+        if ( !isNaN( test ) && test > value )
+          value = test
+        target = target.parent();
+      return value
 
     positionDialogVert: (initial_positioning) =>
       selector = $.fn.recurring_select.options["dialogContext"]["sizing_selector"]
@@ -423,7 +434,7 @@ window.RecurringSelectDialog =
             </div>
             <p> 
               <span><input type='radio' name='limit' id='radio_limit_none' value='none' /><label for='none'>No Limit</label></span> 
-              <span><input type='radio' name='limit' id='radio_limit_until' value='until' /><label for='until'>Until</label><input type='date' name='until' id='until' size='8' /></span>
+              <span><input type='radio' name='limit' id='radio_limit_until' value='until' /><label for='until'>Until</label><input type='date' name='until' id='until' size='8' style='z-index: 2000;' /></span>
               <span><input type='radio' name='limit' id='radio_limit_count' value='count' /><label for='count'>Count</label><input type='text' name='count' id='count' size='1' /></span> 
             </p>
             <p class='rs_summary'>
