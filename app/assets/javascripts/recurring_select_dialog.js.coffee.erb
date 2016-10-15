@@ -95,14 +95,12 @@ window.RecurringSelectDialog =
       @freq_select.on "change", @freqChanged
 
     limitInit: ->
-      if @current_rule.hash? && (rule_type = @current_rule.hash.rule_type)?
-        if rule_type.search(/until/i) != -1
-          date = rule_type.match(/until (.*)$/i)
-          @content.find('#until').val(date)
+      if @current_rule.hash?
+        if @current_rule.hash.until != null
+          @content.find('#until').val(@current_rule.hash.until)
           @content.find('#radio_limit_until').prop('checked', true)
-        else if rule_type.search(/times/i) != -1
-          times = rule_type.match(/(\d*) times/i)[1]
-          @content.find('#count').val(times)
+        else if @current_rule.hash.count != null
+          @content.find('#count').val(@current_rule.hash.count)
           @content.find('#radio_limit_count').prop('checked', true)
         else
           @content.find('#radio_limit_none').prop('checked', true)
