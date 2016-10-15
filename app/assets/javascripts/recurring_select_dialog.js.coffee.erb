@@ -106,6 +106,8 @@ window.RecurringSelectDialog =
           @content.find('#radio_limit_count').prop('checked', true)
         else
           @content.find('#radio_limit_none').prop('checked', true)
+      else
+        @content.find('#radio_limit_none').prop('checked', true)
       
     initDailyOptions: ->
       section = @content.find('.daily_options')
