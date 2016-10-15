@@ -250,7 +250,8 @@ window.RecurringSelectDialog =
       @current_rule.hash.count = null
       @current_rule.hash.validations = null
       @content.find(".freq_option_section").hide();
-      @content.find(".freq_option_section").find("input[type=radio], input[type=checkbox]").prop("checked", false)
+      @content.find("input[type=radio], input[type=checkbox]").prop("checked", false)
+      @content.find("#radio_limit_none").prop("checked", true)  # put limit back to none though
       switch @freq_select.val()
         when "Weekly"
           @current_rule.hash.rule_type = "IceCube::WeeklyRule"
@@ -268,7 +269,6 @@ window.RecurringSelectDialog =
           @current_rule.hash.rule_type = "IceCube::DailyRule"
           @current_rule.str = $.fn.recurring_select.texts["daily"]
           @initDailyOptions()
-      @limitUpdate()
       @summaryUpdate()
       @positionDialogVert()
 
@@ -320,10 +320,13 @@ window.RecurringSelectDialog =
 
     countUpdate: =>
       if @content.find("input:radio[name=limit]:checked").val() != 'count'
+        # If count is no longer selected, but the hash is still set then clear the str to recalc it
+        if @current_rule.hash.count != null
+          @current_rule.str = null
+        @current_rule.hash.count = null
         return
       @current_rule.str = null
       @current_rule.hash ||= {}
-      @current_rule.hash.validations = {}
       count = parseInt(@content.find("#count").val())
       if !isNaN(count) && count != @current_rule.hash.count
         @current_rule.hash.count = count;
@@ -335,10 +338,13 @@ window.RecurringSelectDialog =
 
     untilUpdate: =>
       if @content.find("input:radio[name=limit]:checked").val() != 'until'
+        # If until is no longer selected, but the hash is still set then clear the str to recalc it
+        if @current_rule.hash.until != null
+          @current_rule.str = null
+        @current_rule.hash.until = null
         return
       @current_rule.str = null
       @current_rule.hash ||= {}
-      @current_rule.hash.validations = {}
       test = @content.find("#until").val()
       if test != @current_rule.hash.until
         @current_rule.hash.until = test
@@ -348,15 +354,9 @@ window.RecurringSelectDialog =
       @summaryUpdate()
       false # this prevents default and propogation
 
-    limitUpdate: =>
-      @current_rule.hash.count = null
-      @current_rule.hash.until = null
+    limitChanged: (event) =>
       @countUpdate()
       @untilUpdate()
-      @current_rule.str = null  # force a recalc of the summary
-
-    limitChanged: (event) =>
-      @limitUpdate()
       @summaryUpdate()
       false # this prevents default and propogation
 

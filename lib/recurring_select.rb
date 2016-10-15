@@ -4,6 +4,7 @@ require "ice_cube"
 module RecurringSelect
 
   def self.dirty_hash_to_rule(params)
+    Rails.logger.info "RecurringSelect.dirty_hash_to_rule params: #{params}"
     if params.is_a? IceCube::Rule
       params
     else
@@ -13,7 +14,9 @@ module RecurringSelect
       else
         params = params.symbolize_keys
         rules_hash = self.filter_params(params)
-        IceCube::Rule.from_hash(rules_hash)
+        rule_str = IceCube::Rule.from_hash(rules_hash)
+        Rails.logger.info "RecurringSelect.dirty_hash_to_rule response: '#{rule_str}' for #{params.inspect}"
+        rule_str
       end
 
     end
@@ -47,8 +50,12 @@ module RecurringSelect
     params[:week_start] = params[:week_start].to_i if params[:week_start]
     params[:count] = params[:count].to_i if params[:count]
     if params[:until]
-      p = params[:until].to_date rescue nil
-      params.delete(:until) unless p
+      p = Date.strptime(params[:until], '%m/%d/%Y') rescue nil
+      if p
+        params[:until] = p.to_s
+      else
+        params.delete(:until)
+      end
     end
 
     params[:validations] ||= {}
