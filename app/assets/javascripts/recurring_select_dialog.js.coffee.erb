@@ -74,7 +74,7 @@ window.RecurringSelectDialog =
       @content.find('input.rs_cancel').on "click tap", @cancel
       @content.find('#count').on("change keyup", @countChanged);
       @content.find('#until').on("change keyup", @untilChanged);
-      @content.find("input:radio[name='limit']").on("change", @limitChanged);
+      @content.find('input:radio[name=limit]').on('change', @limitChanged);
       $('input[type=date]').datepicker();
 
     freqInit: ->
@@ -306,7 +306,7 @@ window.RecurringSelectDialog =
       false
 
     countUpdate: =>
-      if @content.find("input:radio[name='limit']:checked").val() != 'count'
+      if @content.find("input:radio[name=limit]:checked").val() != 'count'
         return
       @current_rule.str = null
       @current_rule.hash ||= {}
@@ -321,7 +321,7 @@ window.RecurringSelectDialog =
       false # this prevents default and propogation
 
     untilUpdate: =>
-      if @content.find("input:radio[name='limit']:checked").val() != 'until'
+      if @content.find("input:radio[name=limit]:checked").val() != 'until'
         return
       @current_rule.str = null
       @current_rule.hash ||= {}
