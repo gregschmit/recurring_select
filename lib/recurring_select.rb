@@ -12,7 +12,7 @@ module RecurringSelect
         nil
       else
         params = params.symbolize_keys
-        rules_hash = filter_params(params)
+        rules_hash = self.filter_params(params)
         IceCube::Rule.from_hash(rules_hash)
       end
 
@@ -45,6 +45,12 @@ module RecurringSelect
 
     params[:interval] = params[:interval].to_i if params[:interval]
     params[:week_start] = params[:week_start].to_i if params[:week_start]
+    params[:count] = params[:count].to_i if params[:count]
+    if params[:until]
+      p = params[:until].to_date rescue nil
+      Rails.logger.debug "filter_params gets until: #{params[:until].inspect} and #{p.inspect}"
+      params.delete(:until) unless p
+    end
 
     params[:validations] ||= {}
     params[:validations].symbolize_keys!

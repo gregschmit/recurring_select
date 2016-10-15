@@ -32,7 +32,7 @@ window.RecurringSelectDialog =
       dialog_height = @content.outerHeight()
       if dialog_height < 80
         dialog_height = 80
-      margin_top = (window_height - dialog_height)/2 - 30
+      margin_top = (window_height - dialog_height)/2 - 10
       margin_top = 10 if margin_top < 10
       # if dialog_height > window_height - 20
       #   dialog_height = window_height - 20
@@ -72,6 +72,10 @@ window.RecurringSelectDialog =
       @content.on 'click tap', 'h1 a', @cancel
       @save_button = @content.find('input.rs_save').on "click tap", @save
       @content.find('input.rs_cancel').on "click tap", @cancel
+      @content.find('#count').on("change keyup", @countChanged);
+      @content.find('#until').on("change keyup", @untilChanged);
+      @content.find("input:radio[name='limit']").on("change", @limitChanged);
+      $('input[type=date]').datepicker();
 
     freqInit: ->
       @freq_select = @outer_holder.find ".rs_frequency"
@@ -251,6 +255,7 @@ window.RecurringSelectDialog =
           @current_rule.hash.rule_type = "IceCube::DailyRule"
           @current_rule.str = $.fn.recurring_select.texts["daily"]
           @initDailyOptions()
+      @limitUpdate()
       @summaryUpdate()
       @positionDialogVert()
 
@@ -299,6 +304,48 @@ window.RecurringSelectDialog =
         @current_rule.hash.validations.day_of_week[day].push instance
       @summaryUpdate()
       false
+
+    countUpdate: =>
+      if @content.find("input:radio[name='limit']:checked").val() != 'count'
+        return
+      @current_rule.str = null
+      @current_rule.hash ||= {}
+      @current_rule.hash.validations = {}
+      count = parseInt(@content.find("#count").val())
+      if !isNaN(count) && count != @current_rule.hash.count
+        @current_rule.hash.count = count;
+
+    countChanged: (event) =>
+      countUpdate()
+      @summaryUpdate()
+      false # this prevents default and propogation
+
+    untilUpdate: =>
+      if @content.find("input:radio[name='limit']:checked").val() != 'until'
+        return
+      @current_rule.str = null
+      @current_rule.hash ||= {}
+      @current_rule.hash.validations = {}
+      until = @content.find("#count").val()
+      if until != @current_rule.hash.until
+        @current_rule.hash.until = until;
+
+    untilChanged: (event) =>
+      untilUpdate()
+      @summaryUpdate()
+      false # this prevents default and propogation
+
+    limitUpdate: =>
+      @current_rule.hash.count = null
+      @current_rule.hash.until = null
+      @countUpdate()
+      @untilUpdate()
+      @current_rule.str = null  # force a recalc of the summary
+
+    limitChanged: (event) =>
+      @limitUpdate()
+      @summaryUpdate()
+      false # this prevents default and propogation
 
 # ========================= Change callbacks ===============================
 
@@ -361,6 +408,11 @@ window.RecurringSelectDialog =
                 #{$.fn.recurring_select.texts["years"]}
               </p>
             </div>
+            <p> 
+              <span><input type='radio' name='limit' id='radio_limit_none' value='none' checked='checked' /><label for='none'>No Limit</label></span> 
+              <span><input type='radio' name='limit' id='radio_limit_until' value='until' /><label for='until'>Until</label><input type='date' name='until' id='until' size='8' /></span>
+              <span><input type='radio' name='limit' id='radio_limit_count' value='count' /><label for='count'>Count</label><input type='text' name='count' id='count' size='1' /></span> 
+            </p>
             <p class='rs_summary'>
               <span></span>
             </p>
