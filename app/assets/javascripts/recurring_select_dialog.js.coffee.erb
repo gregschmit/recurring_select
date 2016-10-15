@@ -160,8 +160,7 @@ window.RecurringSelectDialog =
         @summary.removeClass "fetching"
         @save_button.removeClass("disabled")
         rule_str = @current_rule.str.replace("*", "")
-        if rule_str.length < 20
-          rule_str = "#{$.fn.recurring_select.texts["summary"]}: "+rule_str
+        rule_str = "#{$.fn.recurring_select.texts["summary"]}: "+rule_str
         @summary.find("span").html rule_str
       else
         @summary.addClass "fetching"
