@@ -18,6 +18,7 @@ window.RecurringSelectDialog =
       @outer_holder = $(".rs_dialog_holder")
       @outer_holder.css('z-index', @getMaxZindex(@outer_holder) + 1)
       @inner_holder = @outer_holder.find ".rs_dialog"
+      @inner_holder.css('z-index', @getMaxZindex(@inner_holder) + 1)
       @content = @outer_holder.find ".rs_dialog_content"
       @positionDialogVert(true)
       @mainEventInit()
@@ -85,7 +86,9 @@ window.RecurringSelectDialog =
       @save_button = @content.find('input.rs_save').on "click tap", @save
       @content.find('input.rs_cancel').on "click tap", @cancel
       @content.find('#count').on("change keyup", @countChanged);
+      @content.find('#count').on("click", @countSelect);
       @content.find('#until').on("change keyup", @untilChanged);
+      @content.find('#until').on("click", @untilSelect);
       @content.find('input:radio[name=limit]').on('change', @limitChanged);
       $('input[type=date]').datepicker();
 
@@ -343,6 +346,7 @@ window.RecurringSelectDialog =
         @current_rule.hash.count = count;
 
     countChanged: (event) =>
+      @content.find("#radio_limit_count").click()
       @countUpdate()
       @summaryUpdate()
       false # this prevents default and propogation
@@ -361,6 +365,7 @@ window.RecurringSelectDialog =
         @current_rule.hash.until = test
 
     untilChanged: (event) =>
+      @content.find("#radio_limit_until").click()
       @untilUpdate()
       @summaryUpdate()
       false # this prevents default and propogation
