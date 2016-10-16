@@ -90,7 +90,7 @@ window.RecurringSelectDialog =
       @content.find('#until').on("change keyup", @untilChanged);
       @content.find('#until').on("click", @untilSelect);
       @content.find('input:radio[name=limit]').on('change', @limitChanged);
-      $('input[type=date]').datepicker();
+      $('input[type=date]').not('.hasDatepicker').datepicker();
 
     freqInit: ->
       @freq_select = @outer_holder.find ".rs_frequency"
