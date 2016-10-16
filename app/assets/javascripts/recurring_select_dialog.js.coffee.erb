@@ -424,8 +424,8 @@ window.RecurringSelectDialog =
                 #{$.fn.recurring_select.texts["months"]}:
               </p>
               <p class='monthly_rule_type'>
-                <span><label for='monthly_rule_type_day'>#{$.fn.recurring_select.texts["day_of_month"]}</label><input type='radio' class='monthly_rule_type_day' name='monthly_rule_type' id='monthly_rule_type_day' value='true' /></span>
-                <span><label for='monthly_rule_type_week'>#{$.fn.recurring_select.texts["day_of_week"]}</label><input type='radio' class='monthly_rule_type_week' name='monthly_rule_type' id='monthly_rule_type_week' value='true' /></span>
+                <span><label for='monthly_rule_type_day'></label><input type='radio' class='monthly_rule_type_day' name='monthly_rule_type' id='monthly_rule_type_day' value='true' />#{$.fn.recurring_select.texts["day_of_month"]}</span>
+                <span><label for='monthly_rule_type_week'></label><input type='radio' class='monthly_rule_type_week' name='monthly_rule_type' id='monthly_rule_type_week' value='true' />#{$.fn.recurring_select.texts["day_of_week"]}</span>
               </p>
               <p class='rs_calendar_day'></p>
               <p class='rs_calendar_week'></p>
@@ -438,9 +438,9 @@ window.RecurringSelectDialog =
               </p>
             </div>
             <p> 
-              <span><input type='radio' name='limit' id='radio_limit_none' value='none' /><label for='none'>No Limit</label></span> 
-              <span><input type='radio' name='limit' id='radio_limit_until' value='until' /><label for='until'>Until</label><input type='date' name='until' id='until' size='8' style='z-index: 2000;' /></span>
-              <span><input type='radio' name='limit' id='radio_limit_count' value='count' /><label for='count'>Count</label><input type='text' name='count' id='count' size='1' /></span> 
+              <span><input type='radio' name='limit' id='radio_limit_none' value='none' /><label for='none'>#{$.fn.recurring_select.texts["no_limit"]}</label></span> 
+              <span><input type='radio' name='limit' id='radio_limit_until' value='until' /><label for='until'>#{$.fn.recurring_select.texts["until"]}</label><input type='date' name='until' id='until' size='8' style='z-index: 2000;' /></span>
+              <span><input type='radio' name='limit' id='radio_limit_count' value='count' /><label for='count'>#{$.fn.recurring_select.texts["count"]}</label><input type='text' name='count' id='count' size='1' /></span> 
             </p>
             <p class='rs_summary'>
               <span></span>
