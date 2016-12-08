@@ -75,11 +75,11 @@ window.RecurringSelectDialog =
       
       if @current_rule.hash?.rule_type == 'IceCube::MonthlyRule'
         week_mode = @content.find(".monthly_rule_type_week").prop("checked")
-         
-        if week_mode && _.isEmpty(@current_rule.hash?.validations.day_of_week)
+        
+        if week_mode && $.isEmptyObject(@current_rule.hash?.validations.day_of_week)
           @content.find('.monthly_options .rs_calendar_week').addClass 'rs_error'
           valid = false
-        else if !week_mode && _.isEmpty(@current_rule.hash?.validations.day_of_month)
+        else if !week_mode && @current_rule.hash?.validations.day_of_month.length < 1
           @content.find('.monthly_options .rs_calendar_day').addClass 'rs_error'
           valid = false
         
@@ -346,13 +346,14 @@ window.RecurringSelectDialog =
       @current_rule.hash.validations = {}
       @current_rule.hash.validations.day_of_month = []
       @current_rule.hash.validations.day_of_week = {}
-      @content.find(".monthly_options .rs_calendar_week a.selected").each (index, elm) =>
+      raw_days = @content.find(".monthly_options .rs_calendar_week a.selected")
+      raw_days.each (index, elm) =>
         day = parseInt($(elm).attr("day"))
         instance = parseInt($(elm).attr("instance"))
         @current_rule.hash.validations.day_of_week[day] ||= []
         @current_rule.hash.validations.day_of_week[day].push instance
         
-      if !_.isEmpty(@current_rule.hash.validations.day_of_week)
+      if raw_days.length > 0
         @content.find(".monthly_options .rs_calendar_week").removeClass('rs_error')
         
       @summaryUpdate()
