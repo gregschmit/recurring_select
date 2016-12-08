@@ -67,8 +67,28 @@ window.RecurringSelectDialog =
 
     save: =>
       return if !@current_rule.str?
+      valid = true
+      
+      if @current_rule.hash?.rule_type == 'IceCube::WeeklyRule' && !@current_rule.hash?.validations?
+        @content.find('.weekly_options').addClass 'rs_error'
+        valid = false
+      
+      if @current_rule.hash?.rule_type == 'IceCube::MonthlyRule'
+        week_mode = @content.find(".monthly_rule_type_week").prop("checked")
+         
+        if week_mode && _.isEmpty(@current_rule.hash?.validations.day_of_week)
+          @content.find('.monthly_options .rs_calendar_week').addClass 'rs_error'
+          valid = false
+        else if !week_mode && _.isEmpty(@current_rule.hash?.validations.day_of_month)
+          @content.find('.monthly_options .rs_calendar_day').addClass 'rs_error'
+          valid = false
+        
+        
       if !$.fn.recurring_select.options.indefinite_until && $.fn.recurring_select.options.until && !@current_rule.hash?.until?
         @content.find('input.rs_until').addClass 'rs_error'
+        valid = false
+      
+      if !valid
         return false
         
       @outer_holder.remove()
@@ -294,6 +314,10 @@ window.RecurringSelectDialog =
       @current_rule.hash ||= {}
       @current_rule.hash.validations = {}
       raw_days = @content.find(".day_holder a.selected").map -> parseInt($(this).data("value"))
+      
+      if raw_days.length > 0
+        @content.find(".weekly_options").removeClass('rs_error')
+        
       @current_rule.hash.validations.day = raw_days.get()
       @summaryUpdate()
       false # this prevents default and propogation
@@ -306,6 +330,10 @@ window.RecurringSelectDialog =
       raw_days = @content.find(".monthly_options .rs_calendar_day a.selected").map ->
         res = if $(this).text() == $.fn.recurring_select.texts["last_day"] then -1 else parseInt($(this).text())
         res
+      
+      if raw_days.length > 0
+        @content.find(".monthly_options .rs_calendar_day").removeClass('rs_error')
+        
       @current_rule.hash.validations.day_of_week = {}
       @current_rule.hash.validations.day_of_month = raw_days.get()
       @summaryUpdate()
@@ -323,6 +351,10 @@ window.RecurringSelectDialog =
         instance = parseInt($(elm).attr("instance"))
         @current_rule.hash.validations.day_of_week[day] ||= []
         @current_rule.hash.validations.day_of_week[day].push instance
+        
+      if !_.isEmpty(@current_rule.hash.validations.day_of_week)
+        @content.find(".monthly_options .rs_calendar_week").removeClass('rs_error')
+        
       @summaryUpdate()
       false
 
