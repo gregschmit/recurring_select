@@ -145,13 +145,12 @@ window.RecurringSelectDialog =
     terminationInit: ->
       if @current_rule.hash? && @current_rule.hash.count?
         @count_option = @outer_holder.find "input[name='rs_termination'][value='count']"
-        @count_option.prop('checked', 'checked')
+        @count_option.prop('checked', true)
         @occurrence_count = @outer_holder.find '#rs_occurrence_count'
         @occurrence_count.val(@current_rule.hash.count)
       else
         @never_option = @outer_holder.find "input[name='rs_termination'][value='never']"
-        @never_option.prop('checked', 'checked')
-        console.log(@never_option)
+        @never_option.prop('checked', true)
       @all_termination_options = @outer_holder.find ".rs_termination_section input[type='radio'], #rs_occurrence_count, #rs_until_date"
       @all_termination_options.on "change", @terminationChanged
 
@@ -315,7 +314,7 @@ window.RecurringSelectDialog =
         return
       @current_rule.str = null
       @current_rule.hash ||= {}
-      switch @selected_termination_type.value
+      switch @selected_termination_type.val()
         when 'count'
           @current_rule.hash.count = parseInt($('#rs_occurrence_count').val())
           if @current_rule.hash.count < 1 || isNaN(@current_rule.hash.count)
