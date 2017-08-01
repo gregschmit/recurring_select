@@ -153,12 +153,14 @@ window.RecurringSelectDialog =
       else if @current_rule.hash? && @current_rule.hash.until?
         @until_option = @outer_holder.find "input[name='rs_termination'][value='until']"
         @until_option.prop('checked', true)
+        # IceCube::TimeUtil will serialize a TimeWithZone into a hash, such as:
+        #  {time: Thu, 04 Sep 2014 06:59:59 +0000, zone: "Pacific Time (US & Canada)"}
+        # If we're initializing from an unsaved rule, until will be a string
         if @current_rule.hash.until.time?
           @until_val = new Date(@current_rule.hash.until.time)
+          @until_date.val(@until_val.getFullYear() + '-' + (@until_val.getMonth() + 1) + '-' + @until_val.getDate())
         else
-          # adding 00:00 because new Date() for ISO 8601 formats differs in that date-only strings (e.g. "1970-01-01") are treated as UTC, not local. 
-          @until_val = new Date(@current_rule.hash.until + ' 00:00')
-        @until_date.val(@until_val.getFullYear() + '-' + (@until_val.getMonth() + 1) + '-' + @until_val.getDate())
+          @until_date.val(@current_rule.hash.until)
       else
         @never_option = @outer_holder.find "input[name='rs_termination'][value='never']"
         @never_option.prop('checked', true)
