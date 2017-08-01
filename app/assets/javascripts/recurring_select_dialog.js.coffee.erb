@@ -359,6 +359,21 @@ window.RecurringSelectDialog =
                 #{$.fn.recurring_select.texts["years"]}
               </p>
             </div>
+            <div class='rs_termination_options'>
+              <label>#{$.fn.recurring_select.texts["ends"]}</label>
+              <label><input type='radio' name='rs_termination' value='never' />#{$.fn.recurring_select.texts["never"]}</label>
+              <label>
+                <input type='radio' name='rs_termination' value='count' />
+                #{$.fn.recurring_select.texts["after"]}
+                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_occurrence_count' class='rs_interval' value='10' size='2' />
+                #{$.fn.recurring_select.texts["occurrences"]}
+              </label>
+              <label>
+                <input type='radio' name='rs_termination' value='until' />
+                #{$.fn.recurring_select.texts["on"]}
+                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_until_time' />
+              </label>
+            </div>
             <p class='rs_summary'>
               <span></span>
             </p>
