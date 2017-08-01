@@ -154,9 +154,9 @@ window.RecurringSelectDialog =
         @until_option = @outer_holder.find "input[name='rs_termination'][value='until']"
         @until_option.prop('checked', true)
         if @current_rule.hash.until.time?
-          @until_val = Date.parse(@current_rule.hash.until.time)
+          @until_val = new Date(@current_rule.hash.until.time)
         else
-          @until_val = Date.parse(@current_rule.hash.until)
+          @until_val = new Date(@current_rule.hash.until)
         @until_date.val(@until_val.getFullYear() + '-' + (@until_val.getMonth() + 1) + '-' + @until_val.getDate())
       else
         @never_option = @outer_holder.find "input[name='rs_termination'][value='never']"
