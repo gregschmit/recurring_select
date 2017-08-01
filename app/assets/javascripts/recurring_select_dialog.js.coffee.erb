@@ -241,7 +241,7 @@ window.RecurringSelectDialog =
       @current_rule.hash.interval = 1
       @current_rule.hash.validations = null
       @content.find(".freq_option_section").hide();
-      @content.find("input[type=radio], input[type=checkbox]").prop("checked", false)
+      @content.find(".freq_option_section input[type=radio], input[type=checkbox]").prop("checked", false)
       switch @freq_select.val()
         when "Weekly"
           @current_rule.hash.rule_type = "IceCube::WeeklyRule"
