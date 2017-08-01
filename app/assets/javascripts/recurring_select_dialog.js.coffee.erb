@@ -20,6 +20,7 @@ window.RecurringSelectDialog =
       @positionDialogVert(true)
       @mainEventInit()
       @freqInit()
+      @terminationInit()
       @summaryInit()
       @outer_holder.trigger "recurring_select:dialog_opened"
       @freq_select.focus()
@@ -141,6 +142,18 @@ window.RecurringSelectDialog =
       interval_input.on "change keyup", @intervalChanged
       section.show()
 
+    terminationInit: ->
+      if @current_rule.hash?
+        if @current_rule.hash.count?
+          @count_option = @outer_holder.find "input[name='rs_termination'][value='count']"
+          @count_option.prop('checked', 'checked')
+          @occurrence_count = @outer_holder.find '#rs_occurrence_count'
+          @occurrence_count.prop('value', @current_rule.hash.count)
+        else
+          @never_option = @outer_holder.find "input[name='rs_termination'][value='never']"
+          @never_option.prop('checked', 'checked')
+      @all_termination_options = @outer_holder.find ".rs_termination_section input[type='radio']"
+      @all_termination_options.on "change", @terminationChanged
 
     summaryInit: ->
       @summary = @outer_holder.find(".rs_summary")
@@ -227,8 +240,6 @@ window.RecurringSelectDialog =
 
       @current_rule.hash ||= {}
       @current_rule.hash.interval = 1
-      @current_rule.hash.until = null
-      @current_rule.hash.count = null
       @current_rule.hash.validations = null
       @content.find(".freq_option_section").hide();
       @content.find("input[type=radio], input[type=checkbox]").prop("checked", false)
@@ -298,6 +309,21 @@ window.RecurringSelectDialog =
       @summaryUpdate()
       false
 
+    terminationChanged: (event) =>
+      @current_rule.str = null
+      @current_rule.hash ||= {}
+      switch event.target.value
+        when 'count'
+          @current_rule.hash.count = parseInt($('#rs_occurrence_count').val())
+          if @current_rule.hash.count < 1 || isNaN(@current_rule.hash.count)
+            @current_rule.hash.count = 1
+          @current_rule.has.until = null
+        when 'until'
+        else
+          @current_rule.hash.until = null
+          @current_rule.hash.count = null
+      @summaryUpdate()
+
 # ========================= Change callbacks ===============================
 
     template: () ->
@@ -366,11 +392,14 @@ window.RecurringSelectDialog =
                     <label class='rs_termination_label'>#{$.fn.recurring_select.texts["ends"]}:</label>
                   </td>
                   <td>
-                    <label><input type='radio' name='rs_termination' value='never' />#{$.fn.recurring_select.texts["never"]}</label><br>
+                    <label>
+                      <input type='radio' name='rs_termination' value='never' />
+                      #{$.fn.recurring_select.texts["never"]}
+                    </label><br>
                     <label>
                       <input type='radio' name='rs_termination' value='count' />
                       #{$.fn.recurring_select.texts["after"]}
-                      <input type='text' data-wrapper-class='ui-recurring-select' name='rs_occurrence_count' class='rs_count' value='10' size='2' />
+                      <input type='text' data-wrapper-class='ui-recurring-select' id='rs_occurrence_count' class='rs_count' value='10' size='2' />
                       #{$.fn.recurring_select.texts["occurrences"]}
                     </label><br>
                     <label>
