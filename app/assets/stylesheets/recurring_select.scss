@@ -88,6 +88,10 @@ select {
         .rs_count {width:30px; text-align:center; display: inline-block;}
       }
 
+      .rs_datepicker {
+        width: 80px;
+        text-align: center;
+      }
 
       .rs_summary { padding:0px; margin-top:15px; border-top:1px solid #ccc;
         span {font-weight:bold; border-top:1px solid #fff; display:block; padding:10px 0 5px 0;}
