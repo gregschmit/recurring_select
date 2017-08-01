@@ -1,7 +1,6 @@
 /*
-*= require jquery-ui
-*/
-
+ *= require jquery-ui/datepicker
+ */
 @import "utilities.scss";
 
 /* -------- resets ---------------*/
@@ -85,7 +84,8 @@ select {
           margin: 0;
           padding-top: 5px;
           td {
-            padding: 0
+            padding: 0;
+            vertical-align: top;
           }
         }
         .rs_termination_label {margin-right:10px;}
