@@ -143,14 +143,21 @@ window.RecurringSelectDialog =
       section.show()
 
     terminationInit: ->
+      @until_date = @outer_holder.find '#rs_until_date'
+      @until_date.datepicker()
       if @current_rule.hash? && @current_rule.hash.count?
         @count_option = @outer_holder.find "input[name='rs_termination'][value='count']"
         @count_option.prop('checked', true)
         @occurrence_count = @outer_holder.find '#rs_occurrence_count'
         @occurrence_count.val(@current_rule.hash.count)
+      else if @current_rule.hash? && @current_rule.hash.until?
+        @until_option = @outer_holder.find "input[name='rs_termination'][value='until']"
+        @until_option.prop('checked', true)
+        @until_date.val(@current_rule.hash.until)
       else
         @never_option = @outer_holder.find "input[name='rs_termination'][value='never']"
         @never_option.prop('checked', true)
+
       @all_termination_options = @outer_holder.find ".rs_termination_section input[type='radio'], #rs_occurrence_count, #rs_until_date"
       @all_termination_options.on "change", @terminationChanged
 
@@ -318,6 +325,8 @@ window.RecurringSelectDialog =
             @current_rule.hash.count = 1
           @current_rule.hash.until = null
         when 'until'
+          @current_rule.hash.until = $('#rs_until_date').val()
+          @current_rule.hash.count = null
         else
           @current_rule.hash.until = null
           @current_rule.hash.count = null
