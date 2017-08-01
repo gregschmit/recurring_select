@@ -147,11 +147,12 @@ window.RecurringSelectDialog =
         @count_option = @outer_holder.find "input[name='rs_termination'][value='count']"
         @count_option.prop('checked', 'checked')
         @occurrence_count = @outer_holder.find '#rs_occurrence_count'
-        @occurrence_count.prop('value', @current_rule.hash.count)
+        @occurrence_count.val(@current_rule.hash.count)
       else
         @never_option = @outer_holder.find "input[name='rs_termination'][value='never']"
         @never_option.prop('checked', 'checked')
-      @all_termination_options = @outer_holder.find ".rs_termination_section input[type='radio']"
+        console.log(@never_option)
+      @all_termination_options = @outer_holder.find ".rs_termination_section input[type='radio'], #rs_occurrence_count, #rs_until_date"
       @all_termination_options.on "change", @terminationChanged
 
     summaryInit: ->
@@ -309,9 +310,12 @@ window.RecurringSelectDialog =
       false
 
     terminationChanged: (event) =>
+      @selected_termination_type = @outer_holder.find ".rs_termination_section input[type='radio']:checked"
+      if !@selected_termination_type?
+        return
       @current_rule.str = null
       @current_rule.hash ||= {}
-      switch event.target.value
+      switch @selected_termination_type.value
         when 'count'
           @current_rule.hash.count = parseInt($('#rs_occurrence_count').val())
           if @current_rule.hash.count < 1 || isNaN(@current_rule.hash.count)
@@ -404,7 +408,7 @@ window.RecurringSelectDialog =
                     <label>
                       <input type='radio' name='rs_termination' value='until' />
                       #{$.fn.recurring_select.texts["on"]}
-                      <input type='text' data-wrapper-class='ui-recurring-select' name='rs_until_time' />
+                      <input type='text' data-wrapper-class='ui-recurring-select' id='rs_until_date' />
                     </label>
                   </td>
               </table>
