@@ -144,7 +144,7 @@ window.RecurringSelectDialog =
 
     terminationInit: ->
       @until_date = @outer_holder.find '#rs_until_date'
-      @until_date.datepicker({ dateFormat: 'yyyy-mm-dd'})
+      @until_date.datepicker({ dateFormat: 'yy-mm-dd'})
       if @current_rule.hash? && @current_rule.hash.count?
         @count_option = @outer_holder.find "input[name='rs_termination'][value='count']"
         @count_option.prop('checked', true)
@@ -153,7 +153,11 @@ window.RecurringSelectDialog =
       else if @current_rule.hash? && @current_rule.hash.until?
         @until_option = @outer_holder.find "input[name='rs_termination'][value='until']"
         @until_option.prop('checked', true)
-        @until_date.val(@current_rule.hash.until)
+        if @current_rule.hash.until.time?
+          @until_val = Date.parse(@current_rule.hash.until.time)
+        else
+          @until_val = Date.parse(@current_rule.hash.until)
+        @until_date.val(@until_val.getFullYear() + '-' + (@until_val.getMonth() + 1) + '-' + @until_val.getDate())
       else
         @never_option = @outer_holder.find "input[name='rs_termination'][value='never']"
         @never_option.prop('checked', true)
