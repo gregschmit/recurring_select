@@ -144,7 +144,7 @@ window.RecurringSelectDialog =
 
     terminationInit: ->
       @until_date = @outer_holder.find '#rs_until_date'
-      @until_date.datepicker({ dateFormat: 'yy-mm-dd'})
+      @until_date.datepicker({ dateFormat: 'yy-mm-dd', minDate: Date.now })
       if @current_rule.hash? && @current_rule.hash.count?
         @count_option = @outer_holder.find "input[name='rs_termination'][value='count']"
         @count_option.prop('checked', true)
