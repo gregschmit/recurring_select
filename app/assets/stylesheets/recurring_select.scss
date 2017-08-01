@@ -77,6 +77,14 @@ select {
       }
 
       .rs_termination_section {
+        table {
+          margin: 0;
+          padding-top: 5px;
+          td {
+            padding: 0
+          }
+        }
+        .rs_termination_label {margin-right:10px;}
         .rs_count {width:30px; text-align:center; display: inline-block;}
       }
 
