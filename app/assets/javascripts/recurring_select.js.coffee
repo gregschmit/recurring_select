@@ -1,3 +1,4 @@
+//= require jquery-ui
 //= require recurring_select_dialog
 //= require_self
 
