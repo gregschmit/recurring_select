@@ -156,7 +156,8 @@ window.RecurringSelectDialog =
         if @current_rule.hash.until.time?
           @until_val = new Date(@current_rule.hash.until.time)
         else
-          @until_val = new Date(@current_rule.hash.until)
+          # adding 00:00 because new Date() for ISO 8601 formats differs in that date-only strings (e.g. "1970-01-01") are treated as UTC, not local. 
+          @until_val = new Date(@current_rule.hash.until + ' 00:00')
         @until_date.val(@until_val.getFullYear() + '-' + (@until_val.getMonth() + 1) + '-' + @until_val.getDate())
       else
         @never_option = @outer_holder.find "input[name='rs_termination'][value='never']"
