@@ -41,7 +41,7 @@ module RecurringSelect
   private
 
   def self.filter_params(params)
-    params.reject!{|key, value| value.blank? || value=="null" }
+    params.reject!{|key, value| value.blank? }
 
     params[:interval] = params[:interval].to_i if params[:interval]
     params[:week_start] = params[:week_start].to_i if params[:week_start]

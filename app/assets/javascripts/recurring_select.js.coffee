@@ -39,8 +39,9 @@ methods =
     @.trigger "recurring_select:save"
 
   current_rule: ->
+    initialValueHash = @data("initial-value-hash")
     str:  @data("initial-value-str")
-    hash: $.parseJSON(@data("initial-value-hash"))
+    hash: if initialValueHash? && initialValueHash != "" then $.parseJSON(initialValueHash) else null
 
   cancel: ->
     @val @data("initial-value-hash")

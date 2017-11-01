@@ -11,9 +11,9 @@ describe RecurringSelectHelper do
       subject = FromTester.new
       subject.should_receive(:options_for_select).with(
         [
-          ['- not recurring -', 'null'],
+          ['- not recurring -', ''],
           ['Set schedule...', 'custom']
-        ], 'null'
+        ], ''
       )
       subject.recurring_options_for_select
     end
@@ -38,7 +38,7 @@ describe RecurringSelectHelper do
           ["Monthly", IceCube::Rule.monthly.to_hash.to_json],
           ['or', {:disabled => true}],
           ['Custom schedule...', 'custom']
-        ], 'null'
+        ], ''
       )
       subject.recurring_options_for_select(nil, [IceCube::Rule.weekly, IceCube::Rule.monthly])
     end
@@ -47,7 +47,7 @@ describe RecurringSelectHelper do
       subject = FromTester.new
       subject.should_receive(:options_for_select).with(
         [
-          ["- not recurring -", 'null'],
+          ["- not recurring -", ''],
           ["different", 1],
           ["Weekly", IceCube::Rule.weekly.to_hash.to_json],
           ['or', {:disabled => true}],
