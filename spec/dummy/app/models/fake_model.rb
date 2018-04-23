@@ -15,5 +15,6 @@ class FakeModel
   end
 
   def non_recurring_rule; 1; end
+
   def persisted?; false; end
 end
