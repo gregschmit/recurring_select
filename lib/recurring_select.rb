@@ -1,8 +1,7 @@
-require "recurring_select/engine"
-require "ice_cube"
+require 'recurring_select/engine'
+require 'ice_cube'
 
 module RecurringSelect
-
   def self.dirty_hash_to_rule(params)
     if params.is_a? IceCube::Rule
       params
@@ -35,13 +34,13 @@ module RecurringSelect
     # TODO: this should really have an extra step where it tries to perform the final parsing
     return true if possible_rule.is_a?(Hash)
 
-    false #only a hash or a string of a hash can be valid
+    false # only a hash or a string of a hash can be valid
   end
 
   private
 
   def self.filter_params(params)
-    params.reject!{|key, value| value.blank? || value=="null" }
+    params.reject! { |key, value| value.blank? || value == 'null' }
 
     params[:interval] = params[:interval].to_i if params[:interval]
     params[:week_start] = params[:week_start].to_i if params[:week_start]
@@ -65,11 +64,11 @@ module RecurringSelect
       else
         originals = params[:validations][:day_of_week].dup
         params[:validations][:day_of_week] = {}
-        originals.each{|key, value|
+        originals.each { |key, value|
           params[:validations][:day_of_week][key.to_i] = value
         }
       end
-      params[:validations][:day_of_week].each{|key, value|
+      params[:validations][:day_of_week].each { |key, value|
         params[:validations][:day_of_week][key] = value.collect(&:to_i)
       }
     end

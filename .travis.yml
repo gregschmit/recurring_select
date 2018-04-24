@@ -2,25 +2,9 @@ sudo: false
 language: ruby
 script: bundle exec rspec spec
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.5
   - 2.2.0
-  - jruby-19mode
+  - 2.5.1
 gemfile:
-  - spec/gemfiles/Gemfile.rails-4.0.x
-  - spec/gemfiles/Gemfile.rails-4.1.x
   - spec/gemfiles/Gemfile.rails-4.2.x
-matrix:
-  exclude:
-    - rvm: 1.9.3
-      gemfile: spec/gemfiles/rails-4.0.x.gemfile
-    - rvm: 1.9.3
-      gemfile: spec/gemfiles/rails-4.1.x.gemfile
-    - rvm: 1.9.3
-      gemfile: spec/gemfiles/rails-4.2.x.gemfile
-    - rvm: jruby-19mode
-      gemfile: spec/gemfiles/Gemfile.rails-3.2.x
-  fast_finish: true
 notifications:
   email: false
