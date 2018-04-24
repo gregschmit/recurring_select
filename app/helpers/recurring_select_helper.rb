@@ -105,7 +105,7 @@ module RecurringSelectHelper
     end
 
     def render
-      option_tags = add_options(recurring_options_for_select(value(object), @default_schedules, @options), @options, value(object))
+      option_tags = add_options(recurring_options_for_select(value, @default_schedules, @options), @options, value)
       select_content_tag(option_tags, @options, @html_options)
     end
   end
