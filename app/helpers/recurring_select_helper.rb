@@ -114,7 +114,7 @@ module RecurringSelectHelper
       end
 
       def render
-        if Rails::VERSION::STRING >= '5.2' && defined?(Ransack) # Ransack monkey-patch breaks the normal value(object) helper in 5.2
+        if Rails::VERSION::STRING >= '5.2'
           option_tags = add_options(recurring_options_for_select(value, @default_schedules, @options), @options, value)
         else
           option_tags = add_options(recurring_options_for_select(value(object), @default_schedules, @options), @options, value(object))
