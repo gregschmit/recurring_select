@@ -2,7 +2,7 @@ require "ice_cube"
 
 module RecurringSelectHelper
   module FormHelper
-    if Rails::VERSION::MAJOR == 4
+    if Rails::VERSION::MAJOR >= 4
       def select_recurring(object, method, default_schedules = nil, options = {}, html_options = {})
         RecurringSelectTag.new(object, method, self, default_schedules, options, html_options).render
       end
@@ -114,7 +114,11 @@ module RecurringSelectHelper
       end
 
       def render
-        option_tags = add_options(recurring_options_for_select(value(object), @default_schedules, @options), @options, value(object))
+        if Rails::VERSION::STRING >= '5.2'
+          option_tags = add_options(recurring_options_for_select(value, @default_schedules, @options), @options, value)
+        else
+          option_tags = add_options(recurring_options_for_select(value(object), @default_schedules, @options), @options, value(object))
+        end
         select_content_tag(option_tags, @options, @html_options)
       end
     end
