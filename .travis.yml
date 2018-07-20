@@ -6,19 +6,31 @@ rvm:
   - 2.0.0
   - 2.1.5
   - 2.2.0
+  - 2.3.7
   - jruby-19mode
 gemfile:
   - spec/gemfiles/Gemfile.rails-4.0.x
   - spec/gemfiles/Gemfile.rails-4.1.x
   - spec/gemfiles/Gemfile.rails-4.2.x
+  - spec/gemfiles/Gemfile.rails-5.0.x
 matrix:
   exclude:
     - rvm: 1.9.3
       gemfile: spec/gemfiles/rails-4.0.x.gemfile
     - rvm: 1.9.3
+      gemfile: spec/gemfiles/rails-5.0.x.gemfile
+    - rvm: 1.9.3
       gemfile: spec/gemfiles/rails-4.1.x.gemfile
     - rvm: 1.9.3
+      gemfile: spec/gemfiles/rails-5.0.x.gemfile
+    - rvm: 1.9.3
       gemfile: spec/gemfiles/rails-4.2.x.gemfile
+    - rvm: 2.0.0
+      gemfile: spec/gemfiles/rails-5.0.x.gemfile
+    - rvm: 2.1.5
+      gemfile: spec/gemfiles/rails-5.0.x.gemfile
+    - rvm: 2.2.2
+      gemfile: spec/gemfiles/rails-5.0.x.gemfile
     - rvm: jruby-19mode
       gemfile: spec/gemfiles/Gemfile.rails-3.2.x
   fast_finish: true
