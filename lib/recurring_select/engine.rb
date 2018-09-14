@@ -9,8 +9,11 @@ module RecurringSelect
     end
     
     initializer "recurring_select.connecting_middleware" do |app|
-      app.middleware.use RecurringSelectMiddleware # insert_after ActionDispatch::ParamsParser, 
+      if Rails::VERSION::STRING >= '5.2'
+        app.config.app_middleware.use RecurringSelectMiddleware
+      else
+        app.middleware.use RecurringSelectMiddleware # insert_after ActionDispatch::ParamsParser,
+      end
     end
-    
   end
 end
