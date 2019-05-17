@@ -305,7 +305,7 @@ window.RecurringSelectDialog =
       <div class='rs_dialog_holder'>
         <div class='rs_dialog'>
           <div class='rs_dialog_content'>
-            <h1>#{$.fn.recurring_select.texts["repeat"]} <a href='#' title='#{$.fn.recurring_select.texts["cancel"]}' Alt='#{$.fn.recurring_select.texts["cancel"]}'></a> </h1>
+            <h4>#{$.fn.recurring_select.texts["repeat"]} <a href='#' title='#{$.fn.recurring_select.texts["cancel"]}' Alt='#{$.fn.recurring_select.texts["cancel"]}'></a> </h4>
             <p class='frequency-select-wrapper'>
               <label for='rs_frequency'>#{$.fn.recurring_select.texts["frequency"]}:</label>
               <select data-wrapper-class='ui-recurring-select' id='rs_frequency' class='rs_frequency' name='rs_frequency'>
@@ -319,21 +319,31 @@ window.RecurringSelectDialog =
             <div class='daily_options freq_option_section'>
               <p>
                 #{$.fn.recurring_select.texts["every"]}
-                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_daily_interval' class='rs_daily_interval rs_interval' value='1' size='2' />
+                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_daily_interval' class='rs_daily_interval rs_interval' value='1' size='2' title='Enter number of days to repeat'/>
                 #{$.fn.recurring_select.texts["days"]}
               </p>
             </div>
             <div class='weekly_options freq_option_section'>
               <p>
                 #{$.fn.recurring_select.texts["every"]}
-                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_weekly_interval' class='rs_weekly_interval rs_interval' value='1' size='2' />
+                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_weekly_interval' class='rs_weekly_interval rs_interval' value='1' size='2' title='Enter number of weeks to repeat'/>
                 #{$.fn.recurring_select.texts["weeks_on"]}:
               </p>
               <div class='day_holder'>
       "
+
+      weekday=new Array(7);
+      weekday[0]="Sunday";
+      weekday[1]="Monday";
+      weekday[2]="Tuesday";
+      weekday[3]="Wednesday";
+      weekday[4]="Thursday";
+      weekday[5]="Friday";
+      weekday[6]="Saturday";
+
       for day_of_week in [$.fn.recurring_select.texts["first_day_of_week"]...(7 + $.fn.recurring_select.texts["first_day_of_week"])]
         day_of_week = day_of_week % 7
-        str += "<a href='#' data-value='#{day_of_week}'>#{$.fn.recurring_select.texts["days_first_letter"][day_of_week]}</a>"
+        str += "<a href='#' data-value='#{day_of_week}' aria-lable='#{weekday[day_of_week]}'>#{$.fn.recurring_select.texts["days_first_letter"][day_of_week]}</a>"
 
       str += "
               </div>
@@ -342,7 +352,7 @@ window.RecurringSelectDialog =
             <div class='monthly_options freq_option_section'>
               <p>
                 #{$.fn.recurring_select.texts["every"]}
-                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_monthly_interval' class='rs_monthly_interval rs_interval' value='1' size='2' />
+                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_monthly_interval' class='rs_monthly_interval rs_interval' value='1' size='2' title='Enter number of months to repeat' />
                 #{$.fn.recurring_select.texts["months"]}:
               </p>
               <p class='monthly_rule_type'>
@@ -355,7 +365,7 @@ window.RecurringSelectDialog =
             <div class='yearly_options freq_option_section'>
               <p>
                 #{$.fn.recurring_select.texts["every"]}
-                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_yearly_interval' class='rs_yearly_interval rs_interval' value='1' size='2' />
+                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_yearly_interval' class='rs_yearly_interval rs_interval' value='1' size='2' title='Enter number of years to repeat' />
                 #{$.fn.recurring_select.texts["years"]}
               </p>
             </div>
