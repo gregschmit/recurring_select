@@ -16,7 +16,11 @@ methods =
 
   changed: ->
     if @val() == "custom"
+      tabbableElements = $('a, a[href], area[href], input:not([disabled]), select:not([disabled]), input[type="radio"], textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]')
+      disableTabbingOnPage(tabbableElements)
       methods.open_custom.apply(@)
+      focusFirstInputElement();
+      enableTabbingOnModal(tabbableElements)
     else
       methods.set_initial_values.apply(@)
 
@@ -103,3 +107,29 @@ $.fn.recurring_select.texts = {
   order: ["1st", "2nd", "3rd", "4th", "5th", "Last"]
   show_week: [true, true, true, true, false, false]
 }
+
+# ========================= 508 Accessiblity ===============================
+focusFirstInputElement = ->
+  $('#rs_frequency').focus()
+
+ignoreAddressBar = () ->
+  $('input').on 'keydown', (e) ->
+  if !e.shiftKey and e.which == 9
+    e.preventDefault()
+    $('#rs_frequency').focus()
+  return
+
+disableTabbingOnPage = (tabbableElements) ->
+  $.each tabbableElements, (index, element) ->
+    $(element).attr 'tabindex', '-1'
+    return
+  return
+
+enableTabbingOnModal = (tabbableElements) ->
+  $('#monthly_rule_type_week').attr 'tabindex', '0'
+  $.each tabbableElements, (index, element) ->
+    if $(element).parents('#rs_modal').length
+      #element is inside of the modal
+      $(element).attr 'tabindex', '0'
+    return
+  return
