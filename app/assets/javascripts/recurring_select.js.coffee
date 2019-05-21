@@ -16,11 +16,7 @@ methods =
 
   changed: ->
     if @val() == "custom"
-      # tabbableElements = $('a, a[href], area[href], input:not([disabled]), select:not([disabled]), input[type="radio"], textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]')
-      # disableTabbingOnPage(tabbableElements)
       methods.open_custom.apply(@)
-      # focusFirstInputElement();
-      # enableTabbingOnModal(tabbableElements)
       setModalTabbing()
     else
       methods.set_initial_values.apply(@)
@@ -124,27 +120,3 @@ setModalTabbing = ->
       x.focus()
     return
   return
-
-# focusFirstInputElement = ->
-#   $('#rs_frequency').focus()
-#
-# ignoreAddressBar = () ->
-#   $('input').on 'keydown', (e) ->
-#   if !e.shiftKey and e.which == 9
-#     e.preventDefault()
-#     $('#rs_frequency').focus()
-#   return
-#
-# disableTabbingOnPage = (tabbableElements) ->
-#   $.each tabbableElements, (index, element) ->
-#     $(element).attr 'tabindex', '-1'
-#     return
-#   return
-#
-# enableTabbingOnModal = (tabbableElements) ->
-#   $.each tabbableElements, (index, element) ->
-#     if $(element).parents('#rs_modal').length
-#       #element is inside of the modal
-#       $(element).attr 'tabindex', '0'
-#     return
-#   return
