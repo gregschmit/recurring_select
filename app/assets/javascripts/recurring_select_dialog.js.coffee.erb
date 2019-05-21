@@ -24,6 +24,28 @@ window.RecurringSelectDialog =
       @outer_holder.trigger "recurring_select:dialog_opened"
       @freq_select.focus()
 
+    ordinal_suffix_of = (i) ->
+      j = i % 10
+      k = i % 100
+      if j == 1 and k != 11
+        return i + 'st'
+      if j == 2 and k != 12
+        return i + 'nd'
+      if j == 3 and k != 13
+        return i + 'rd'
+      i + 'th'
+
+    full_string_weekday = (num) ->
+      weekday = new Array(7)
+      weekday[0] = 'Sunday'
+      weekday[1] = 'Monday'
+      weekday[2] = 'Tuesday'
+      weekday[3] = 'Wednesday'
+      weekday[4] = 'Thursday'
+      weekday[5] = 'Friday'
+      weekday[6] = 'Saturday'
+      weekday[num]
+
     positionDialogVert: (initial_positioning) =>
       window_height = $(window).height()
       window_width  = $(window).width()
@@ -202,15 +224,6 @@ window.RecurringSelectDialog =
       show_row = $.fn.recurring_select.options["monthly"]["show_week"]
       cell_str = $.fn.recurring_select.texts["days_first_letter"]
 
-      weekday=new Array(7);
-      weekday[0]="Sunday";
-      weekday[1]="Monday";
-      weekday[2]="Tuesday";
-      weekday[3]="Wednesday";
-      weekday[4]="Thursday";
-      weekday[5]="Friday";
-      weekday[6]="Saturday";
-
       for num, index in [1, 2, 3, 4, 5, -1]
         if show_row[index]
           monthly_calendar.append "<span>#{row_labels[num - 1]}</span>"
@@ -218,7 +231,7 @@ window.RecurringSelectDialog =
             day_of_week = day_of_week % 7
             day_link = $("<a>", {text: cell_str[day_of_week] })
             day_link.attr('href','');
-            day_link.attr('aria-label', weekday[day_of_week] );
+            day_link.attr('aria-label', ordinal_suffix_of(num) + ' ' + full_string_weekday(day_of_week) );
             day_link.attr("day", day_of_week)
             day_link.attr("instance", num)
             monthly_calendar.append day_link
@@ -404,19 +417,9 @@ window.RecurringSelectDialog =
               <div class='day_holder'>
       "
 
-      # TODO: (Anissa) - How do I DRY this up? Its duplicated from above. 
-      weekday=new Array(7);
-      weekday[0]="Sunday";
-      weekday[1]="Monday";
-      weekday[2]="Tuesday";
-      weekday[3]="Wednesday";
-      weekday[4]="Thursday";
-      weekday[5]="Friday";
-      weekday[6]="Saturday";
-
       for day_of_week in [$.fn.recurring_select.texts["first_day_of_week"]...(7 + $.fn.recurring_select.texts["first_day_of_week"])]
         day_of_week = day_of_week % 7
-        str += "<a href='#' data-value='#{day_of_week}' aria-lable='#{weekday[day_of_week]}'>#{$.fn.recurring_select.texts["days_first_letter"][day_of_week]}</a>"
+        str += "<a href='#' data-value='#{day_of_week}' aria-lable='#{full_string_weekday(day_of_week)}'>#{$.fn.recurring_select.texts["days_first_letter"][day_of_week]}</a>"
 
       str += "
               </div>
