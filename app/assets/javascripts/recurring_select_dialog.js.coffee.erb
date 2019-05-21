@@ -89,7 +89,7 @@ window.RecurringSelectDialog =
     mainEventInit: ->
       # Tap hooks are for jQueryMobile
       @outer_holder.on 'click tap', @outerCancel
-      @content.on 'click tap', 'h1 a', @cancel
+      @content.on 'click tap', 'h4 a', @cancel
       @save_button = @content.find('input.rs_save').on "click tap", @save
       @content.find('input.rs_cancel').on "click tap", @cancel
 
@@ -330,9 +330,9 @@ window.RecurringSelectDialog =
 
     template: () ->
       str = "
-      <div class='rs_dialog_holder'>
+      <div id='rs_modal' class='rs_dialog_holder'>
         <div class='rs_dialog'>
-          <div id='rs_modal' class='rs_dialog_content'>
+          <div class='rs_dialog_content'>
             <h4>#{$.fn.recurring_select.texts["repeat"]} <a href='#' title='#{$.fn.recurring_select.texts["cancel"]}' Alt='#{$.fn.recurring_select.texts["cancel"]}'></a> </h4>
             <p class='frequency-select-wrapper'>
               <label for='rs_frequency'>#{$.fn.recurring_select.texts["frequency"]}:</label>
