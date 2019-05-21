@@ -326,65 +326,6 @@ window.RecurringSelectDialog =
       @summaryUpdate()
       false
 
-    # ========================= 508 Accessiblity ===============================
-
-    disableTabbingOnPage = (tabbableElements) ->
-      $.each tabbableElements, (index, element) ->
-        $(element).attr 'tabindex', '-1'
-        return
-      return
-
-    enableTabbingOnModal = (tabbableElements) ->
-      $.each tabbableElements, (index, element) ->
-        if $(element).parents('.modal').length
-          #element is inside of the modal
-          $(element).attr 'tabindex', '0'
-        return
-      return
-
-    reEnableTabbingOnPage = (tabbableElements) ->
-      $.each tabbableElements, (index, element) ->
-        $(element).attr 'tabindex', '0'
-        return
-      return
-
-    focusFirstInputElement = ->
-      inputElements = $('input')
-      $.each inputElements, (index, element) ->
-        if $(element).parents('.modal').length
-          $(element).focus()
-          #end loop
-          return false
-        return
-      return
-
-    setupModalEvents = (tabbableElements) ->
-      elementWithFocus = $(':focus')
-      #on modal open
-      $(document).on 'shown.bs.modal', ->
-        focusFirstInputElement()
-        return
-      #on modal close
-      $(document).on 'hidden.bs.modal', ->
-        reEnableTabbingOnPage tabbableElements
-        $(elementWithFocus).focus()
-        return
-      return
-
-    #on open
-    elementWithFocus = $(':focus')
-    #on close
-    $(elementWithFocus).focus()
-
-    $('.recurring_select').change ->
-      tabbableElements = $('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]')
-      puts("made it here!")
-      setupModalEvents tabbableElements
-      disableTabbingOnPage tabbableElements
-      enableTabbingOnModal tabbableElements
-      $('#exampleModal').modal()
-      return
-
 # ========================= Change callbacks ===============================
 
     template: () ->
