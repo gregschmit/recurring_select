@@ -32,7 +32,7 @@ select {
   .rs_dialog { background-color:#f6f6f6; border:1px solid #acacac; @include shadows(1px, 3px, 8px, rgba(0,0,0,0.25)); @include rounded_corners(7px);
               display:inline-block; min-width:200px; margin-left:-125px; overflow:hidden; position:relative;
     .rs_dialog_content { padding:10px;
-      h1 { font-size:16px; padding:0px; margin:0 0 10px 0;
+      h4 { padding:0px; margin:0 0 10px 0;
         a {float:right; display:inline-block; height:16px; width:16px; background-image:image-url("recurring_select/cancel.png"); background-position:center; background-repeat:no-repeat;}
       }
 
