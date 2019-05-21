@@ -17,10 +17,11 @@ methods =
   changed: ->
     if @val() == "custom"
       tabbableElements = $('a, a[href], area[href], input:not([disabled]), select:not([disabled]), input[type="radio"], textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]')
-      disableTabbingOnPage(tabbableElements)
+      # disableTabbingOnPage(tabbableElements)
       methods.open_custom.apply(@)
-      focusFirstInputElement();
-      enableTabbingOnModal(tabbableElements)
+      # focusFirstInputElement();
+      # enableTabbingOnModal(tabbableElements)
+      setModalTabbing()
     else
       methods.set_initial_values.apply(@)
 
@@ -109,6 +110,21 @@ $.fn.recurring_select.texts = {
 }
 
 # ========================= 508 Accessiblity ===============================
+setModalTabbing = ->
+  tabbables = $('#rs_modal').find(':tabbable')
+  $('#rs_modal').off('keydown').on 'keydown', (e) ->
+    `var x`
+    if $(e.target).is(tabbables.first()) and e.which == 9 and e.shiftKey
+      e.preventDefault()
+      x = tabbables.last()
+      x.focus()
+    else if $(e.target).is(tabbables.last()) and e.which == 9 and !e.shiftKey
+      e.preventDefault()
+      x = tabbables.first()
+      x.focus()
+    return
+  return
+
 focusFirstInputElement = ->
   $('#rs_frequency').focus()
 
@@ -126,7 +142,6 @@ disableTabbingOnPage = (tabbableElements) ->
   return
 
 enableTabbingOnModal = (tabbableElements) ->
-  $('#monthly_rule_type_week').attr 'tabindex', '0'
   $.each tabbableElements, (index, element) ->
     if $(element).parents('#rs_modal').length
       #element is inside of the modal
