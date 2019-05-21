@@ -24,6 +24,28 @@ window.RecurringSelectDialog =
       @outer_holder.trigger "recurring_select:dialog_opened"
       @freq_select.focus()
 
+    ordinal_suffix_of = (i) ->
+      j = i % 10
+      k = i % 100
+      if j == 1 and k != 11
+        return i + 'st'
+      if j == 2 and k != 12
+        return i + 'nd'
+      if j == 3 and k != 13
+        return i + 'rd'
+      i + 'th'
+
+    full_string_weekday = (num) ->
+      weekday = new Array(7)
+      weekday[0] = 'Sunday'
+      weekday[1] = 'Monday'
+      weekday[2] = 'Tuesday'
+      weekday[3] = 'Wednesday'
+      weekday[4] = 'Thursday'
+      weekday[5] = 'Friday'
+      weekday[6] = 'Saturday'
+      weekday[num]
+
     positionDialogVert: (initial_positioning) =>
       window_height = $(window).height()
       window_width  = $(window).width()
@@ -67,7 +89,7 @@ window.RecurringSelectDialog =
     mainEventInit: ->
       # Tap hooks are for jQueryMobile
       @outer_holder.on 'click tap', @outerCancel
-      @content.on 'click tap', 'h1 a', @cancel
+      @content.on 'click tap', 'h4 a', @cancel
       @save_button = @content.find('input.rs_save').on "click tap", @save
       @content.find('input.rs_cancel').on "click tap", @cancel
 
@@ -182,16 +204,20 @@ window.RecurringSelectDialog =
       monthly_calendar.html ""
       for num in [1..31]
         monthly_calendar.append (day_link = $(document.createElement("a")).text(num))
+        day_link.addClass("a_day")
+        day_link.attr('aria-label', ordinal_suffix_of(num) + ' Day of Month' );
         if $.inArray(num, @current_rule.hash.validations.day_of_month) != -1
           day_link.addClass("selected")
 
       # add last day of month button
       monthly_calendar.append (end_of_month_link = $(document.createElement("a")).text($.fn.recurring_select.texts["last_day"]))
       end_of_month_link.addClass("end_of_month")
+      end_of_month_link.attr('aria-label', ' Last Day of Month' );
       if $.inArray(-1, @current_rule.hash.validations.day_of_month) != -1
         end_of_month_link.addClass("selected")
 
       monthly_calendar.find("a").on "click tap", @dateOfMonthChanged
+      monthly_calendar.find("a").attr('href','');
 
     init_calendar_weeks: (section) =>
       monthly_calendar = section.find(".rs_calendar_week")
@@ -206,6 +232,8 @@ window.RecurringSelectDialog =
           for day_of_week in [$.fn.recurring_select.texts["first_day_of_week"]...(7 + $.fn.recurring_select.texts["first_day_of_week"])]
             day_of_week = day_of_week % 7
             day_link = $("<a>", {text: cell_str[day_of_week] })
+            day_link.attr('href','');
+            day_link.attr('aria-label', ordinal_suffix_of(num) + ' ' + full_string_weekday(day_of_week) );
             day_link.attr("day", day_of_week)
             day_link.attr("instance", num)
             monthly_calendar.append day_link
@@ -302,7 +330,7 @@ window.RecurringSelectDialog =
 
     template: () ->
       str = "
-      <div class='rs_dialog_holder'>
+      <div id='rs_modal' class='rs_dialog_holder'>
         <div class='rs_dialog'>
           <div class='rs_dialog_content'>
             <h4>#{$.fn.recurring_select.texts["repeat"]} <a href='#' title='#{$.fn.recurring_select.texts["cancel"]}' Alt='#{$.fn.recurring_select.texts["cancel"]}'></a> </h4>
@@ -332,18 +360,9 @@ window.RecurringSelectDialog =
               <div class='day_holder'>
       "
 
-      weekday=new Array(7);
-      weekday[0]="Sunday";
-      weekday[1]="Monday";
-      weekday[2]="Tuesday";
-      weekday[3]="Wednesday";
-      weekday[4]="Thursday";
-      weekday[5]="Friday";
-      weekday[6]="Saturday";
-
       for day_of_week in [$.fn.recurring_select.texts["first_day_of_week"]...(7 + $.fn.recurring_select.texts["first_day_of_week"])]
         day_of_week = day_of_week % 7
-        str += "<a href='#' data-value='#{day_of_week}' aria-lable='#{weekday[day_of_week]}'>#{$.fn.recurring_select.texts["days_first_letter"][day_of_week]}</a>"
+        str += "<a href='#' data-value='#{day_of_week}' aria-label='#{full_string_weekday(day_of_week)}'>#{$.fn.recurring_select.texts["days_first_letter"][day_of_week]}</a>"
 
       str += "
               </div>
