@@ -182,6 +182,7 @@ window.RecurringSelectDialog =
       monthly_calendar.html ""
       for num in [1..31]
         monthly_calendar.append (day_link = $(document.createElement("a")).text(num))
+        day_link.addClass("a_day")
         if $.inArray(num, @current_rule.hash.validations.day_of_month) != -1
           day_link.addClass("selected")
 
@@ -192,6 +193,7 @@ window.RecurringSelectDialog =
         end_of_month_link.addClass("selected")
 
       monthly_calendar.find("a").on "click tap", @dateOfMonthChanged
+      monthly_calendar.find("a").attr('href','');
 
     init_calendar_weeks: (section) =>
       monthly_calendar = section.find(".rs_calendar_week")
