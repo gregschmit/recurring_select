@@ -8,4 +8,4 @@ gem 'jquery-rails'
 
 gem 'rails', '~> 5.2.3'
 gem 'sass-rails', '~> 5.1.0'
-gem 'pry'
+# gem 'pry'
