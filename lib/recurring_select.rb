@@ -22,11 +22,9 @@ module RecurringSelect
   def self.is_valid_rule?(possible_rule)
     return true if possible_rule.is_a?(IceCube::Rule)
     return false if possible_rule.blank?
-
     if possible_rule.is_a?(String)
       begin
-        JSON.parse(possible_rule)
-        return true
+        return JSON.parse(possible_rule).is_a?(Hash) # JSON.parse("null") does not throw an error, it returns nil
       rescue JSON::ParserError
         return false
       end

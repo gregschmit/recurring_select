@@ -2,24 +2,24 @@ require 'spec_helper'
 
 describe RecurringSelect do
   it "should be a module" do
-    RecurringSelect.should be_kind_of Module
+    expect(RecurringSelect).to be_kind_of Module
   end
 
   describe "#is_valid_rule?" do
     it "should identify invalid rules" do
-      RecurringSelect.should_not be_is_valid_rule(nil)
-      RecurringSelect.should_not be_is_valid_rule("")
-      RecurringSelect.should_not be_is_valid_rule(false)
-      RecurringSelect.should_not be_is_valid_rule("null")
-      RecurringSelect.should_not be_is_valid_rule("0")
-      RecurringSelect.should_not be_is_valid_rule("custom")
-      RecurringSelect.should_not be_is_valid_rule([1, 2])
+      expect(RecurringSelect.is_valid_rule?(nil)).to be false
+      expect(RecurringSelect.is_valid_rule?("")).to be false
+      expect(RecurringSelect.is_valid_rule?(false)).to be false
+      expect(RecurringSelect.is_valid_rule?("null")).to be false
+      expect(RecurringSelect.is_valid_rule?("0")).to be false
+      expect(RecurringSelect.is_valid_rule?("custom")).to be false
+      expect(RecurringSelect.is_valid_rule?([1, 2])).to be false
     end
 
     it "should identify valid rules" do
-      RecurringSelect.should be_is_valid_rule(IceCube::Rule.weekly)
-      RecurringSelect.should be_is_valid_rule(IceCube::Rule.weekly.to_hash)
-      RecurringSelect.should be_is_valid_rule(IceCube::Rule.weekly.to_hash.to_json)
+      expect(RecurringSelect.is_valid_rule?(IceCube::Rule.weekly)).to be true
+      expect(RecurringSelect.is_valid_rule?(IceCube::Rule.weekly.to_hash)).to be true
+      expect(RecurringSelect.is_valid_rule?(IceCube::Rule.weekly.to_hash.to_json)).to be true
     end
   end
 
