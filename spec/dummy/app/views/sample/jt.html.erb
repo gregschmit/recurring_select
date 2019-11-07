@@ -1,0 +1,40 @@
+<%= form_for FakeModel.new, :url => root_url do |f| %>
+
+  <h3>JobTeaser Availability Creator</h3>
+
+  <p>
+    <%= f.label :start_date, "Start date" %>
+    <%= f.date_select :start_date, input_html: {class: 'select2'} %>
+  </p>
+  <p>
+    <%= f.label :start_time, "Start time" %>
+    <%= f.time_select :start_time, input_html: {class: 'select2'} %>
+  </p>
+  <p>
+    <%= f.label :end_time, "End time" %>
+    <%= f.time_select :end_time, input_html: {class: 'select2'} %>
+  </p>
+
+  <p>
+    <%= f.hidden_field :repeat_rule, class: 'appointment-system-repeat-rule-value', value: '' %>
+  </p>
+
+  <p class="repeat_rule_component"></p>
+
+  <p>
+    <%= f.submit %>
+  </p>
+
+
+<% end %>
+
+<script>
+  $(document).ready(function() {
+
+    new RecurringSelectComponent({
+      "container" : $('.repeat_rule_component'),
+      "value" : $('.appointment-system-repeat-rule-value')
+    });
+
+  });
+</script>

@@ -2,7 +2,7 @@
 
 /* -------- resets ---------------*/
 
-.rs_dialog_holder { font-size:14px; color:black;
+.recurring-component-container { font-size:14px; color:black;
   a {color:black;}
   input[type=button] {
     font: small/normal Arial,sans-serif;
@@ -20,7 +20,7 @@
 }
 
 /*------- defaults ------------ */
-.rs_dialog_holder { font-family:helvetica, arial, 'san-serif'; color:#222; font-size:12px;}
+.recurring-component-container { font-family:helvetica, arial, 'san-serif'; color:#222; font-size:12px;}
 
 /*------- specifics ------------ */
 
@@ -28,51 +28,49 @@ select {
   option.bold {font-weight:bold; color:red;}
 }
 
-.rs_dialog_holder { position:fixed; left:0px; right:0px; top:0px; bottom:0px; padding-left:50%; background-color:rgba(255,255,255,0.2); z-index:50;
-  .rs_dialog { background-color:#f6f6f6; border:1px solid #acacac; @include shadows(1px, 3px, 8px, rgba(0,0,0,0.25)); @include rounded_corners(7px);
-              display:inline-block; min-width:200px; margin-left:-125px; overflow:hidden; position:relative;
-    .rs_dialog_content { padding:10px;
-      h1 { font-size:16px; padding:0px; margin:0 0 10px 0;
-        a {float:right; display:inline-block; height:16px; width:16px; background-image:image-url("recurring_select/cancel.png"); background-position:center; background-repeat:no-repeat;}
+.recurring-component-container {
+  
+  .recurring-component-content { padding:10px;
+    h1 { font-size:16px; padding:0px; margin:0 0 10px 0;
+      a {float:right; display:inline-block; height:16px; width:16px; background-image:image-url("recurring_select/cancel.png"); background-position:center; background-repeat:no-repeat;}
+    }
+
+    p { padding:5px 0; margin:0; line-height: 14px;
+      label {margin-right:10px;}
+    }
+
+    a { -moz-box-sizing: content-box; -webkit-box-sizing: content-box; box-sizing: content-box; }
+
+    .freq_option_section { display:none;
+      label { font-weight: bold; }
+      .rs_interval {width:30px; text-align:center; display: inline-block;}
+
+      .day_holder { border-left:1px solid #ccc; position:relative; margin-top:5px; height:26px;
+        a {display:block; padding:5px 7px; font-size:14px; border-style:solid; border-color:#ccc; border-width:1px 1px 1px 0px; float:left; text-decoration:none; font-weight:bold; @include inset_shadows(0px, 1px, 2px, rgba(0,0,0,0.1)); background-color:#fff;;
+          &.selected {background-color:#89a; color:#fff; @include inset_shadows(1px, 1px, 2px, rgba(0,0,0,0.2));  @include gradiant(#9ab, #789); }
+          &:hover { cursor:pointer; background-color:#dde;}
+        }
       }
 
-      p { padding:5px 0; margin:0; line-height: 14px;
-        label {margin-right:10px;}
+      .rs_calendar_day, .rs_calendar_week {
+        width:155px;
+        a {display:inline-block; text-align:center; width:15px; padding:5px 3px; font-size:12px; border-style:solid; border-color:#ccc; border-width:1px 1px 1px 1px; margin:-1px 0 0 -1px; line-height:10px; background-color:#fff; font-weight:bold;
+          &.selected {background-color:#89a; color:#fff; @include gradiant(#9ab, #789); @include inset_shadows(0px, 1px, 2px, rgba(0,0,0,0.2)); text-shadow:0 1px 1px #333;}
+          &:hover { cursor:pointer; background-color:#dde;}
+        }
+        a.end_of_month { width: 81px; }
+      }
+      .rs_calendar_week {
+        width: 191px;
+        span {
+          display: inline-block;
+          width: 35px;
+        }
       }
 
-      a { -moz-box-sizing: content-box; -webkit-box-sizing: content-box; box-sizing: content-box; }
-
-      .freq_option_section { display:none;
-        label { font-weight: bold; }
-        .rs_interval {width:30px; text-align:center; display: inline-block;}
-
-        .day_holder { border-left:1px solid #ccc; position:relative; margin-top:5px; height:26px;
-          a {display:block; padding:5px 7px; font-size:14px; border-style:solid; border-color:#ccc; border-width:1px 1px 1px 0px; float:left; text-decoration:none; font-weight:bold; @include inset_shadows(0px, 1px, 2px, rgba(0,0,0,0.1)); background-color:#fff;;
-            &.selected {background-color:#89a; color:#fff; @include inset_shadows(1px, 1px, 2px, rgba(0,0,0,0.2));  @include gradiant(#9ab, #789); }
-            &:hover { cursor:pointer; background-color:#dde;}
-          }
-        }
-
-        .rs_calendar_day, .rs_calendar_week {
-          width:155px;
-          a {display:inline-block; text-align:center; width:15px; padding:5px 3px; font-size:12px; border-style:solid; border-color:#ccc; border-width:1px 1px 1px 1px; margin:-1px 0 0 -1px; line-height:10px; background-color:#fff; font-weight:bold;
-            &.selected {background-color:#89a; color:#fff; @include gradiant(#9ab, #789); @include inset_shadows(0px, 1px, 2px, rgba(0,0,0,0.2)); text-shadow:0 1px 1px #333;}
-            &:hover { cursor:pointer; background-color:#dde;}
-          }
-          a.end_of_month { width: 81px; }
-        }
-        .rs_calendar_week {
-          width: 191px;
-          span {
-            display: inline-block;
-            width: 35px;
-          }
-        }
-
-        .monthly_rule_type {
-          span {
-            margin-right: 15px;
-          }
+      .monthly_rule_type {
+        span {
+          margin-right: 15px;
         }
       }
 
