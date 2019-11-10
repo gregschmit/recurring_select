@@ -12,7 +12,7 @@ module RecurringSelectHelper
       end
     end
   end
-
+  
   module FormBuilder
     def select_recurring(method, default_schedules = nil, options = {}, html_options = {})
       if !@template.respond_to?(:select_recurring)

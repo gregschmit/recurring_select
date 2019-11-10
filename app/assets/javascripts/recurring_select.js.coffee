@@ -1,3 +1,4 @@
+//= require jquery-ui/widgets/datepicker
 //= require recurring_select_dialog
 //= require_self
 
@@ -95,6 +96,11 @@ $.fn.recurring_select.texts = {
   years: "year(s)"
   day_of_month: "Day of month"
   day_of_week: "Day of week"
+  ends: "Ends"
+  never: "Never"
+  after: "After"
+  occurrences: "occurrences"
+  on: "On"
   cancel: "Cancel"
   ok: "OK"
   summary: "Summary"
