@@ -29,6 +29,7 @@ module RecurringSelectHelper
       options_array = []
       blank_option_label = options[:blank_label] || I18n.t("recurring_select.not_recurring")
       blank_option = [blank_option_label, "null"]
+      currently_selected_rule = nil if currently_selected_rule == 'null'
       separator = [I18n.t("recurring_select.or"), {:disabled => true}]
 
       if default_schedules.blank?
