@@ -1,46 +1,79 @@
-/*
-*= require recurring_select
-*= require_self
-*/
+@import "recurring_select.scss";
 
 /* Make the jQuery mobile wrapped input elements inline */
 div.ui-recurring-select {
-  display:inline-block;
+  display: inline-block;
 }
 
-.frequency-select-wrapper label{
-  display:inline;
+.frequency-select-wrapper label {
+  display: inline;
 }
 
 /* Make the jQuery mobile wrapped labels and radios remain inline elements inline */
 p.monthly_rule_type label {
-  display:inline;
+  display: inline;
 }
 
-.rs_dialog_holder {padding-left:0px; background-color:#333; background-color:rgba(30,30,30,0.3); font-size:1em; position:absolute;
-  .rs_dialog { position:absolute; left:10px; right:10px; margin:0px; display:block; z-index:51;
+.rs_dialog_holder {
+  padding-left: 0px;
+  background-color: #333;
+  background-color: rgba(30, 30, 30, 0.3);
+  font-size: 1em;
+  position: absolute;
+
+  .rs_dialog {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    margin: 0px;
+    display: block;
+    z-index: 51;
 
 
     .rs_dialog_content {
 
-      label.ui-select { display:inline-block;}
-      div.ui-select {display:inline-block;}
+      label.ui-select {
+        display: inline-block;
+      }
 
-      input.rs_interval {display:inline-block;}
+      div.ui-select {
+        display: inline-block;
+      }
+
+      input.rs_interval {
+        display: inline-block;
+      }
 
       .freq_option_section {
-        .day_holder {height:36px;
-          a {padding:10px 12px;}
+        .day_holder {
+          height: 36px;
+
+          a {
+            padding: 10px 12px;
+          }
         }
 
-        .rs_calendar { width:225px;
-          * { text-shadow: none; }
-          a {padding:10px 8px;}
-          a.end_of_month { width: 111px; }
+        .rs_calendar {
+          width: 225px;
+
+          * {
+            text-shadow: none;
+          }
+
+          a {
+            padding: 10px 8px;
+          }
+
+          a.end_of_month {
+            width: 111px;
+          }
         }
       }
 
-      .rs_summary span { font-size:90%; font-weight:normal; }
+      .rs_summary span {
+        font-size: 90%;
+        font-weight: normal;
+      }
     }
 
   }
