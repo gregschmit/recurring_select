@@ -4,5 +4,5 @@ gemspec :path => "./../.."
 gem 'pg', platform: :ruby
 gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
 
-gem "rails", "~> 5.2"
-gem "sass-rails", "~> 5.0"
+gem "rails", "~> 5.0.7.2"
+gem "sass-rails", "~> 5.0.7.2"
