@@ -1,3 +1,3 @@
 module RecurringSelect
-  VERSION = "2.1.2"
+  VERSION = "5.1.0"
 end
