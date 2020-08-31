@@ -1,38 +1,63 @@
-sudo: false
 language: ruby
 script: bundle exec rspec spec
+
 rvm:
-  - 1.9.3
   - 2.0.0
   - 2.1.5
   - 2.2.0
   - 2.3.7
+  - 2.4.9
+  - 2.5.3
+  - 2.6.5
   - jruby-19mode
+
 gemfile:
   - spec/gemfiles/Gemfile.rails-4.0.x
   - spec/gemfiles/Gemfile.rails-4.1.x
   - spec/gemfiles/Gemfile.rails-4.2.x
   - spec/gemfiles/Gemfile.rails-5.0.x
-matrix:
+  - spec/gemfiles/Gemfile.rails-6.0.x
+
+jobs:
   exclude:
-    - rvm: 1.9.3
-      gemfile: spec/gemfiles/rails-4.0.x.gemfile
-    - rvm: 1.9.3
-      gemfile: spec/gemfiles/rails-5.0.x.gemfile
-    - rvm: 1.9.3
-      gemfile: spec/gemfiles/rails-4.1.x.gemfile
-    - rvm: 1.9.3
-      gemfile: spec/gemfiles/rails-5.0.x.gemfile
-    - rvm: 1.9.3
-      gemfile: spec/gemfiles/rails-4.2.x.gemfile
     - rvm: 2.0.0
-      gemfile: spec/gemfiles/rails-5.0.x.gemfile
+      gemfile: spec/gemfiles/Gemfile.rails-5.0.x
+    - rvm: 2.0.0
+      gemfile: spec/gemfiles/Gemfile.rails-6.0.x
     - rvm: 2.1.5
-      gemfile: spec/gemfiles/rails-5.0.x.gemfile
-    - rvm: 2.2.2
-      gemfile: spec/gemfiles/rails-5.0.x.gemfile
+      gemfile: spec/gemfiles/Gemfile.rails-5.0.x
+    - rvm: 2.1.5
+      gemfile: spec/gemfiles/Gemfile.rails-6.0.x
+    - rvm: 2.2.0
+      gemfile: spec/gemfiles/Gemfile.rails-5.0.x
+    - rvm: 2.2.0
+      gemfile: spec/gemfiles/Gemfile.rails-6.0.x
+    - rvm: 2.3.7
+      gemfile: spec/gemfiles/Gemfile.rails-6.0.x
+    - rvm: 2.4.9
+      gemfile: spec/gemfiles/Gemfile.rails-4.0.x
+    - rvm: 2.4.9
+      gemfile: spec/gemfiles/Gemfile.rails-4.1.x
+    - rvm: 2.4.9
+      gemfile: spec/gemfiles/Gemfile.rails-6.0.x
+    - rvm: 2.5.3
+      gemfile: spec/gemfiles/Gemfile.rails-4.0.x
+    - rvm: 2.5.3
+      gemfile: spec/gemfiles/Gemfile.rails-4.1.x
+    - rvm: 2.6.5
+      gemfile: spec/gemfiles/Gemfile.rails-4.0.x
+    - rvm: 2.6.5
+      gemfile: spec/gemfiles/Gemfile.rails-4.1.x
     - rvm: jruby-19mode
-      gemfile: spec/gemfiles/Gemfile.rails-3.2.x
-  fast_finish: true
+      gemfile: spec/gemfiles/Gemfile.rails-4.0.x
+    - rvm: jruby-19mode
+      gemfile: spec/gemfiles/Gemfile.rails-4.1.x
+    - rvm: jruby-19mode
+      gemfile: spec/gemfiles/Gemfile.rails-4.2.x
+
+before_install:
+  - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
+  - gem install bundler -v '< 2'
+
 notifications:
   email: false
