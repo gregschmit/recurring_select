@@ -100,6 +100,7 @@ module RecurringSelectHelper
       @method_name = method.to_s
       @object_name = object.to_s
       @html_options = recurring_select_html_options(html_options)
+      @template_object = template_object
       add_default_name_and_id(@html_options)
 
       super(object, method, template_object, options)
