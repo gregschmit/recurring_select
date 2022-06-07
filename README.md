@@ -4,8 +4,6 @@
 
 This gem adds selectors and helpers for working with recurring schedules in a Rails app. It uses [ice_cube](https://github.com/seejohnrun/ice_cube) recurring scheduling gem.
 
-Created by the [Jobber](http://getjobber.com) team for Jobber, the leading business management tool for field service companies.
-
 Check out the [live demo](http://recurring-select-demo.herokuapp.com/) (code in [spec/dummy](https://github.com/GetJobber/recurring_select/tree/master/spec/dummy) folder)
 
 
