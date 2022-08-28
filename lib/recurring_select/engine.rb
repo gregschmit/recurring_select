@@ -6,6 +6,7 @@ module RecurringSelect
 
     initializer "recurring_select.extending_form_builder" do |app|
       ActionView::Helpers::FormHelper.send(:include, RecurringSelectHelper::FormHelper)
+      ActionView::Helpers::FormTagHelper.send(:include, RecurringSelectHelper::FormTagHelper)
       ActionView::Helpers::FormOptionsHelper.send(:include, RecurringSelectHelper::FormOptionsHelper)
       ActionView::Helpers::FormBuilder.send(:include, RecurringSelectHelper::FormBuilder)
     end
