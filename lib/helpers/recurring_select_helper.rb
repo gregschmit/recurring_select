@@ -6,6 +6,12 @@ module RecurringSelectHelper
       RecurringSelectTag.new(object, method, self, default_schedules, options, html_options).render
     end
   end
+  
+  module FormTagHelper
+    def select_recurring_tag(name, default_schedules = nil, options = {}, html_options = {})
+      RecurringSelectTag.new(nil, name, self, default_schedules, options, html_options).render
+    end
+  end
 
   module FormBuilder
     def select_recurring(method, default_schedules = nil, options = {}, html_options = {})
