@@ -1,0 +1,8 @@
+de:
+  recurring_select:
+    not_recurring: "- keine Wiederholungen -"
+    change_schedule: "Ändere Wiederholungen..."
+    set_schedule: "Setze Wiederholungen..."
+    new_custom_schedule: "Neue benutzerdefinierte Wiederholungen..."
+    custom_schedule: "Benutzerdefinierte Wiederholungen..."
+    or: "oder"
