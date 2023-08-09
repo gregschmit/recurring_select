@@ -65,7 +65,7 @@ module RecurringSelectHelper
       ar = [rule.to_s, rule.to_hash.to_json]
 
       if custom
-        ar[0] << "*"
+        ar[0] += "*"
         ar << {"data-custom" => true}
       end
 
