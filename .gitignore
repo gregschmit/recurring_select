@@ -1,6 +1,7 @@
 *.gem
 spec/gemfiles/Gemfile*.lock
 Gemfile.lock
+*.gem
 
 .bundle/
 tmp/*

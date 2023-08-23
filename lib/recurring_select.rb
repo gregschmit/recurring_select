@@ -59,7 +59,7 @@ module RecurringSelect
     # this is soooooo ugly
     if params[:validations][:day_of_week]
       params[:validations][:day_of_week] ||= {}
-      if params[:validations][:day_of_week].length > 0 and not params[:validations][:day_of_week].keys.first =~ /\d/
+      if params[:validations][:day_of_week].length > 0 and not params[:validations][:day_of_week].keys.first.to_s =~ /\d/
         params[:validations][:day_of_week].symbolize_keys!
       else
         originals = params[:validations][:day_of_week].dup
