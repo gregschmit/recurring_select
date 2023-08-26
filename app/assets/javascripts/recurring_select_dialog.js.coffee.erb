@@ -11,26 +11,41 @@ window.RecurringSelectDialog =
     initDialogBox: ->
       $(".rs_dialog_holder").remove()
 
-      open_in = $("body")
+      selector = $.fn.recurring_select.options["dialogContext"]["open_in_selector"]
+      open_in = $(selector)
       open_in = $(".ui-page-active") if $(".ui-page-active").length
       open_in.append @template()
       @outer_holder = $(".rs_dialog_holder")
+      @outer_holder.css('z-index', @getMaxZindex(@outer_holder) + 1)
       @inner_holder = @outer_holder.find ".rs_dialog"
+      @inner_holder.css('z-index', @getMaxZindex(@inner_holder) + 1)
       @content = @outer_holder.find ".rs_dialog_content"
       @positionDialogVert(true)
       @mainEventInit()
       @freqInit()
+      @limitInit()
       @summaryInit()
       @outer_holder.trigger "recurring_select:dialog_opened"
       @freq_select.focus()
 
+    getMaxZindex: (target) =>
+      value = 0
+      while target.length && target[ 0 ] != document
+        position = target.css( "position" );
+        test = parseInt( target.css( 'zIndex' ), 10 )
+        if ( !isNaN( test ) && test > value )
+          value = test
+        target = target.parent();
+      return value
+
     positionDialogVert: (initial_positioning) =>
-      window_height = $(window).height()
-      window_width  = $(window).width()
+      selector = $.fn.recurring_select.options["dialogContext"]["sizing_selector"]
+      window_height = $(selector).height()
+      window_width  = $(selector).width()
       dialog_height = @content.outerHeight()
       if dialog_height < 80
         dialog_height = 80
-      margin_top = (window_height - dialog_height)/2 - 30
+      margin_top = (window_height - dialog_height)/2 - 10
       margin_top = 10 if margin_top < 10
       # if dialog_height > window_height - 20
       #   dialog_height = window_height - 20
@@ -70,6 +85,12 @@ window.RecurringSelectDialog =
       @content.on 'click tap', 'h1 a', @cancel
       @save_button = @content.find('input.rs_save').on "click tap", @save
       @content.find('input.rs_cancel').on "click tap", @cancel
+      @content.find('#count').on("change keyup", @countChanged);
+      @content.find('#count').on("click", @countSelect);
+      @content.find('#until').on("change keyup", @untilChanged);
+      @content.find('#until').on("click", @untilSelect);
+      @content.find('input:radio[name=limit]').on('change', @limitChanged);
+      $('input[type=date]').not('.hasDatepicker').datepicker();
 
     freqInit: ->
       @freq_select = @outer_holder.find ".rs_frequency"
@@ -87,6 +108,19 @@ window.RecurringSelectDialog =
           @initDailyOptions()
       @freq_select.on "change", @freqChanged
 
+    limitInit: ->
+      if @current_rule.hash?
+        if @current_rule.hash.until != null
+          @content.find('#until').val(@current_rule.hash.until)
+          @content.find('#radio_limit_until').prop('checked', true)
+        else if @current_rule.hash.count != null
+          @content.find('#count').val(@current_rule.hash.count)
+          @content.find('#radio_limit_count').prop('checked', true)
+        else
+          @content.find('#radio_limit_none').prop('checked', true)
+      else
+        @content.find('#radio_limit_none').prop('checked', true)
+      
     initDailyOptions: ->
       section = @content.find('.daily_options')
       interval_input = section.find('.rs_daily_interval')
@@ -154,8 +188,7 @@ window.RecurringSelectDialog =
         @summary.removeClass "fetching"
         @save_button.removeClass("disabled")
         rule_str = @current_rule.str.replace("*", "")
-        if rule_str.length < 20
-          rule_str = "#{$.fn.recurring_select.texts["summary"]}: "+rule_str
+        rule_str = "#{$.fn.recurring_select.texts["summary"]}: "+rule_str
         @summary.find("span").html rule_str
       else
         @summary.addClass "fetching"
@@ -232,6 +265,7 @@ window.RecurringSelectDialog =
       @current_rule.hash.validations = null
       @content.find(".freq_option_section").hide();
       @content.find("input[type=radio], input[type=checkbox]").prop("checked", false)
+      @content.find("#radio_limit_none").prop("checked", true)  # put limit back to none though
       switch @freq_select.val()
         when "Weekly"
           @current_rule.hash.rule_type = "IceCube::WeeklyRule"
@@ -298,6 +332,50 @@ window.RecurringSelectDialog =
       @summaryUpdate()
       false
 
+    countUpdate: =>
+      if @content.find("input:radio[name=limit]:checked").val() != 'count'
+        # If count is no longer selected, but the hash is still set then clear the str to recalc it
+        if @current_rule.hash.count != null
+          @current_rule.str = null
+        @current_rule.hash.count = null
+        return
+      @current_rule.str = null
+      @current_rule.hash ||= {}
+      count = parseInt(@content.find("#count").val())
+      if !isNaN(count) && count != @current_rule.hash.count
+        @current_rule.hash.count = count;
+
+    countChanged: (event) =>
+      @content.find("#radio_limit_count").click()
+      @countUpdate()
+      @summaryUpdate()
+      false # this prevents default and propogation
+
+    untilUpdate: =>
+      if @content.find("input:radio[name=limit]:checked").val() != 'until'
+        # If until is no longer selected, but the hash is still set then clear the str to recalc it
+        if @current_rule.hash.until != null
+          @current_rule.str = null
+        @current_rule.hash.until = null
+        return
+      @current_rule.str = null
+      @current_rule.hash ||= {}
+      test = @content.find("#until").val()
+      if test != @current_rule.hash.until
+        @current_rule.hash.until = test
+
+    untilChanged: (event) =>
+      @content.find("#radio_limit_until").click()
+      @untilUpdate()
+      @summaryUpdate()
+      false # this prevents default and propogation
+
+    limitChanged: (event) =>
+      @countUpdate()
+      @untilUpdate()
+      @summaryUpdate()
+      false # this prevents default and propogation
+
 # ========================= Change callbacks ===============================
 
     template: () ->
@@ -346,8 +424,8 @@ window.RecurringSelectDialog =
                 #{$.fn.recurring_select.texts["months"]}:
               </p>
               <p class='monthly_rule_type'>
-                <span><label for='monthly_rule_type_day'>#{$.fn.recurring_select.texts["day_of_month"]}</label><input type='radio' class='monthly_rule_type_day' name='monthly_rule_type' id='monthly_rule_type_day' value='true' /></span>
-                <span><label for='monthly_rule_type_week'>#{$.fn.recurring_select.texts["day_of_week"]}</label><input type='radio' class='monthly_rule_type_week' name='monthly_rule_type' id='monthly_rule_type_week' value='true' /></span>
+                <span><label for='monthly_rule_type_day'></label><input type='radio' class='monthly_rule_type_day' name='monthly_rule_type' id='monthly_rule_type_day' value='true' />#{$.fn.recurring_select.texts["day_of_month"]}</span>
+                <span><label for='monthly_rule_type_week'></label><input type='radio' class='monthly_rule_type_week' name='monthly_rule_type' id='monthly_rule_type_week' value='true' />#{$.fn.recurring_select.texts["day_of_week"]}</span>
               </p>
               <p class='rs_calendar_day'></p>
               <p class='rs_calendar_week'></p>
@@ -359,6 +437,11 @@ window.RecurringSelectDialog =
                 #{$.fn.recurring_select.texts["years"]}
               </p>
             </div>
+            <p> 
+              <span><input type='radio' name='limit' id='radio_limit_none' value='none' /><label for='none'>#{$.fn.recurring_select.texts["no_limit"]}</label></span> 
+              <span><input type='radio' name='limit' id='radio_limit_until' value='until' /><label for='until'>#{$.fn.recurring_select.texts["until"]}</label><input type='date' name='until' id='until' size='8' style='z-index: 2000;' /></span>
+              <span><input type='radio' name='limit' id='radio_limit_count' value='count' /><label for='count'>#{$.fn.recurring_select.texts["count"]}</label><input type='text' name='count' id='count' size='1' /></span> 
+            </p>
             <p class='rs_summary'>
               <span></span>
             </p>
