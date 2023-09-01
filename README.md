@@ -135,13 +135,6 @@ $.fn.recurring_select.options = {
 
 ## Testing and Development
 
-The dummy app uses a [Postgres](http://postgresapp.com/) database `recurring_select_development`. To get setup:
-
-```console
-bundle
-rake db:create
-```
-
 Start the dummy server for clicking around the interface:
 
 ```console
