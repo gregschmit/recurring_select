@@ -1,0 +1,7 @@
+source "https://rubygems.org"
+gemspec path: File.expand_path("../../..", __FILE__)
+
+gem "jquery-rails"
+
+gem "thin"
+gem "rails", "~> 7.0.0"
