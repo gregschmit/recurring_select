@@ -1,0 +1,449 @@
+window.RecurringSelectDialog =
+  (RecurringSelectDialog = class RecurringSelectDialog {
+    constructor(recurring_selector) {
+      this.positionDialogVert = this.positionDialogVert.bind(this);
+      this.cancel = this.cancel.bind(this);
+      this.outerCancel = this.outerCancel.bind(this);
+      this.save = this.save.bind(this);
+      this.summaryUpdate = this.summaryUpdate.bind(this);
+      this.summaryFetchSuccess = this.summaryFetchSuccess.bind(this);
+      this.init_calendar_days = this.init_calendar_days.bind(this);
+      this.init_calendar_weeks = this.init_calendar_weeks.bind(this);
+      this.toggle_month_view = this.toggle_month_view.bind(this);
+      this.freqChanged = this.freqChanged.bind(this);
+      this.intervalChanged = this.intervalChanged.bind(this);
+      this.daysChanged = this.daysChanged.bind(this);
+      this.dateOfMonthChanged = this.dateOfMonthChanged.bind(this);
+      this.weekOfMonthChanged = this.weekOfMonthChanged.bind(this);
+      this.recurring_selector = recurring_selector;
+      this.current_rule = this.recurring_selector.recurring_select('current_rule');
+      this.initDialogBox();
+      if ((this.current_rule.hash == null) || (this.current_rule.hash.rule_type == null)) {
+        this.freqChanged();
+      } else {
+        setTimeout(this.positionDialogVert, 10); // allow initial render
+      }
+    }
+
+    initDialogBox() {
+      $(".rs_dialog_holder").remove();
+
+      let open_in = $("body");
+      if ($(".ui-page-active").length) { open_in = $(".ui-page-active"); }
+      open_in.append(this.template());
+      this.outer_holder = $(".rs_dialog_holder");
+      this.inner_holder = this.outer_holder.find(".rs_dialog");
+      this.content = this.outer_holder.find(".rs_dialog_content");
+      this.positionDialogVert(true);
+      this.mainEventInit();
+      this.freqInit();
+      this.summaryInit();
+      this.outer_holder.trigger("recurring_select:dialog_opened");
+      this.freq_select.focus();
+    }
+
+    positionDialogVert(initial_positioning) {
+      const window_height = $(window).height();
+      const window_width  = $(window).width();
+      let dialog_height = this.content.outerHeight();
+      if (dialog_height < 80) {
+        dialog_height = 80;
+      }
+      let margin_top = ((window_height - dialog_height)/2) - 30;
+      if (margin_top < 10) { margin_top = 10; }
+      // if dialog_height > window_height - 20
+      //   dialog_height = window_height - 20
+
+      const new_style_hash = {
+        "margin-top" : margin_top+"px",
+        "min-height" : dialog_height+"px"
+      };
+
+      if (initial_positioning != null) {
+        this.inner_holder.css(new_style_hash);
+        this.inner_holder.trigger("recurring_select:dialog_positioned");
+      } else {
+        this.inner_holder.addClass("animated");
+        this.inner_holder.animate(new_style_hash, 200, () => {
+          this.inner_holder.removeClass("animated");
+          this.content.css({"width": "auto"});
+          this.inner_holder.trigger("recurring_select:dialog_positioned");
+        });
+      }
+    }
+
+    cancel() {
+      this.outer_holder.remove();
+      this.recurring_selector.recurring_select('cancel');
+    }
+
+    outerCancel(event) {
+      if ($(event.target).hasClass("rs_dialog_holder")) {
+        this.cancel();
+      }
+    }
+
+    save() {
+      if ((this.current_rule.str == null)) { return; }
+      this.outer_holder.remove();
+      this.recurring_selector.recurring_select('save', this.current_rule);
+    }
+
+// ========================= Init Methods ===============================
+
+    mainEventInit() {
+      // Tap hooks are for jQueryMobile
+      this.outer_holder.on('click tap', this.outerCancel);
+      this.content.on('click tap', 'h1 a', this.cancel);
+      this.save_button = this.content.find('input.rs_save').on("click tap", this.save);
+      this.content.find('input.rs_cancel').on("click tap", this.cancel);
+    }
+
+    freqInit() {
+      this.freq_select = this.outer_holder.find(".rs_frequency");
+      const rule_type = this.current_rule.hash?.rule_type
+      if (this.current_rule.hash != null && rule_type != null) {
+        if (rule_type.search(/Weekly/) !== -1) {
+          this.freq_select.prop('selectedIndex', 1);
+          this.initWeeklyOptions();
+        } else if (rule_type.search(/Monthly/) !== -1) {
+          this.freq_select.prop('selectedIndex', 2);
+          this.initMonthlyOptions();
+        } else if (rule_type.search(/Yearly/) !== -1) {
+          this.freq_select.prop('selectedIndex', 3);
+          this.initYearlyOptions();
+        } else {
+          this.initDailyOptions();
+        }
+      }
+      this.freq_select.on("change", this.freqChanged);
+    }
+
+    initDailyOptions() {
+      const section = this.content.find('.daily_options');
+      const interval_input = section.find('.rs_daily_interval');
+      interval_input.val(this.current_rule.hash.interval);
+      interval_input.on("change keyup", this.intervalChanged);
+      section.show();
+    }
+
+    initWeeklyOptions() {
+      const section = this.content.find('.weekly_options');
+
+      // connect the interval field
+      const interval_input = section.find('.rs_weekly_interval');
+      interval_input.val(this.current_rule.hash.interval);
+      interval_input.on("change keyup", this.intervalChanged);
+
+      // clear selected days
+      section.find(".day_holder a").each(function(index, element) {
+        $(element).removeClass("selected");
+      });
+
+      // connect the day fields
+      if ((this.current_rule.hash.validations != null) && (this.current_rule.hash.validations.day != null)) {
+        $(this.current_rule.hash.validations.day).each(function(index, val) {
+          section.find(".day_holder a[data-value='"+val+"']").addClass("selected");
+        });
+      }
+
+      section.off('click', '.day_holder a').on("click", ".day_holder a", this.daysChanged);
+
+      section.show();
+    }
+
+    initMonthlyOptions() {
+      const section = this.content.find('.monthly_options');
+      const interval_input = section.find('.rs_monthly_interval');
+      interval_input.val(this.current_rule.hash.interval);
+      interval_input.on("change keyup", this.intervalChanged);
+
+      if (!this.current_rule.hash.validations) { this.current_rule.hash.validations = {} };
+      if (!this.current_rule.hash.validations.day_of_month) { this.current_rule.hash.validations.day_of_month = [] };
+      if (!this.current_rule.hash.validations.day_of_week) { this.current_rule.hash.validations.day_of_week = {} };
+      this.init_calendar_days(section);
+      this.init_calendar_weeks(section);
+
+      const in_week_mode = Object.keys(this.current_rule.hash.validations.day_of_week).length > 0;
+      section.find(".monthly_rule_type_week").prop("checked", in_week_mode);
+      section.find(".monthly_rule_type_day").prop("checked", !in_week_mode);
+      this.toggle_month_view();
+      section.find("input[name=monthly_rule_type]").on("change", this.toggle_month_view);
+      section.show();
+    }
+
+    initYearlyOptions() {
+      const section = this.content.find('.yearly_options');
+      const interval_input = section.find('.rs_yearly_interval');
+      interval_input.val(this.current_rule.hash.interval);
+      interval_input.on("change keyup", this.intervalChanged);
+      section.show();
+    }
+
+
+    summaryInit() {
+      this.summary = this.outer_holder.find(".rs_summary");
+      this.summaryUpdate();
+    }
+
+// ========================= render methods ===============================
+
+    summaryUpdate(new_string) {
+      this.summary.width(this.content.width());
+      if ((this.current_rule.hash != null) && (this.current_rule.str != null)) {
+        this.summary.removeClass("fetching");
+        this.save_button.removeClass("disabled");
+        let rule_str = this.current_rule.str.replace("*", "");
+        if (rule_str.length < 20) {
+          rule_str = `${$.fn.recurring_select.texts["summary"]}: `+rule_str;
+        }
+        this.summary.find("span").html(rule_str);
+      } else {
+        this.summary.addClass("fetching");
+        this.save_button.addClass("disabled");
+        this.summary.find("span").html("");
+        this.summaryFetch();
+      }
+    }
+
+    summaryFetch() {
+      if (!(this.current_rule.hash != null && this.current_rule.hash.rule_type != null)) { return; }
+      this.current_rule.hash['week_start'] = $.fn.recurring_select.texts["first_day_of_week"];
+      $.ajax({
+        url: `<%= Rails.application.config.action_controller.relative_url_root %>/recurring_select/translate/${$.fn.recurring_select.texts["locale_iso_code"]}`,
+        type: "POST",
+        data: this.current_rule.hash,
+        success: this.summaryFetchSuccess
+      });
+    }
+
+    summaryFetchSuccess(data) {
+      this.current_rule.str = data;
+      this.summaryUpdate();
+      this.content.css({"width": "auto"});
+    }
+
+    init_calendar_days(section) {
+      const monthly_calendar = section.find(".rs_calendar_day");
+      monthly_calendar.html("");
+      for (let num = 1; num <= 31; num++) {
+        const day_link = $(document.createElement("a")).text(num);
+        monthly_calendar.append(day_link);
+        if ($.inArray(num, this.current_rule.hash.validations.day_of_month) !== -1) {
+          day_link.addClass("selected");
+        }
+      };
+
+      // add last day of month button
+      const end_of_month_link = $(document.createElement("a")).text($.fn.recurring_select.texts["last_day"])
+      monthly_calendar.append(end_of_month_link);
+      end_of_month_link.addClass("end_of_month");
+      if ($.inArray(-1, this.current_rule.hash.validations.day_of_month) !== -1) {
+        end_of_month_link.addClass("selected");
+      }
+
+      monthly_calendar.find("a").on("click tap", this.dateOfMonthChanged);
+    }
+
+    init_calendar_weeks(section) {
+      const monthly_calendar = section.find(".rs_calendar_week");
+      monthly_calendar.html("");
+      const row_labels = $.fn.recurring_select.texts["order"];
+      const show_row = $.fn.recurring_select.options["monthly"]["show_week"];
+      const cell_str = $.fn.recurring_select.texts["days_first_letter"];
+
+      const iterable = [1, 2, 3, 4, 5, -1]
+      for (let index = 0; index < iterable.length; index++) {
+        const num = iterable[index];
+        if (show_row[index]) {
+          monthly_calendar.append(`<span>${row_labels[num - 1]}</span>`);
+          for (let i = $.fn.recurring_select.texts["first_day_of_week"], day_of_week = i, end = 7 + $.fn.recurring_select.texts["first_day_of_week"], asc = $.fn.recurring_select.texts["first_day_of_week"] <= end; asc ? i < end : i > end; asc ? i++ : i--, day_of_week = i) {
+            day_of_week = day_of_week % 7;
+            const day_link = $("<a>", {text: cell_str[day_of_week] });
+            day_link.attr("day", day_of_week);
+            day_link.attr("instance", num);
+            monthly_calendar.append(day_link);
+          };
+        }
+      };
+
+      $.each(this.current_rule.hash.validations.day_of_week, function(key, value) {
+        $.each(value, function(index, instance) {
+          section.find(`a[day='${key}'][instance='${instance}']`).addClass("selected");
+        });
+      });
+      monthly_calendar.find("a").on("click tap", this.weekOfMonthChanged);
+    }
+
+    toggle_month_view() {
+      const week_mode = this.content.find(".monthly_rule_type_week").prop("checked");
+      this.content.find(".rs_calendar_week").toggle(week_mode);
+      this.content.find(".rs_calendar_day").toggle(!week_mode);
+    }
+
+// ========================= Change callbacks ===============================
+
+    freqChanged() {
+      if (!$.isPlainObject(this.current_rule.hash)) { this.current_rule.hash = null; } // for custom values
+
+      if (!this.current_rule.hash) { this.current_rule.hash = {} };
+      this.current_rule.hash.interval = 1;
+      this.current_rule.hash.until = null;
+      this.current_rule.hash.count = null;
+      this.current_rule.hash.validations = null;
+      this.content.find(".freq_option_section").hide();;
+      this.content.find("input[type=radio], input[type=checkbox]").prop("checked", false);
+      switch (this.freq_select.val()) {
+        case "Weekly":
+          this.current_rule.hash.rule_type = "IceCube::WeeklyRule";
+          this.current_rule.str = $.fn.recurring_select.texts["weekly"];
+          this.initWeeklyOptions();
+          break
+        case "Monthly":
+          this.current_rule.hash.rule_type = "IceCube::MonthlyRule";
+          this.current_rule.str = $.fn.recurring_select.texts["monthly"];
+          this.initMonthlyOptions();
+          break
+        case "Yearly":
+          this.current_rule.hash.rule_type = "IceCube::YearlyRule";
+          this.current_rule.str = $.fn.recurring_select.texts["yearly"];
+          this.initYearlyOptions();
+          break
+        default:
+          this.current_rule.hash.rule_type = "IceCube::DailyRule";
+          this.current_rule.str = $.fn.recurring_select.texts["daily"];
+          this.initDailyOptions();
+      };
+      this.summaryUpdate();
+      this.positionDialogVert();
+    }
+
+    intervalChanged(event) {
+      this.current_rule.str = null;
+      if (!this.current_rule.hash) { this.current_rule.hash = {} };
+      this.current_rule.hash.interval = parseInt($(event.currentTarget).val());
+      if ((this.current_rule.hash.interval < 1) || isNaN(this.current_rule.hash.interval)) {
+        this.current_rule.hash.interval = 1;
+      }
+      this.summaryUpdate();
+    }
+
+    daysChanged(event) {
+      $(event.currentTarget).toggleClass("selected");
+      this.current_rule.str = null;
+      if (!this.current_rule.hash) { this.current_rule.hash = {} };
+      this.current_rule.hash.validations = {};
+      const raw_days = this.content.find(".day_holder a.selected").map(function() { return parseInt($(this).data("value")); });
+      this.current_rule.hash.validations.day = raw_days.get();
+      this.summaryUpdate();
+      return false; // this prevents default and propogation
+    }
+
+    dateOfMonthChanged(event) {
+      $(event.currentTarget).toggleClass("selected");
+      this.current_rule.str = null;
+      if (!this.current_rule.hash) { this.current_rule.hash = {} };
+      this.current_rule.hash.validations = {};
+      const raw_days = this.content.find(".monthly_options .rs_calendar_day a.selected").map(function() {
+        return $(this).text() === $.fn.recurring_select.texts["last_day"] ? -1 : parseInt($(this).text());
+      });
+      this.current_rule.hash.validations.day_of_week = {};
+      this.current_rule.hash.validations.day_of_month = raw_days.get();
+      this.summaryUpdate();
+      return false;
+    }
+
+    weekOfMonthChanged(event) {
+      $(event.currentTarget).toggleClass("selected");
+      this.current_rule.str = null;
+      if (!this.current_rule.hash) { this.current_rule.hash = {} };
+      this.current_rule.hash.validations = {};
+      this.current_rule.hash.validations.day_of_month = [];
+      this.current_rule.hash.validations.day_of_week = {};
+      this.content.find(".monthly_options .rs_calendar_week a.selected").each((index, elm) => {
+        const day = parseInt($(elm).attr("day"));
+        const instance = parseInt($(elm).attr("instance"));
+        if (!this.current_rule.hash.validations.day_of_week[day]) { this.current_rule.hash.validations.day_of_week[day] = [] };
+        return this.current_rule.hash.validations.day_of_week[day].push(instance);
+      });
+      this.summaryUpdate();
+      return false;
+    }
+
+// ========================= Change callbacks ===============================
+
+    template() {
+      let str = `\
+      <div class='rs_dialog_holder'> \
+        <div class='rs_dialog'> \
+          <div class='rs_dialog_content'> \
+            <h1>${$.fn.recurring_select.texts["repeat"]} <a href='#' title='${$.fn.recurring_select.texts["cancel"]}' Alt='${$.fn.recurring_select.texts["cancel"]}'></a> </h1> \
+            <p class='frequency-select-wrapper'> \
+              <label for='rs_frequency'>${$.fn.recurring_select.texts["frequency"]}:</label> \
+              <select data-wrapper-class='ui-recurring-select' id='rs_frequency' class='rs_frequency' name='rs_frequency'> \
+                <option value='Daily'>${$.fn.recurring_select.texts["daily"]}</option> \
+                <option value='Weekly'>${$.fn.recurring_select.texts["weekly"]}</option> \
+                <option value='Monthly'>${$.fn.recurring_select.texts["monthly"]}</option> \
+                <option value='Yearly'>${$.fn.recurring_select.texts["yearly"]}</option> \
+              </select> \
+            </p> \
+            \
+            <div class='daily_options freq_option_section'> \
+              <p> \
+                ${$.fn.recurring_select.texts["every"]} \
+                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_daily_interval' class='rs_daily_interval rs_interval' value='1' size='2' /> \
+                ${$.fn.recurring_select.texts["days"]} \
+              </p> \
+            </div> \
+            <div class='weekly_options freq_option_section'> \
+              <p> \
+                ${$.fn.recurring_select.texts["every"]} \
+                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_weekly_interval' class='rs_weekly_interval rs_interval' value='1' size='2' /> \
+                ${$.fn.recurring_select.texts["weeks_on"]}: \
+              </p> \
+              <div class='day_holder'>\
+                `;
+                for (let i = $.fn.recurring_select.texts["first_day_of_week"], day_of_week = i, end = 7 + $.fn.recurring_select.texts["first_day_of_week"], asc = $.fn.recurring_select.texts["first_day_of_week"] <= end; asc ? i < end : i > end; asc ? i++ : i--, day_of_week = i) {
+                  day_of_week = day_of_week % 7;
+                  str += `<a href='#' data-value='${day_of_week}'>${$.fn.recurring_select.texts["days_first_letter"][day_of_week]}</a>`;
+                };
+
+                str += `\
+              </div> \
+              <span style='clear:both; visibility:hidden; height:1px;'>.</span> \
+            </div> \
+            <div class='monthly_options freq_option_section'> \
+              <p> \
+                ${$.fn.recurring_select.texts["every"]} \
+                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_monthly_interval' class='rs_monthly_interval rs_interval' value='1' size='2' /> \
+                ${$.fn.recurring_select.texts["months"]}: \
+              </p> \
+              <p class='monthly_rule_type'> \
+                <span><label for='monthly_rule_type_day'>${$.fn.recurring_select.texts["day_of_month"]}</label><input type='radio' class='monthly_rule_type_day' name='monthly_rule_type' id='monthly_rule_type_day' value='true' /></span> \
+                <span><label for='monthly_rule_type_week'>${$.fn.recurring_select.texts["day_of_week"]}</label><input type='radio' class='monthly_rule_type_week' name='monthly_rule_type' id='monthly_rule_type_week' value='true' /></span> \
+              </p> \
+              <p class='rs_calendar_day'></p> \
+              <p class='rs_calendar_week'></p> \
+            </div> \
+            <div class='yearly_options freq_option_section'> \
+              <p> \
+                ${$.fn.recurring_select.texts["every"]} \
+                <input type='text' data-wrapper-class='ui-recurring-select' name='rs_yearly_interval' class='rs_yearly_interval rs_interval' value='1' size='2' /> \
+                ${$.fn.recurring_select.texts["years"]} \
+              </p> \
+            </div> \
+            <p class='rs_summary'> \
+              <span></span> \
+            </p> \
+            <div class='controls'> \
+              <input type='button' data-wrapper-class='ui-recurring-select' class='rs_save' value='${$.fn.recurring_select.texts["ok"]}' /> \
+              <input type='button' data-wrapper-class='ui-recurring-select' class='rs_cancel' value='${$.fn.recurring_select.texts["cancel"]}' /> \
+            </div> \
+          </div> \
+        </div> \
+      </div>\
+      `;
+
+      return str;
+    }
+  });
