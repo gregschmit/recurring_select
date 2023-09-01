@@ -1,4 +1,4 @@
-$.fn.recurring_select.texts = {
+RecurringSelectDialog.config.texts = {
   locale_iso_code: "fr"
   repeat: "Récurrence"
   last_day: "Dernier jour"

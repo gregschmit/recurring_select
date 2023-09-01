@@ -1,125 +1,96 @@
 //= require recurring_select_dialog
 //= require_self
 
-const $ = jQuery;
-$(function() {
-  $(document).on("focus", ".recurring_select", function() {
-    $(this).recurring_select('set_initial_values');
-  });
+document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("focusin", (e) => {
+    if (e.target.matches(".recurring_select")) {
+      recurring_select.call(e.target, "set_initial_values")
+    }
+  })
 
-  $(document).on("change", ".recurring_select", function() {
-    $(this).recurring_select('changed');
-  });
-});
+  document.addEventListener("input", (e) => {
+    if (e.target.matches(".recurring_select")) {
+      recurring_select.call(e.target, "changed")
+    }
+  })
+})
 
 const methods = {
   set_initial_values() {
-    this.data('initial-value-hash', this.val());
-    this.data('initial-value-str', $(this.find("option").get()[this.prop("selectedIndex")]).text());
+    const str = this.querySelectorAll('option')[this.selectedIndex].textContent
+    this.setAttribute('data-initial-value-hash', this.value);
+    this.setAttribute('data-initial-value-str', str);
   },
 
   changed() {
-    if (this.val() === "custom") {
-      methods.open_custom.apply(this);
+    if (this.value == "custom") {
+      methods.open.call(this);
     } else {
-      methods.set_initial_values.apply(this);
+      methods.set_initial_values.call(this);
     }
   },
 
-  open_custom() {
-    this.data("recurring-select-active", true);
+  open() {
+    this.setAttribute("data-recurring-select-active", true);
     new RecurringSelectDialog(this);
     this.blur();
   },
 
   save(new_rule) {
-    this.find("option[data-custom]").remove();
-    const new_json_val = JSON.stringify(new_rule.hash);
+    this.querySelectorAll("option[data-custom]").forEach((el) => el.parentNode.removeChild(el) )
+    const new_json_val = JSON.stringify(new_rule.hash)
 
     // TODO: check for matching name, and replace that value if found
 
-    if ($.inArray(new_json_val, this.find("option").map(function() { $(this).val(); })) === -1) {
-      methods.insert_option.apply(this, [new_rule.str, new_json_val]);
+    const options = Array.from(this.querySelectorAll("option")).map(() => this.value)
+    if (!options.includes(new_json_val)) {
+      methods.insert_option.apply(this, [new_rule.str, new_json_val])
     }
 
-    this.val(new_json_val);
-    methods.set_initial_values.apply(this);
-    this.trigger("recurring_select:save");
+    this.value = new_json_val
+    methods.set_initial_values.apply(this)
+    this.dispatchEvent(new CustomEvent("recurring_select:save"))
   },
 
   current_rule() {
     return {
-      str:  this.data("initial-value-str"),
-      hash: $.parseJSON(this.data("initial-value-hash"))
+      str:  this.getAttribute("data-initial-value-str"),
+      hash: JSON.parse(this.getAttribute("data-initial-value-hash"))
     };
   },
 
   cancel() {
-    this.val(this.data("initial-value-hash"));
-    this.data("recurring-select-active", false);
-    this.trigger("recurring_select:cancel");
+    this.value = this.getAttribute("data-initial-value-hash")
+    this.setAttribute("data-recurring-select-active", false);
+    this.dispatchEvent(new CustomEvent("recurring_select:cancel"))
   },
 
 
   insert_option(new_rule_str, new_rule_json) {
-    let separator = this.find("option:disabled");
+    let separator = this.querySelectorAll("option[disabled]");
     if (separator.length === 0) {
-      separator = this.find("option");
+      separator = this.querySelectorAll("option");
     }
-    separator = separator.last();
+    separator = separator[separator.length-1]
 
-    const new_option = $(document.createElement("option"));
-    new_option.attr("data-custom", true);
+    const new_option = document.createElement("option")
+    new_option.setAttribute("data-custom", true);
 
     if (new_rule_str.substr(new_rule_str.length - 1) !== "*") {
       new_rule_str+="*";
     }
 
-    new_option.text(new_rule_str);
-    new_option.val(new_rule_json);
-    new_option.insertBefore(separator);
-  },
-
-  methods() {
-    return methods;
+    new_option.textContent = new_rule_str
+    new_option.value = new_rule_json
+    separator.parentNode.insertBefore(new_option, separator)
   }
 };
 
-$.fn.recurring_select = function(method) {
+function recurring_select(method) {
+  this['recurring_select'] = this['recurring_select'] || recurring_select.bind(this)
   if (method in methods) {
     return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ) );
   } else {
-    $.error( `Method ${method} does not exist on jQuery.recurring_select` );
+    throw new Error( `Method ${method} does not exist on jQuery.recurring_select` );
   }
-};
-
-$.fn.recurring_select.options = {
-  monthly: {
-    show_week: [true, true, true, true, false, false]
-  }
-};
-
-$.fn.recurring_select.texts = {
-  locale_iso_code: "en",
-  repeat: "Repeat",
-  last_day: "Last Day",
-  frequency: "Frequency",
-  daily: "Daily",
-  weekly: "Weekly",
-  monthly: "Monthly",
-  yearly: "Yearly",
-  every: "Every",
-  days: "day(s)",
-  weeks_on: "week(s) on",
-  months: "month(s)",
-  years: "year(s)",
-  day_of_month: "Day of month",
-  day_of_week: "Day of week",
-  cancel: "Cancel",
-  ok: "OK",
-  summary: "Summary",
-  first_day_of_week: 0,
-  days_first_letter: ["S", "M", "T", "W", "T", "F", "S" ],
-  order: ["1st", "2nd", "3rd", "4th", "5th", "Last"],
-  show_week: [true, true, true, true, false, false]
-};
+}

@@ -26,6 +26,7 @@ gem 'recurring_select'
 - application.css: `//= require recurring_select`
 
 #### jQuery Mobile Interface:
+- application.js: `//= require jquery`
 - application.js: `//= require jquery-mobile-rs`
 - application.css: `//= require jquery-mobile-rs`
 
@@ -99,8 +100,8 @@ You have to translate JavaScript texts too by including the locale file in your 
 
 For other languages include a JavaScript file like this:
 
-```coffeescript
-$.fn.recurring_select.texts = {
+```js
+RecurringSelectDialog.config.texts = {
   locale_iso_code: "fr"
   repeat: "Repeat"
   frequency: "Frequency"
@@ -125,8 +126,8 @@ $.fn.recurring_select.texts = {
 
 Options include:
 
-```coffeescript
-$.fn.recurring_select.options = {
+```js
+RecurringSelectDialog.config.options = {
   monthly: {
     show_week: [true, true, true, true, false, false] //display week 1, 2 .... Last
   }
