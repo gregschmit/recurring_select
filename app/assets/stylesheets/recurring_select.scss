@@ -2,7 +2,9 @@
 
 /* -------- resets ---------------*/
 
-.rs_dialog_holder { font-size:14px; color:black;
+.rs_dialog_holder {
+  font-size:14px;
+  color:black;
   a {color:black;}
   input[type=button] {
     font: small/normal Arial,sans-serif;
@@ -28,10 +30,29 @@ select {
   option.bold {font-weight:bold; color:red;}
 }
 
-.rs_dialog_holder { position:fixed; left:0px; right:0px; top:0px; bottom:0px; padding-left:50%; background-color:rgba(255,255,255,0.2); z-index:50;
-  .rs_dialog { background-color:#f6f6f6; border:1px solid #acacac; @include shadows(1px, 3px, 8px, rgba(0,0,0,0.25)); @include rounded_corners(7px);
-              display:inline-block; min-width:200px; margin-left:-125px; overflow:hidden; position:relative;
-    .rs_dialog_content { padding:10px;
+.rs_dialog_holder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left:0px;
+  right:0px;
+  top:0px;
+  bottom:0px;
+  background-color:rgba(255,255,255,0.2);
+  z-index:50;
+
+  .rs_dialog {
+    background-color:#f6f6f6;
+    border:1px solid #acacac;
+    @include shadows(1px, 3px, 8px, rgba(0,0,0,0.25));
+    @include rounded_corners(7px);
+    min-width:200px;
+    overflow:hidden;
+
+    .rs_dialog_content {
+      padding:10px;
+
       h1 { font-size:16px; padding:0px; margin:0 0 10px 0;
         a {float:right; display:inline-block; height:16px; width:16px; background-image:image-url("recurring_select/cancel.png"); background-position:center; background-repeat:no-repeat;}
       }
@@ -42,7 +63,8 @@ select {
 
       a { -moz-box-sizing: content-box; -webkit-box-sizing: content-box; box-sizing: content-box; }
 
-      .freq_option_section { display:none;
+      .freq_option_section {
+        display:none;
         label { font-weight: bold; }
         .rs_interval {width:30px; text-align:center; display: inline-block;}
 
@@ -77,7 +99,10 @@ select {
       }
 
 
-      .rs_summary { padding:0px; margin-top:15px; border-top:1px solid #ccc;
+      .rs_summary {
+        padding: 0px;
+        margin-top: 15px;
+        border-top: 1px solid #ccc;
         span {font-weight:bold; border-top:1px solid #fff; display:block; padding:10px 0 5px 0;}
         &.fetching {color:#999;
           span {background-image:image-url("recurring_select/throbber_13x13.gif"); background-position:center; background-repeat:no-repeat; display:inline-block; height:13px; width:13px; margin-top:-4px; padding-right:5px;}
@@ -85,7 +110,10 @@ select {
         label {font-weight:normal;}
       }
 
-      .controls { padding:10px 0px 5px 0px; min-width:170px; text-align:center;
+      .controls {
+        padding:10px 0px 5px 0px;
+        min-width:170px;
+        text-align:center;
         input[type=button] { margin:0px 5px; width:70px;
           &.rs_save {color:#333; }
           &.rs_cancel {color:#666;}

@@ -6,7 +6,6 @@ class RecurringSelectDialog {
 
   constructor(recurring_selector) {
     this.config = this.constructor.config
-    this.positionDialogVert = this.positionDialogVert.bind(this);
     this.cancel = this.cancel.bind(this);
     this.outerCancel = this.outerCancel.bind(this);
     this.save = this.save.bind(this);
@@ -25,8 +24,6 @@ class RecurringSelectDialog {
     this.initDialogBox();
     if ((this.current_rule.hash == null) || (this.current_rule.hash.rule_type == null)) {
       this.freqChanged();
-    } else {
-      setTimeout(this.positionDialogVert, 10); // allow initial render
     }
   }
 
@@ -44,37 +41,11 @@ class RecurringSelectDialog {
     this.inner_holder = this.outer_holder.querySelector(".rs_dialog");
     this.content = this.outer_holder.querySelector(".rs_dialog_content");
 
-    this.positionDialogVert(true);
     this.mainEventInit();
     this.freqInit();
     this.summaryInit();
     trigger(this.outer_holder, "recurring_select:dialog_opened");
     this.freq_select.focus();
-  }
-
-  positionDialogVert(initial_positioning) {
-    const window_height = window.innerHeight;
-    const window_width  = window.innerWidth;
-    const dialog_height = Math.max(80, this.content.offsetHeight)
-    const margin_top    = Math.max(10, (window_height - dialog_height)/2 - 30)
-
-    const new_style_hash = {
-      marginTop: `${margin_top}px`,
-      minHeight: `${dialog_height}px`
-    }
-
-    if (initial_positioning) {
-      css(this.inner_holder, new_style_hash)
-      trigger(this.inner_holder, "recurring_select:dialog_positioned")
-    } else {
-      css(this.inner_holder, new_style_hash)
-      trigger(this.inner_holder, "recurring_select:dialog_positioned")
-      // this.inner_holder.animate(new_style_hash, 200, () => {
-      //   this.inner_holder.classList.remove("animated");
-      //   this.content.css({"width": "auto"});
-      //   this.inner_holder.trigger("recurring_select:dialog_positioned");
-      // });
-    }
   }
 
   cancel() {
@@ -338,7 +309,6 @@ class RecurringSelectDialog {
         this.initDailyOptions();
     };
     this.summaryUpdate();
-    this.positionDialogVert();
   }
 
   intervalChanged(event) {
