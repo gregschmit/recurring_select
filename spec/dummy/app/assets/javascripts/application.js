@@ -10,6 +10,9 @@
 //= require_tree .
 
 $.fn.recurring_select.options = {
+  hourly: {
+    enable: true
+  },
   monthly: {
     show_week: [true, true, true, true, true, true]
   }
