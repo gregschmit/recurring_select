@@ -84,6 +84,7 @@ $.fn.recurring_select.texts = {
   repeat: "Repeat"
   last_day: "Last Day"
   frequency: "Frequency"
+  once: "Once"
   daily: "Daily"
   weekly: "Weekly"
   monthly: "Monthly"
