@@ -52,7 +52,6 @@ class RecurringSelectDialog {
   }
 
   outerCancel(event) {
-    event.preventDefault()
     if (event.target.classList.contains("rs_dialog_holder")) {
       this.cancel();
     }
@@ -372,7 +371,7 @@ class RecurringSelectDialog {
     <div class='rs_dialog_holder'> \
       <div class='rs_dialog'> \
         <div class='rs_dialog_content'> \
-          <h1>${this.config.texts["repeat"]} <a href='#' title='${this.config.texts["cancel"]}' alt='${this.config.texts["cancel"]}'></a> </h1> \
+          <h1>${this.config.texts["repeat"]} <a href='javascript:void(0)' title='${this.config.texts["cancel"]}' alt='${this.config.texts["cancel"]}'></a> </h1> \
           <p class='frequency-select-wrapper'> \
             <label for='rs_frequency'>${this.config.texts["frequency"]}:</label> \
             <select data-wrapper-class='ui-recurring-select' id='rs_frequency' class='rs_frequency' name='rs_frequency'> \
