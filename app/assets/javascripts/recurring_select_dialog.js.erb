@@ -2,8 +2,6 @@
 //= require defaults
 
 class RecurringSelectDialog {
-  static config = defaultConfig
-
   constructor(recurring_selector) {
     this.config = this.constructor.config
     this.cancel = this.cancel.bind(this);
@@ -78,7 +76,7 @@ class RecurringSelectDialog {
 
   freqInit() {
     this.freq_select = this.outer_holder.querySelector(".rs_frequency");
-    const rule_type = this.current_rule.hash?.rule_type
+    const rule_type = this.current_rule.hash && this.current_rule.hash.rule_type
     if (this.current_rule.hash != null && rule_type != null) {
       if (rule_type.search(/Weekly/) !== -1) {
         this.freq_select.selectedIndex = 1
@@ -443,5 +441,7 @@ class RecurringSelectDialog {
     return str;
   }
 }
+
+RecurringSelectDialog.config = defaultConfig
 
 window.RecurringSelectDialog = RecurringSelectDialog
