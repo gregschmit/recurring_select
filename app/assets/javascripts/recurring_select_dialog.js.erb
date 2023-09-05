@@ -52,6 +52,7 @@ class RecurringSelectDialog {
   }
 
   outerCancel(event) {
+    event.preventDefault()
     if (event.target.classList.contains("rs_dialog_holder")) {
       this.cancel();
     }
