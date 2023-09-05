@@ -114,7 +114,7 @@ select {
         padding:10px 0px 5px 0px;
         min-width:170px;
         text-align:center;
-        input[type=button] { margin:0px 5px; width:70px;
+        input[type=button] { margin:0px 5px;
           &.rs_save {color:#333; }
           &.rs_cancel {color:#666;}
           &.disabled {color:#aaa; }
