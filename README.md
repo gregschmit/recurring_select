@@ -26,6 +26,7 @@ gem 'recurring_select'
 - application.css: `//= require recurring_select`
 
 #### jQuery Mobile Interface:
+- application.js: `//= require jquery`
 - application.js: `//= require jquery-mobile-rs`
 - application.css: `//= require jquery-mobile-rs`
 
@@ -99,8 +100,8 @@ You have to translate JavaScript texts too by including the locale file in your 
 
 For other languages include a JavaScript file like this:
 
-```coffeescript
-$.fn.recurring_select.texts = {
+```js
+RecurringSelectDialog.config.texts = {
   locale_iso_code: "fr"
   repeat: "Repeat"
   frequency: "Frequency"
@@ -125,8 +126,8 @@ $.fn.recurring_select.texts = {
 
 Options include:
 
-```coffeescript
-$.fn.recurring_select.options = {
+```js
+RecurringSelectDialog.config.options = {
   monthly: {
     show_week: [true, true, true, true, false, false] //display week 1, 2 .... Last
   }
@@ -134,13 +135,6 @@ $.fn.recurring_select.options = {
 ```
 
 ## Testing and Development
-
-The dummy app uses a [Postgres](http://postgresapp.com/) database `recurring_select_development`. To get setup:
-
-```console
-bundle
-rake db:create
-```
 
 Start the dummy server for clicking around the interface:
 
@@ -151,8 +145,8 @@ rails s
 Tests can be ran against different versions of Rails like so:
 
 ```
-BUNDLE_GEMFILE=spec/gemfiles/Gemfile.rails-4.0.x bundle install
-BUNDLE_GEMFILE=spec/gemfiles/Gemfile.rails-4.0.x bundle exec rspec spec
+BUNDLE_GEMFILE=spec/gemfiles/rails-7 bundle install
+BUNDLE_GEMFILE=spec/gemfiles/rails-7 bundle exec rspec spec
 ```
 
 Feel free to open issues or send pull requests.

@@ -1,3 +1,13 @@
+# 4.0.0 / upcoming
+
+* [BREAKING-CHANGE] Drop support for Rails < 6.1
+* [BREAKING-CHANGE] Drop support for Ruby < 3.0
+* [BREAKING-CHANGE] Convert to vanilla js, remove coffeescript dependency
+* [BREAKING-CHANGE] Remove jquery dependency
+* [FIX] Fix event handling when switching between frequencies
+* remove databse dependency from dummy app
+* move CI from Travis to GitHub
+
 # 2.0.0 / 2015-09-24
 
 * [BREAKING-CHANGE] Dropping support for rails 3.X - Upgrade to sass-rails 4

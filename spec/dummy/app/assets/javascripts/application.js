@@ -4,13 +4,9 @@
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
-//= require jquery
-//= require jquery_ujs
 //= require recurring_select
 //= require_tree .
 
-$.fn.recurring_select.options = {
-  monthly: {
-    show_week: [true, true, true, true, true, true]
-  }
-};
+RecurringSelectDialog.config.options.monthly = {
+  show_week: [true, true, true, true, true, true]
+}
