@@ -54,7 +54,7 @@ const methods = {
 
   current_rule() {
     return {
-      str:  this.getAttribute("data-initial-value-str"),
+      str: this.getAttribute("data-initial-value-str"),
       hash: JSON.parse(this.getAttribute("data-initial-value-hash"))
     };
   },
