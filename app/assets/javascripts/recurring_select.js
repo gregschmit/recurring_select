@@ -91,6 +91,6 @@ function recurring_select(method) {
   if (method in methods) {
     return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ) );
   } else {
-    throw new Error( `Method ${method} does not exist on jQuery.recurring_select` );
+    throw new Error( `Method ${method} does not exist on recurring_select` );
   }
 }
