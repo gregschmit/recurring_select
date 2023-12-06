@@ -276,7 +276,7 @@ class RecurringSelectDialog {
 // ========================= Change callbacks ===============================
 
   freqChanged() {
-    if (isPlainObject(this.current_rule.hash)) { this.current_rule.hash = null; } // for custom values
+    if (!isPlainObject(this.current_rule.hash)) { this.current_rule.hash = null; } // for custom values
 
     if (!this.current_rule.hash) { this.current_rule.hash = {} };
     this.current_rule.hash.interval = 1;
