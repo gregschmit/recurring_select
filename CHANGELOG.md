@@ -1,4 +1,14 @@
-# 4.0.0 / upcoming
+# 4.0.0 / 2025-08-25
+
+* [BREAKING-CHANGE] Drop support for Rails < 7.2
+* [BREAKING-CHANGE] Drop support for Ruby < 3.3.7
+* [BREAKING-CHANGE] Replace sass-rails with sassc-rails for better SCSS compilation
+* [ENHANCEMENT] Update to Rails 7.2.2.2 compatibility
+* [ENHANCEMENT] Update development dependencies to latest versions
+* [FIX] Fix SCSS compilation issues with modern Rails versions
+* [FIX] Remove deprecated cache format version configuration
+
+# 4.0.0.rc1 / upcoming
 
 * [BREAKING-CHANGE] Drop support for Rails < 6.1
 * [BREAKING-CHANGE] Drop support for Ruby < 3.0

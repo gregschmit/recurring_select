@@ -1,0 +1,258 @@
+/*
+ * This is a manifest file that'll automatically include all the stylesheets available in this directory
+ * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
+ * the top of the compiled file, but it's generally better to create a new file per style scope.
+
+
+*/
+body {
+  background-color: #ccc;
+  padding: 100px; }
+
+form, section {
+  padding: 50px;
+  background-color: #fff; }
+/* -------- resets ---------------*/
+.rs_dialog_holder {
+  font-size: 14px;
+  color: black; }
+  .rs_dialog_holder a {
+    color: black; }
+  .rs_dialog_holder input[type=button] {
+    font: small/normal Arial,sans-serif;
+    background: #F5F5F5;
+    color: #444;
+    border: 1px solid #ccc;
+    font-size: 11px;
+    font-weight: bold;
+    height: 27px;
+    line-height: 27px;
+    outline: none;
+    padding: 0 8px;
+    text-align: center;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    position: relative;
+    background-image: -webkit-linear-gradient(top, #f5f5f5, #f1f1f1);
+    /* Chrome 10+, Saf5.1+ */
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f5f5f5), to(#f1f1f1));
+    /* Saf4+, Chrome */
+    background-image: -moz-linear-gradient(top, #f5f5f5, #f1f1f1);
+    /* FF3.6 */
+    background-image: -ms-linear-gradient(top, #f5f5f5, #f1f1f1);
+    /* IE10 */
+    background-image: -o-linear-gradient(top, #f5f5f5, #f1f1f1);
+    /* Opera 11.10+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f5f5f5',EndColorStr='#f1f1f1'); }
+    .rs_dialog_holder input[type=button]:hover {
+      border-color: #aaa;
+      color: #222;
+      background-color: #f9f9f9;
+      -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+      -moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+      -ms-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+      -o-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+      box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2); }
+    .rs_dialog_holder input[type=button]:focus {
+      border-color: #1E90FF; }
+    .rs_dialog_holder input[type=button]:active {
+      border-color: #1E90FF; }
+
+/*------- defaults ------------ */
+.rs_dialog_holder {
+  font-family: helvetica, arial, 'san-serif';
+  color: #222;
+  font-size: 12px; }
+
+/*------- specifics ------------ */
+select option.bold {
+  font-weight: bold;
+  color: red; }
+
+.rs_dialog_holder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  background-color: rgba(255, 255, 255, 0.2);
+  z-index: 50; }
+  .rs_dialog_holder .rs_dialog {
+    background-color: #f6f6f6;
+    border: 1px solid #acacac;
+    -webkit-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.25);
+    -ms-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.25);
+    -o-box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.25);
+    box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.25);
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    border-radius: 7px;
+    min-width: 200px;
+    overflow: hidden; }
+    .rs_dialog_holder .rs_dialog .rs_dialog_content {
+      padding: 10px; }
+      .rs_dialog_holder .rs_dialog .rs_dialog_content h1 {
+        font-size: 16px;
+        padding: 0px;
+        margin: 0 0 10px 0; }
+        .rs_dialog_holder .rs_dialog .rs_dialog_content h1 a {
+          float: right;
+          display: inline-block;
+          height: 16px;
+          width: 16px;
+          background-image: url(/assets/recurring_select/cancel-471db6625d94439b9a9232192800d7155e5ca562d1b9b7c7e33aeda8fc3c31ec.png);
+          background-position: center;
+          background-repeat: no-repeat; }
+      .rs_dialog_holder .rs_dialog .rs_dialog_content p {
+        padding: 5px 0;
+        margin: 0;
+        line-height: 14px; }
+        .rs_dialog_holder .rs_dialog .rs_dialog_content p label {
+          margin-right: 10px; }
+      .rs_dialog_holder .rs_dialog .rs_dialog_content a {
+        -moz-box-sizing: content-box;
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box; }
+      .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section {
+        display: none; }
+        .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section label {
+          font-weight: bold; }
+        .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section .rs_interval {
+          width: 30px;
+          text-align: center;
+          display: inline-block; }
+        .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section .day_holder {
+          border-left: 1px solid #ccc;
+          position: relative;
+          margin-top: 5px;
+          height: 26px; }
+          .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section .day_holder a {
+            display: block;
+            padding: 5px 7px;
+            font-size: 14px;
+            border-style: solid;
+            border-color: #ccc;
+            border-width: 1px 1px 1px 0px;
+            float: left;
+            text-decoration: none;
+            font-weight: bold;
+            -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1) inset;
+            -moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1) inset;
+            -ms-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1) inset;
+            -o-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1) inset;
+            box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1) inset;
+            background-color: #fff; }
+            .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section .day_holder a.selected {
+              background-color: #89a;
+              color: #fff;
+              -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2) inset;
+              -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2) inset;
+              -ms-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2) inset;
+              -o-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2) inset;
+              box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2) inset;
+              position: relative;
+              background-image: -webkit-linear-gradient(top, #9ab, #789);
+              /* Chrome 10+, Saf5.1+ */
+              background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#9ab), to(#789));
+              /* Saf4+, Chrome */
+              background-image: -moz-linear-gradient(top, #9ab, #789);
+              /* FF3.6 */
+              background-image: -ms-linear-gradient(top, #9ab, #789);
+              /* IE10 */
+              background-image: -o-linear-gradient(top, #9ab, #789);
+              /* Opera 11.10+ */ }
+            .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section .day_holder a:hover {
+              cursor: pointer;
+              background-color: #dde; }
+        .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section .rs_calendar_day, .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section .rs_calendar_week {
+          width: 155px; }
+          .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section .rs_calendar_day a, .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section .rs_calendar_week a {
+            display: inline-block;
+            text-align: center;
+            width: 15px;
+            padding: 5px 3px;
+            font-size: 12px;
+            border-style: solid;
+            border-color: #ccc;
+            border-width: 1px 1px 1px 1px;
+            margin: -1px 0 0 -1px;
+            line-height: 10px;
+            background-color: #fff;
+            font-weight: bold; }
+            .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section .rs_calendar_day a.selected, .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section .rs_calendar_week a.selected {
+              background-color: #89a;
+              color: #fff;
+              position: relative;
+              background-image: -webkit-linear-gradient(top, #9ab, #789);
+              /* Chrome 10+, Saf5.1+ */
+              background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#9ab), to(#789));
+              /* Saf4+, Chrome */
+              background-image: -moz-linear-gradient(top, #9ab, #789);
+              /* FF3.6 */
+              background-image: -ms-linear-gradient(top, #9ab, #789);
+              /* IE10 */
+              background-image: -o-linear-gradient(top, #9ab, #789);
+              /* Opera 11.10+ */
+              -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2) inset;
+              -moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2) inset;
+              -ms-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2) inset;
+              -o-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2) inset;
+              box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2) inset;
+              text-shadow: 0 1px 1px #333; }
+            .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section .rs_calendar_day a:hover, .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section .rs_calendar_week a:hover {
+              cursor: pointer;
+              background-color: #dde; }
+          .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section .rs_calendar_day a.end_of_month, .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section .rs_calendar_week a.end_of_month {
+            width: 81px; }
+        .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section .rs_calendar_week {
+          width: 191px; }
+          .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section .rs_calendar_week span {
+            display: inline-block;
+            width: 35px; }
+        .rs_dialog_holder .rs_dialog .rs_dialog_content .freq_option_section .monthly_rule_type span {
+          margin-right: 15px; }
+      .rs_dialog_holder .rs_dialog .rs_dialog_content .rs_summary {
+        padding: 0px;
+        margin-top: 15px;
+        border-top: 1px solid #ccc; }
+        .rs_dialog_holder .rs_dialog .rs_dialog_content .rs_summary span {
+          font-weight: bold;
+          border-top: 1px solid #fff;
+          display: block;
+          padding: 10px 0 5px 0; }
+        .rs_dialog_holder .rs_dialog .rs_dialog_content .rs_summary.fetching {
+          color: #999; }
+          .rs_dialog_holder .rs_dialog .rs_dialog_content .rs_summary.fetching span {
+            background-image: url(/assets/recurring_select/throbber_13x13-d78857ce33850fa1e233bcef159f2da7d7e119014f06755b97c90b0186c75d12.gif);
+            background-position: center;
+            background-repeat: no-repeat;
+            display: inline-block;
+            height: 13px;
+            width: 13px;
+            margin-top: -4px;
+            padding-right: 5px; }
+        .rs_dialog_holder .rs_dialog .rs_dialog_content .rs_summary label {
+          font-weight: normal; }
+      .rs_dialog_holder .rs_dialog .rs_dialog_content .controls {
+        padding: 10px 0px 5px 0px;
+        min-width: 170px;
+        text-align: center; }
+        .rs_dialog_holder .rs_dialog .rs_dialog_content .controls input[type=button] {
+          margin: 0px 5px; }
+          .rs_dialog_holder .rs_dialog .rs_dialog_content .controls input.rs_save[type=button] {
+            color: #333; }
+          .rs_dialog_holder .rs_dialog .rs_dialog_content .controls input.rs_cancel[type=button] {
+            color: #666; }
+          .rs_dialog_holder .rs_dialog .rs_dialog_content .controls input.disabled[type=button] {
+            color: #aaa; }
+    .rs_dialog_holder .rs_dialog.animated .controls {
+      position: absolute;
+      bottom: 10px;
+      left: 10px; }
+    .rs_dialog_holder .rs_dialog.animated .rs_summary, .rs_dialog_holder .rs_dialog.animated .freq_option_section {
+      display: none; }
